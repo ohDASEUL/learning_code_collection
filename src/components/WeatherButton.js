@@ -1,15 +1,22 @@
-import React from 'react'
+import React from "react";
 
-const WeatherButton = () => {
+const WeatherButton = ({ koreaCities, globalCities }) => {
   return (
     <div>
-        <button className='btn'>현재위치</button>
-        <button className='btn'>파리</button>
-        <button className='btn'>뉴욕</button>
-        <button className='btn'>런던</button>
-        <button className='btn'>프라하</button>
+      <div>
+        <div>국내 날씨</div>
+        {koreaCities.map((item) => (
+          <button className="btn">{item}</button>
+        ))}
+      </div>
+      <div>
+        <div>해외 날씨</div>
+        {globalCities.map((item) => (
+          <button className="btn">{item}</button>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default WeatherButton
+export default WeatherButton;

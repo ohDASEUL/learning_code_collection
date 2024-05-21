@@ -9,6 +9,9 @@ import WeatherBox from './components/WeatherBox';
 import WeatherButton from './components/WeatherButton';
 
 function App() {
+  const koreaCities = ["Incheon", "Seoul", "Busan", "DaeJeon"]
+  const globalCities = ["Paris", "New York", "London", "Osaka"]
+
   const [weather, setWeather] = useState(null)
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position)=>{
@@ -32,7 +35,7 @@ function App() {
   return (
     <div>
       <WeatherBox weather={weather} />
-      <WeatherButton/>
+      <WeatherButton koreaCities={koreaCities} globalCities={globalCities} />
     </div>
   );
 }
