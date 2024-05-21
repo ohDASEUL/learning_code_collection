@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WeatehrBox = ({weather}) => {
+const WeatherBox = ({weather}) => {
   return (
     <div>
         {/* 지역이름 */}
@@ -13,4 +13,4 @@ const WeatehrBox = ({weather}) => {
   )
 }
 
-export default WeatehrBox
+export default WeatherBox
