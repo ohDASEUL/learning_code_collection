@@ -2,9 +2,9 @@ import React from 'react'
 
 const WeatherBox = ({weather}) => {
   return (
-    <div>
+    <div className='box-container'>
         {/* 지역이름 */}
-        <div>{weather?.name}</div>
+        <h1>{weather?.name}</h1>
         {/* 온도 */}
         <h2>{weather?.main.temp}˚F</h2>
         {/* 날씨 상태 */}

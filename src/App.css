@@ -1,0 +1,65 @@
+body {
+  background: url("https://cdn.pixabay.com/photo/2022/02/28/15/28/sea-7039471_640.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.box-container,
+.citybtn-container-group {
+  max-width: 700px;
+  width: 100%;
+}
+
+.box-container {
+  border: 2px solid skyblue;
+  border-radius: 20px;
+  padding: 50px;
+  text-align: center;
+  background-color: white;
+  margin-bottom: 20px; /* WeatherBox와 WeatherButton 사이의 간격 조정 */
+}
+
+.citybtn-container-group {
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  justify-content: center;
+  flex-wrap: wrap; /* 내용이 넘칠 경우 다음 줄로 넘김 */
+}
+
+.citybtn-container {
+  display: flex;
+  flex-direction: column; /* 버튼을 세로로 정렬 */
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 60px;
+  padding: 30px;
+  margin: 10px; /* 컨테이너 간 간격 */
+  flex: 1; /* 가용 공간을 균등하게 분할 */
+}
+
+.citybtn-container .btn {
+  margin: 10px 0; /* 상하 여백 */
+  border: 1px solid skyblue;
+  background-color: lightblue;
+  color: white;
+  font-size: 13pt;
+  cursor: pointer;
+}
+
+.citybtn-container .btn:hover {
+    background-color: white;
+    color: lightblue;
+  }
+  
+.citybtn-container .btn:last-child {
+  margin-bottom: 0; /* 마지막 버튼의 아래쪽 여백 제거 */
+}
