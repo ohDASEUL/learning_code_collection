@@ -11,8 +11,9 @@ import WeatherButton from './components/WeatherButton';
 function App() {
   const koreaCities = ["Incheon", "Seoul", "Busan", "DaeJeon"]
   const globalCities = ["Paris", "New York", "London", "Osaka"]
-
+  const [city, setCity] = useState("")
   const [weather, setWeather] = useState(null)
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position)=>{
       let lat = position.coords.latitude
@@ -28,14 +29,25 @@ function App() {
     setWeather(data)
   }
 
+  const getWeatherByCity = async() => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=007e29a2b22670088771468eefd480ee&units=metric`
+    let response = await fetch(url);
+    let data = await response.json();
+    setWeather(data)
+  }
+
   useEffect(()=> {
-    getCurrentLocation()
-  },[])
+    if(city === "" ){
+      getCurrentLocation();
+    }else{
+      getWeatherByCity()
+    }
+  },[city])
   
   return (
     <div>
       <WeatherBox weather={weather} />
-      <WeatherButton koreaCities={koreaCities} globalCities={globalCities} />
+      <WeatherButton koreaCities={koreaCities} globalCities={globalCities} setCity={setCity} />
     </div>
   );
 }
