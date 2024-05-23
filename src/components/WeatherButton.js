@@ -1,11 +1,11 @@
 import React from "react";
 
-const WeatherButton = ({ koreaCities, globalCities, setCity }) => {
+const WeatherButton = ({ koreaCities, globalCities, setCity,getCurrentLocation }) => {
   return (
     <div className="citybtn-container-group">
       <div className="citybtn-container">
         <h3>국내 날씨</h3>
-        <button className="btn">Current Location</button>
+        <button className="btn" onClick={getCurrentLocation}>Current Location</button>
         {koreaCities.map((item) => (
           <button className="btn" onClick={() => setCity(item)}>{item}</button>
         ))}
