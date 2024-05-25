@@ -15,31 +15,42 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [apiError, setAPIError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
-      getWeatherByCurrentLocation(lat, lon);
+      const { latitude, longitude } = position.coords;
+      getWeatherByCurrentLocation(latitude, longitude);
     });
   };
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
-    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=007e29a2b22670088771468eefd480ee`;
-    setVisible(true);
-    let response = await fetch(url);
-    let data = await response.json();
-    setWeather(data);
-    setVisible(false);
+    try {
+      let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=007e29a2b22670088771468eefd480ee`;
+      let response = await fetch(url);
+      let data = await response.json();
+      setWeather(data);
+      setVisible(false);
+    } catch (err) {
+      setAPIError(err.message);
+      setLoading(false);
+    }
   };
 
   const getWeatherByCity = async () => {
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=007e29a2b22670088771468eefd480ee&units=metric`;
-    setVisible(true);
-    let response = await fetch(url);
-    let data = await response.json();
-    setWeather(data);
-    setVisible(false);
+    try {
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=007e29a2b22670088771468eefd480ee&units=metric`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      setWeather(data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setAPIError(err.message);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -49,6 +60,14 @@ function App() {
       getWeatherByCity();
     }
   }, [city]);
+
+  const handleCityChange = (city) => {
+    if (city === "Current") {
+      setCity(null);
+    } else {
+      setCity(city);
+    }
+  };
 
   return (
     <>
@@ -68,7 +87,7 @@ function App() {
             koreaCities={koreaCities}
             globalCities={globalCities}
             setCity={setCity}
-            getCurrentLocation={getCurrentLocation}
+            handleCityChange={handleCityChange}
           />
         </div>
       )}
