@@ -1,7 +1,7 @@
 import React from "react";
 import {useNavigate } from "react-router-dom";
 
-const Aboutpage = () => {
+const AboutPage = () => {
   const navigate = useNavigate()
   const goToHome=()=>{
     navigate('/')
@@ -14,4 +14,4 @@ const Aboutpage = () => {
   );
 };
 
-export default Aboutpage;
+export default AboutPage;
