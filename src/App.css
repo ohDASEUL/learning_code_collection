@@ -1,0 +1,53 @@
+ol,
+ul {
+  list-style-type: none;
+}
+
+/* Navbar.jsx */
+.navbar-logo-icon-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px; 
+}
+
+.navbar-logo {
+  flex-grow: 1;
+  text-align: center; 
+}
+
+.navbar-logo img {
+  width: 150px ; 
+  height: auto; 
+}
+
+.navbar-icon {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px; 
+}
+
+.navbar-menu {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.navbar-menu ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-menu li {
+  margin-right: 10px;
+}
+
+.navbar-search-icon{
+    margin-right: 5px;
+}
+
+.navbar-search{
+    border: 0;
+    border-bottom: 1px solid black;
+}
