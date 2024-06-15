@@ -51,3 +51,23 @@ ul {
     border: 0;
     border-bottom: 1px solid black;
 }
+
+/* productcard.jsx */
+.card-section {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+.card-section img {
+  display: block; 
+  margin: 0 auto; 
+  width: 100%; 
+  max-width: 300px;
+  border-radius: 20px;
+}
+
+
+.card-section {
+  text-align: center; 
+}
