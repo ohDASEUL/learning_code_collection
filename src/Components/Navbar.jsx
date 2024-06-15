@@ -1,9 +1,35 @@
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import LoginPage from "../Pages/LoginPage";
 
 const Navbar = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const drawerRef = useRef();
+
+  const loginOpen = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+      setIsDrawerOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDrawerOpen]);
+
   const menuList = [
     "전체보기",
     "남성",
@@ -23,7 +49,7 @@ const Navbar = () => {
           />
         </div>
         <div className="navbar-icon">
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon icon={faUser} onClick={loginOpen}/>
           <FontAwesomeIcon icon={faHeart} />
           <FontAwesomeIcon icon={faBagShopping} />
         </div>
@@ -40,6 +66,11 @@ const Navbar = () => {
           <input type="text" className="navbar-search"/>
         </div>
       </div>
+      {isDrawerOpen && (
+        <div className="drawer" ref={drawerRef}>
+          <LoginPage />
+        </div>
+      )}
     </div>
   );
 };
