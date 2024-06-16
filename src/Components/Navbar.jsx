@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faUser, faHeart, faBagShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
-import LoginPage from '../Pages/LoginPage';
-
+import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
+import { faBagShopping, faRightFromBracket, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import LoginPage from "../Pages/LoginPage";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ authenticate, setAuthenticate }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const drawerRef = useRef();
 
   const loginOpen = () => {
@@ -18,19 +20,32 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
     }
   };
 
+  const navigate = useNavigate();
+  const goMainHome = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     if (isDrawerOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isDrawerOpen]);
 
-  const menuList = ['전체보기', '남성', '여성', '가방', '액세서리', '기프트', '컬렉션'];
-
+  const menuList = [
+    "전체보기",
+    "남성",
+    "여성",
+    "가방",
+    "액세서리",
+    "기프트",
+    "컬렉션",
+  ];
+  console.log(authenticate,'tetsstest')
   return (
     <div>
       <div className="navbar-logo-icon-group">
@@ -38,24 +53,29 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
           <img
             src="https://www.prada.com/etc/designs/aem-prada-innovation-clientlibs/clientlib-resources/resources/images/logo_prada_b.svg"
             alt="Prada Logo"
+            onClick={goMainHome}
           />
         </div>
         <div className="navbar-icon">
           <div>
             {authenticate === true ? (
-              <div onClick={() => setAuthenticate(false)}>
+              <div
+                onClick={() => setAuthenticate(false)}
+              >
                 <FontAwesomeIcon icon={faRightFromBracket} />
               </div>
             ) : (
               <div onClick={loginOpen}>
-                <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon icon={faUser}/>
               </div>
             )}
           </div>
+
           <FontAwesomeIcon icon={faHeart} />
           <FontAwesomeIcon icon={faBagShopping} />
         </div>
       </div>
+
       <div className="navbar-menu">
         <ul>
           {menuList.map((menu) => (
