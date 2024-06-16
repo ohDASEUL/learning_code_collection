@@ -1,30 +1,33 @@
-import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from "@mui/material";
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material';
 
-const LoginPage = () => {
-  const handleSubmit = (event) => {
+const LoginPage = ({ setAuthenticate, setIsDrawerOpen }) => {
+  const navigate = useNavigate();
+
+  const loginUser = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log('login try');
+    setAuthenticate(true);
+    setIsDrawerOpen(false); // 드로워를 닫습니다.
+    navigate('/');
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
         <Avatar src="/broken-image.jpg" />
         <Typography component="h1" variant="h5">
           login
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={(event) => loginUser(event)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -45,16 +48,8 @@ const LoginPage = () => {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="remember me" />
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             login
           </Button>
         </Box>

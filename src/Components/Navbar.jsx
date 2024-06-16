@@ -1,12 +1,11 @@
-import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faBagShopping, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
-import LoginPage from "../Pages/LoginPage";
+import React, { useState, useRef, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket, faUser, faHeart, faBagShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
+import LoginPage from '../Pages/LoginPage';
 
-const Navbar = () => {
+
+const Navbar = ({ authenticate, setAuthenticate }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const drawerRef = useRef();
 
   const loginOpen = () => {
@@ -30,15 +29,8 @@ const Navbar = () => {
     };
   }, [isDrawerOpen]);
 
-  const menuList = [
-    "전체보기",
-    "남성",
-    "여성",
-    "가방",
-    "액세서리",
-    "기프트",
-    "컬렉션",
-  ];
+  const menuList = ['전체보기', '남성', '여성', '가방', '액세서리', '기프트', '컬렉션'];
+
   return (
     <div>
       <div className="navbar-logo-icon-group">
@@ -49,12 +41,21 @@ const Navbar = () => {
           />
         </div>
         <div className="navbar-icon">
-          <FontAwesomeIcon icon={faUser} onClick={loginOpen}/>
+          <div>
+            {authenticate === true ? (
+              <div onClick={() => setAuthenticate(false)}>
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </div>
+            ) : (
+              <div onClick={loginOpen}>
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+            )}
+          </div>
           <FontAwesomeIcon icon={faHeart} />
           <FontAwesomeIcon icon={faBagShopping} />
         </div>
       </div>
-
       <div className="navbar-menu">
         <ul>
           {menuList.map((menu) => (
@@ -62,13 +63,13 @@ const Navbar = () => {
           ))}
         </ul>
         <div>
-          <FontAwesomeIcon icon={faSearch} className="navbar-search-icon"/>
-          <input type="text" className="navbar-search"/>
+          <FontAwesomeIcon icon={faSearch} className="navbar-search-icon" />
+          <input type="text" className="navbar-search" />
         </div>
       </div>
       {isDrawerOpen && (
         <div className="drawer" ref={drawerRef}>
-          <LoginPage />
+          <LoginPage setAuthenticate={setAuthenticate} setIsDrawerOpen={setIsDrawerOpen} />
         </div>
       )}
     </div>
