@@ -89,3 +89,36 @@ ul {
 .card-section {
   text-align: center; 
 }
+
+/*ProductDetailPage*/
+.product-detail-img-group {
+  padding: 25px;
+}
+
+.product-detail-group {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.product-detail-info-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* 중앙 정렬에서 왼쪽 정렬로 변경 */
+}
+
+.product-detail-btn {
+  width: 450px;
+}
+
+.product-detail-size-group {
+  width: 450px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.product-detail-img {
+  width: 500px;
+  max-height: 550px;
+}
