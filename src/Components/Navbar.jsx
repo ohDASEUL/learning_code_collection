@@ -1,11 +1,20 @@
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faBagShopping, faRightFromBracket, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBagShopping,
+  faRightFromBracket,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import LoginPage from "../Pages/LoginPage";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ authenticate, setAuthenticate }) => {
+const Navbar = ({
+  authenticate,
+  setAuthenticate,
+  searchQuery,
+  setSearchQuery,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const drawerRef = useRef();
@@ -45,7 +54,17 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
     "기프트",
     "컬렉션",
   ];
-  console.log(authenticate,'tetsstest')
+  const search = (e) => {
+    if (e.key === "Enter") {
+      let keyword = e.target.value;
+      navigate(`/?q=${keyword}`);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div>
       <div className="navbar-logo-icon-group">
@@ -59,14 +78,12 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
         <div className="navbar-icon">
           <div>
             {authenticate === true ? (
-              <div
-                onClick={() => setAuthenticate(false)}
-              >
+              <div onClick={() => setAuthenticate(false)}>
                 <FontAwesomeIcon icon={faRightFromBracket} />
               </div>
             ) : (
               <div onClick={loginOpen}>
-                <FontAwesomeIcon icon={faUser}/>
+                <FontAwesomeIcon icon={faUser} />
               </div>
             )}
           </div>
@@ -84,12 +101,19 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
         </ul>
         <div>
           <FontAwesomeIcon icon={faSearch} className="navbar-search-icon" />
-          <input type="text" className="navbar-search" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
         </div>
       </div>
       {isDrawerOpen && (
         <div className="drawer" ref={drawerRef}>
-          <LoginPage setAuthenticate={setAuthenticate} setIsDrawerOpen={setIsDrawerOpen} />
+          <LoginPage
+            setAuthenticate={setAuthenticate}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
         </div>
       )}
     </div>
