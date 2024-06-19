@@ -2,9 +2,9 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ProuctAllPage from './Pages/ProuctAllPage';
 import LoginPage from './Pages/LoginPage';
-import Navbar from './Components/Navbar';
 import { useEffect, useState } from 'react';
 import PrivateRoute from './Routes/PrivateRoute';
+import Navbar from './Components/Navbar';
 
 function App() {
   let [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
@@ -16,7 +16,12 @@ function App() {
   
   return (
     <div>
-      <Navbar  authenticate={authenticate} setAuthenticate={setAuthenticate} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <Navbar
+        authenticate={authenticate}
+        setAuthenticate={setAuthenticate}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
       <Routes>
         <Route path='/' element={<ProuctAllPage searchQuery={searchQuery}/>}/>
         <Route path='/login' element={<LoginPage setAuthenticate={setAuthenticate} />}/>

@@ -69,6 +69,24 @@ ul {
   cursor: pointer; 
 }
 
+.navbar-drawer-header{
+  background-color: white;
+}
+
+/* Navbar 컴포넌트를 숨기는 CSS */
+@media (max-width: 600px) {
+  .navbar {
+    display: none;
+  }
+}
+
+/* AppBar 컴포넌트를 보이게 하는 CSS */
+@media (min-width: 601px) {
+  .app-bar {
+    display: none;
+  }
+}
+
 
 /* productcard.jsx */
 .card-section {
@@ -105,7 +123,7 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; /* 중앙 정렬에서 왼쪽 정렬로 변경 */
+  align-items: flex-start; 
 }
 
 .product-detail-btn {
