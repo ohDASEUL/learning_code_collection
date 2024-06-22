@@ -15,6 +15,7 @@ const PcNavbar = ({
   setSearchQuery,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const drawerRef = useRef();
 
@@ -28,19 +29,14 @@ const PcNavbar = ({
     }
   };
 
-  const navigate = useNavigate();
-  const goMainHome = () => {
-    navigate("/");
-  };
-
   useEffect(() => {
     if (isDrawerOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isDrawerOpen]);
 
@@ -49,16 +45,20 @@ const PcNavbar = ({
     if (storedAuth === 'true') {
       setAuthenticate(true);
     }
-  }, []);
+  }, [setAuthenticate]);
+
+  const goMainHome = () => {
+    navigate('/');
+  };
 
   const menuList = [
-    "전체보기",
-    "남성",
-    "여성",
-    "가방",
-    "액세서리",
-    "기프트",
-    "컬렉션",
+    '전체보기',
+    '남성',
+    '여성',
+    '가방',
+    '액세서리',
+    '기프트',
+    '컬렉션',
   ];
   return (
     <div className="navbar">

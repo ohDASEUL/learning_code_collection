@@ -12,7 +12,6 @@ const LoginPage = ({ setAuthenticate, setIsDrawerOpen }) => {
     event.preventDefault();
     console.log('login try');
     
-    // 로그인 상태 설정 및 로컬 스토리지에 저장
     setAuthenticate(true);
     localStorage.setItem('isAuthenticated', 'true');
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Divider,
@@ -14,8 +14,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { styled, useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;
+
 const MobileNavbar = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -25,48 +29,45 @@ const MobileNavbar = () => {
     setOpen(false);
   };
 
-  const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
+  const goMainHome = () => {
+    navigate('/');
+  };
+
+  const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   }));
 
-  const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-    ({ theme, open }) => ({
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+  const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: `-${drawerWidth}px`,
-      ...(open && {
-        transition: theme.transitions.create("margin", {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      }),
-    })
-  );
+      marginLeft: 0,
+    }),
+  }));
 
   const menuList = [
-    "전체보기",
-    "남성",
-    "여성",
-    "가방",
-    "액세서리",
-    "기프트",
-    "컬렉션",
+    '전체보기',
+    '남성',
+    '여성',
+    '가방',
+    '액세서리',
+    '기프트',
+    '컬렉션',
   ];
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const navigate = useNavigate();
-  const goMainHome = () => {
-    navigate("/");
-  };
+
   return (
     <div>
       {isMobile && (

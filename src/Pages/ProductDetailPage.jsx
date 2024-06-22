@@ -22,7 +22,7 @@ const ProductDetailPage = () => {
     setSize(event.target.value);
   };
 
-  const handleClick = () => {
+  const handleCartClick = () => {
     if (size) {
       Swal.fire({
         title: '성공!',
@@ -37,6 +37,14 @@ const ProductDetailPage = () => {
       });
     }
   };
+
+  const handleHeartClick = () => {
+    Swal.fire({
+      title: '완료!',
+      text: '해당 상품이 찜 목록에 저장되었습니다!',
+      icon: 'success',
+    });
+  }
 
   return (
     <div className="product-detail-group">
@@ -76,10 +84,19 @@ const ProductDetailPage = () => {
         <Button
           variant="contained"
           color="info"
-          className="product-detail-btn"
-          onClick={handleClick}
+          className="product-cart-btn"
+          onClick={handleCartClick}
         >
           추가
+        </Button>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          className="product-heart-btn"
+          onClick={handleHeartClick}
+        >
+          찜
         </Button>
       </div>
     </div>

@@ -121,7 +121,11 @@ ul {
   align-items: flex-start; 
 }
 
-.product-detail-btn {
+.product-cart-btn {
+  width: 450px;
+}
+
+.product-heart-btn {
   width: 450px;
 }
 
