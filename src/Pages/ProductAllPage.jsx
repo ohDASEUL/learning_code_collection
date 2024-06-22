@@ -5,7 +5,7 @@ import { Container, Grid } from "@mui/material";
 const ProductAllPage = ({searchQuery}) => {
   const [productList, setProductList] = useState([]);
   const getProducts = async () => {
-    let url = `http://localhost:5000/products`;
+    let url = `https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products?`;
     let res = await fetch(url);
     let data = await res.json();
     setProductList(data);
