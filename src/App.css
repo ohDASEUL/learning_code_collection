@@ -122,15 +122,15 @@ ul {
 }
 
 .product-cart-btn {
-  width: 450px;
+  width: 300px;
 }
 
 .product-heart-btn {
-  width: 450px;
+  width: 300px;
 }
 
 .product-detail-size-group {
-  width: 450px;
+  width: 300px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -140,6 +140,13 @@ ul {
   max-height: 550px;
 }
 
+/*product-card*/
+.product-card-heart{
+  margin-left: 5px;
+}
+.product-card-heart:hover{
+  color: red;
+}
 @media only screen and (max-width: 600px) {
   .product-detail-group {
     display: flex;
