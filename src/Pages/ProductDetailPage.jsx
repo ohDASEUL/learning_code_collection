@@ -1,6 +1,7 @@
 import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
@@ -14,6 +15,26 @@ const ProductDetailPage = () => {
   useEffect(() => {
     getProductDetail();
   }, []);
+  const [size, setSize] = useState("");
+
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  };
+  const handleClick = () => {
+    if (size) {
+      Swal.fire({
+        title: "성공!",
+        text: "장바구니에 담겼습니다!",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "사이즈를 선택해주세요!",
+        icon: "error",
+      });
+    }
+  };
   return (
     <div className="product-detail-group">
       <div className="product-detail-img-group">
@@ -28,15 +49,16 @@ const ProductDetailPage = () => {
 
       <div className="product-detail-info-group">
         <Grid item xs={12} md={6}>
-          <Typography variant="h6" style={{ textAlign: 'left' }}>
+          <Typography variant="h6" style={{ textAlign: "left" }}>
             {product?.title}
           </Typography>
-          <Typography variant="body1" style={{ textAlign: 'left' }}>
+          <Typography variant="body1" style={{ textAlign: "left" }}>
             ￦{product?.price.toLocaleString()}원
           </Typography>
         </Grid>
         <Select
-          defaultValue=""
+          value={size}
+          onChange={handleSizeChange}
           displayEmpty
           className="product-detail-size-group"
         >
@@ -47,7 +69,13 @@ const ProductDetailPage = () => {
           <MenuItem value="2">M</MenuItem>
           <MenuItem value="3">L</MenuItem>
         </Select>
-        <Button variant="contained" color="info" className="product-detail-btn">
+
+        <Button
+          variant="contained"
+          color="info"
+          className="product-detail-btn"
+          onClick={handleClick}
+        >
           추가
         </Button>
       </div>
