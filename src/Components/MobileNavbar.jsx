@@ -12,9 +12,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { styled, useTheme } from "@mui/material/styles";
-import SearchBar from './SearchBar';
+import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;
-const MobileNavbar = ({ searchQuery, setSearchQuery }) => {
+const MobileNavbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -63,6 +63,10 @@ const MobileNavbar = ({ searchQuery, setSearchQuery }) => {
   ];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  const goMainHome = () => {
+    navigate("/");
+  };
   return (
     <div>
       {isMobile && (
@@ -81,9 +85,9 @@ const MobileNavbar = ({ searchQuery, setSearchQuery }) => {
                 <img
                   src="https://www.prada.com/etc/designs/aem-prada-innovation-clientlibs/clientlib-resources/resources/images/logo_prada_b.svg"
                   alt="Prada Logo"
+                  onClick={goMainHome}
                 />
               </div>
-              
             </Toolbar>
           </AppBar>
           <Drawer
@@ -116,12 +120,10 @@ const MobileNavbar = ({ searchQuery, setSearchQuery }) => {
                 ))}
               </ul>
             </List>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           </Drawer>
           <Main open={open}>
             <DrawerHeader />
           </Main>
-          
         </>
       )}
     </div>

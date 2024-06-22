@@ -1,40 +1,43 @@
-import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from 'react';
+import { Button, Grid, MenuItem, Select, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
+  const [size, setSize] = useState('');
   let { id } = useParams();
-  const getProductDetail = async () => {
-    let url = `http://localhost:5000/products/${id}`;
-    let res = await fetch(url);
-    let data = await res.json();
-    setProduct(data);
-  };
+
   useEffect(() => {
+    const getProductDetail = async () => {
+      let url = `http://localhost:5000/products/${id}`;
+      let res = await fetch(url);
+      let data = await res.json();
+      setProduct(data);
+    };
     getProductDetail();
-  }, []);
-  const [size, setSize] = useState("");
+  }, [id]);
 
   const handleSizeChange = (event) => {
     setSize(event.target.value);
   };
+
   const handleClick = () => {
     if (size) {
       Swal.fire({
-        title: "성공!",
-        text: "장바구니에 담겼습니다!",
-        icon: "success",
+        title: '성공!',
+        text: '장바구니에 담겼습니다!',
+        icon: 'success',
       });
     } else {
       Swal.fire({
-        title: "Error",
-        text: "사이즈를 선택해주세요!",
-        icon: "error",
+        title: 'Error',
+        text: '사이즈를 선택해주세요!',
+        icon: 'error',
       });
     }
   };
+
   return (
     <div className="product-detail-group">
       <div className="product-detail-img-group">
@@ -49,10 +52,10 @@ const ProductDetailPage = () => {
 
       <div className="product-detail-info-group">
         <Grid item xs={12} md={6}>
-          <Typography variant="h6" style={{ textAlign: "left" }}>
+          <Typography variant="h6" style={{ textAlign: 'left' }}>
             {product?.title}
           </Typography>
-          <Typography variant="body1" style={{ textAlign: "left" }}>
+          <Typography variant="body1" style={{ textAlign: 'left' }}>
             ￦{product?.price.toLocaleString()}원
           </Typography>
         </Grid>

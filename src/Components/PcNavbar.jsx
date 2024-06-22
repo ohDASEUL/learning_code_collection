@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import LoginPage from "../Pages/LoginPage";
 import { useNavigate } from "react-router-dom";
-import SearchBar from './SearchBar';
+import SearchBar from "./SearchBar";
 const PcNavbar = ({
   authenticate,
   setAuthenticate,
@@ -44,6 +44,13 @@ const PcNavbar = ({
     };
   }, [isDrawerOpen]);
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    if (storedAuth === 'true') {
+      setAuthenticate(true);
+    }
+  }, []);
+
   const menuList = [
     "전체보기",
     "남성",
@@ -53,7 +60,6 @@ const PcNavbar = ({
     "기프트",
     "컬렉션",
   ];
-
   return (
     <div className="navbar">
       <div className="navbar-logo-icon-group">

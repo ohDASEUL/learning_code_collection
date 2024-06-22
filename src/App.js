@@ -1,19 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import ProuctAllPage from './Pages/ProuctAllPage';
-import LoginPage from './Pages/LoginPage';
-import { useEffect, useState } from 'react';
-import PrivateRoute from './Routes/PrivateRoute';
-import Navbar from './Components/Navbar';
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./Components/Navbar";
+import LoginPage from "./Pages/LoginPage";
+import PrivateRoute from "./Routes/PrivateRoute";
+import ProductAllPage from "./Pages/ProductAllPage";
+import "./App.css"
+const App = () => {
+  const [authenticate, setAuthenticate] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [cartCount, setCartCount] = useState(0); // 장바구니 카운트 상태
 
-function App() {
-  let [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
-  let [authenticate, setAuthenticate] = useState(false); // true면 로그인, false면 비로그인
+  const incrementCartCount = () => {
+    setCartCount(cartCount + 1);
+  };
 
-  useEffect(()=>{
-    console.log("확인",authenticate)
-  },[authenticate])
-  
   return (
     <div>
       <Navbar
@@ -21,14 +21,18 @@ function App() {
         setAuthenticate={setAuthenticate}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        cartCount={cartCount}
       />
       <Routes>
-        <Route path='/' element={<ProuctAllPage searchQuery={searchQuery}/>}/>
-        <Route path='/login' element={<LoginPage setAuthenticate={setAuthenticate} />}/>
-        <Route path='/product/:id' element={<PrivateRoute authenticate={authenticate} setAuthenticate={setAuthenticate}/>}/>
+        <Route path="/" element={<ProductAllPage searchQuery={searchQuery} />} />
+        <Route path="/login" element={<LoginPage setAuthenticate={setAuthenticate} />} />
+        <Route
+          path="/product/:id"
+          element={<PrivateRoute authenticate={authenticate} setAuthenticate={setAuthenticate} incrementCartCount={incrementCartCount} />}
+        />
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

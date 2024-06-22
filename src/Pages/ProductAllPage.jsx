@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import { Container, Grid } from "@mui/material";
 
-const ProuctAllPage = ({searchQuery}) => {
+const ProductAllPage = ({searchQuery}) => {
   const [productList, setProductList] = useState([]);
   const getProducts = async () => {
     let url = `http://localhost:5000/products`;
@@ -35,4 +35,4 @@ const ProuctAllPage = ({searchQuery}) => {
   );
 };
 
-export default ProuctAllPage;
+export default ProductAllPage;

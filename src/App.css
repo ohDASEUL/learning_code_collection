@@ -2,7 +2,6 @@ ol,
 ul {
   list-style-type: none;
 }
-
 /* Navbar.jsx */
 .navbar-logo-icon-group {
   display: flex;
