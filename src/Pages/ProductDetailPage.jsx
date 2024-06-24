@@ -3,7 +3,7 @@ import { Button, Grid, MenuItem, Select, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const ProductDetailPage = () => {
+const ProductDetailPage = ({incrementCartCount}) => {
   const [product, setProduct] = useState(null);
   const [size, setSize] = useState('');
   let { id } = useParams();
@@ -29,6 +29,7 @@ const ProductDetailPage = () => {
         text: '장바구니에 담겼습니다!',
         icon: 'success',
       });
+      incrementCartCount();
     } else {
       Swal.fire({
         title: 'Error',

@@ -13,6 +13,7 @@ const PcNavbar = ({
   setAuthenticate,
   searchQuery,
   setSearchQuery,
+  cartCount,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -31,35 +32,29 @@ const PcNavbar = ({
 
   useEffect(() => {
     if (isDrawerOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isDrawerOpen]);
 
-  useEffect(() => {
-    const storedAuth = localStorage.getItem('isAuthenticated');
-    if (storedAuth === 'true') {
-      setAuthenticate(true);
-    }
-  }, [setAuthenticate]);
-
   const goMainHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const menuList = [
-    '전체보기',
-    '남성',
-    '여성',
-    '가방',
-    '액세서리',
-    '기프트',
-    '컬렉션',
+    "전체보기",
+    "남성",
+    "여성",
+    "가방",
+    "액세서리",
+    "기프트",
+    "컬렉션",
   ];
+  
   return (
     <div className="navbar">
       <div className="navbar-logo-icon-group">
@@ -72,8 +67,10 @@ const PcNavbar = ({
         </div>
         <div className="navbar-icon">
           <div>
-            {authenticate === true ? (
-              <div onClick={() => setAuthenticate(false)}>
+            {authenticate === true? (
+              <div onClick={()=>{
+                setAuthenticate(false)
+              }}>
                 <FontAwesomeIcon icon={faRightFromBracket} />
               </div>
             ) : (
@@ -85,6 +82,7 @@ const PcNavbar = ({
 
           <FontAwesomeIcon icon={faHeart} />
           <FontAwesomeIcon icon={faBagShopping} />
+          {cartCount == 0 ? "" : cartCount}
         </div>
       </div>
       <div className="navbar-menu">

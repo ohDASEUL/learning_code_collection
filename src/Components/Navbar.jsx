@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MobileNavbar from "./MobileNavbar";
 import PcNavbar from "./PcNavbar";
 
-const Navbar = ({ authenticate, setAuthenticate, searchQuery, setSearchQuery }) => {
+const Navbar = ({ authenticate, setAuthenticate, searchQuery, setSearchQuery, cartCount }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -25,6 +25,7 @@ const Navbar = ({ authenticate, setAuthenticate, searchQuery, setSearchQuery }) 
           setAuthenticate={setAuthenticate}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          cartCount={cartCount}
         />
       )}
     </div>
