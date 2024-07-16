@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { usePostQuery } from "./hooks/usePosts";
 
 const NormalPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const fetchPost = async () => {
-    setIsLoading(true);
-    const url = "http://localhost:3004/posts";
-    const res = await fetch(url);
-    const data = await res.json();
-    setIsLoading(false);
-    setData(data);
-  };
-  useEffect(() => {
-    fetchPost();
-  }, []);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [data, setData] = useState(null);
+  // const fetchPost = async () => {
+  //   setIsLoading(true);
+  //   const url = "http://localhost:3004/posts";
+  //   const res = await fetch(url);
+  //   const data = await res.json();
+  //   setIsLoading(false);
+  //   setData(data);
+  // };
+  // useEffect(() => {
+  //   fetchPost();
+  // }, []);
+  const {data, isLoading, isError, error} = usePostQuery();
   if (isLoading) {
     return <h1>Loading...</h1>;
   }

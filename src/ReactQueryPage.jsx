@@ -1,36 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
+import { usePostQuery } from "./hooks/usePosts";
 
 const ReactQueryPage = () => {
-  const fetchPost = (queryData) => {
-    const id = queryData.queryKey[1]
-    console.log("qqq",queryData)
-    return axios.get(`http://localhost:3004/posts/${id}`);
-  };
-  const { isLoading, data, isError, error,refetch } = useQuery({
-    queryKey: ["posts",1],
-    // 보내고 싶은 값을 queryKey에 삽입
-    // {id:1} 도 가능
-    queryFn: fetchPost,
-    retry: 1,
-    select: (data) => {
-      return data.data;
-    },
-    // enabled:false
-    // 초기에 호출 안 함(기본값 true)
-    // refetchOnWindowFocus:true
-    // 알아서 api를 호출해줘서 항상 최신 데이터를 볼 수 있음
-    // refetchOnMount:true,
-    // compont를 다시 들어갈때 api를 호출 할거냐 말거냐(기본값 true)
-    // refetchInterval:3000
-    // 3초마다 api 호출
-    // staleTime:60000, 
-    // 기본값 0
-    // gcTime:10000,
-    // staleTime < gctime
-  });
+  const  {data, isLoading, isError, error, refetch} = usePostQuery()
   console.log("ddd", data, isLoading);
   console.log("error", isError, error);
 
@@ -42,7 +15,7 @@ const ReactQueryPage = () => {
   }
   return (
     <div>
-        <nav>
+      <nav>
         <ul>
           <li>
             <Link to="/">HomePage</Link>
@@ -55,11 +28,10 @@ const ReactQueryPage = () => {
           </li>
         </ul>
       </nav>
-      {/* {data?.map((item) => (
+      {data?.map((item) => (
         <div>{item.title}</div>
-      ))} */}
+      ))}
       <button onClick={refetch}>post리스트 다시 들고오기</button>
-      
     </div>
   );
 };
