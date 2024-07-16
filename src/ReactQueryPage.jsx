@@ -4,17 +4,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ReactQueryPage = () => {
-  const fetchPost = () => {
-    return axios.get("http://localhost:3004/posts");
+  const fetchPost = (queryData) => {
+    const id = queryData.queryKey[1]
+    console.log("qqq",queryData)
+    return axios.get(`http://localhost:3004/posts/${id}`);
   };
   const { isLoading, data, isError, error,refetch } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts",1],
+    // 보내고 싶은 값을 queryKey에 삽입
+    // {id:1} 도 가능
     queryFn: fetchPost,
     retry: 1,
     select: (data) => {
       return data.data;
     },
-    enabled:false
+    // enabled:false
     // 초기에 호출 안 함(기본값 true)
     // refetchOnWindowFocus:true
     // 알아서 api를 호출해줘서 항상 최신 데이터를 볼 수 있음
@@ -51,9 +55,9 @@ const ReactQueryPage = () => {
           </li>
         </ul>
       </nav>
-      {data?.map((item) => (
+      {/* {data?.map((item) => (
         <div>{item.title}</div>
-      ))}
+      ))} */}
       <button onClick={refetch}>post리스트 다시 들고오기</button>
       
     </div>
