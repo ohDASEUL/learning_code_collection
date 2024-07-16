@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ReactQueryPage = () => {
   const fetchPost = () => {
@@ -10,9 +11,10 @@ const ReactQueryPage = () => {
     queryKey: ["posts"],
     queryFn: fetchPost,
     retry: 1,
-    select:(data)=>{
-        return data.data
-    }
+    select: (data) => {
+      return data.data;
+    },
+    gcTime:5000
   });
   console.log("ddd", data, isLoading);
   console.log("error", isError, error);
@@ -25,9 +27,23 @@ const ReactQueryPage = () => {
   }
   return (
     <div>
+        <nav>
+        <ul>
+          <li>
+            <Link to="/">HomePage</Link>
+          </li>
+          <li>
+            <Link to="/normalpage">Normal Fetch</Link>
+          </li>
+          <li>
+            <Link to="/reactquery">React Query</Link>
+          </li>
+        </ul>
+      </nav>
       {data.map((item) => (
         <div>{item.title}</div>
       ))}
+      
     </div>
   );
 };
