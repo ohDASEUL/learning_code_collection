@@ -1,13 +1,13 @@
-import { productAcions } from "../reducers/productReducer";
+import { productAcions } from "../reducers/productSlice";
 
-function getProducts(searchQuery) {
-  return async (dispatch) => {
-    let url = `https://my-json-server.typicode.com/ohDASEUL/router-hnm/products?q=${searchQuery}`;
-    let response = await fetch(url);
-    let data = await response.json();
-    dispatch(productAcions.getAllProducets({data}));
-  };
-}
+// function getProducts(searchQuery) {
+//   return async (dispatch) => {
+//     let url = `https://my-json-server.typicode.com/ohDASEUL/router-hnm/products?q=${searchQuery}`;
+//     let response = await fetch(url);
+//     let data = await response.json();
+//     dispatch(productAcions.getAllProducets({data}));
+//   };
+// }
 
 function getProductDetail(id) {
   return async (dispatch) => {
@@ -18,4 +18,4 @@ function getProductDetail(id) {
   };
 }
 
-export const productAction = { getProducts, getProductDetail };
+export const productAction = { getProductDetail };
