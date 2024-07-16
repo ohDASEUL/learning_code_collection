@@ -14,7 +14,9 @@ const ReactQueryPage = () => {
     select: (data) => {
       return data.data;
     },
-    gcTime:5000
+    staleTime:60000, // 기본값 0
+    gcTime:10000,
+    // staleTime < gctime
   });
   console.log("ddd", data, isLoading);
   console.log("error", isError, error);
