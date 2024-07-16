@@ -1,4 +1,4 @@
-import { productAcions } from "../reducers/productSlice";
+// import { productAcions } from "../reducers/productSlice";
 
 // function getProducts(searchQuery) {
 //   return async (dispatch) => {
