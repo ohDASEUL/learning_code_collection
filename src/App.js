@@ -1,10 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+// 부트스트랩 CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AppLayout from "./layout/AppLayout";
 import MoviePage from "./pages/Movies/MoviePage";
 import MovieDetailPage from "./pages/MovieDetail/MovieDetailPage";
 import HomePage from "./pages/HomePage/HomePage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+
 
 function App() {
   return (

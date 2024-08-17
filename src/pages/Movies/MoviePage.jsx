@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Container } from "react-bootstrap";
 
 const MoviePage = () => {
   return (
-    <div>MoviePage</div>
-  )
-}
+    <div className="bg-dark text-light vh-100">
+      MoviePage
+    </div>
+  );
+};
 
-export default MoviePage
+export default MoviePage;
