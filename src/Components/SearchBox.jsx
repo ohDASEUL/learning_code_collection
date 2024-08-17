@@ -11,7 +11,7 @@ const SearchBox = () => {
     dispatch({ type: "SEARCH_BY_USERNAME", payload: { keyword } });
   };
   return (
-    <Form onSubmit={searchByName} className="search-form">
+    <Form onSubmit={searchByName}>
       <Row>
         <Col>
           <Form.Control
