@@ -6,7 +6,7 @@
 
 ---
 
-# Socket.IO 이벤트 및 방송 기능
+# Socket.IO 이벤트(Event) 및 방송(Broadcast) 기능
 
 Socket.IO를 사용하여 서버와 클라이언트 간의 다양한 이벤트 및 방송 기능을 구현하는 방법
 
