@@ -61,10 +61,22 @@
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>전송</button>
     </form>
-    <!-- <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-    </script> -->
+    <!-- <script src="/socket.io/socket.io.js"></script>-->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script>
+      // Socket.IO 클라이언트 인스턴스를 초기화
+      const socket = io();
+
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit("chat message", input.value);
+          input.value = "";
+        }
+      });
+    </script>
   </body>
 </html>

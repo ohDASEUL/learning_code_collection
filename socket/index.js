@@ -20,10 +20,18 @@ app.get('/', (req, res) => { // 웹사이트 홈('/') 경로에 대한 GET 요�
 });
 
 // 소켓 서버에 클라이언트가 연결될 때
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// });
+
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  // // 클라이언트로부터 'chat message' 이벤트가 수신될 때 실행
+  socket.on('chat message', (msg) => {
+    // / 서버 콘솔에 수신된 메시지를 출력
+    console.log('message: ' + msg);
   });
 });
 
