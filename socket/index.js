@@ -20,29 +20,6 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html")); // 클라이언트에 'index.html' 파일을 응답으로 보냄
 });
 
-// 소켓 서버에 클라이언트가 연결될 때
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-// });
-
-// 연결된 모든 소켓에 이벤트가 전송
-// io.emit('hello', 'world');
-
-// io.on('connection', (socket) => {
-//  // 현재 연결된 클라이언트를 제외하고 모든 클라이언트에게 'hi' 메시지를 전송
-//   socket.broadcast.emit('hi');
-// });
-
-// 단순성을 위해 발신자를 포함한 모든 사람에게 메시지를 전송
-// io.on('connection', (socket) => {
-//   socket.on('chat message', (msg) => {
-//     io.emit('chat message', msg);
-//   });
-// });
-
 io.on("connection", (socket) => {
   // // 클라이언트로부터 'chat message' 이벤트가 수신될 때 실행
   socket.on("chat message", (msg) => {
