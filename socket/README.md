@@ -1,8 +1,10 @@
 # socket.io 기본 채팅 앱
 
 > npm install express@4
-> node index.js
+
 > npm install socket.io
+
+> node index.js
 
 ---
 
@@ -52,7 +54,7 @@ io.on("connection", (socket) => {
 ```
 
 - 이 설명은 Socket.IO 사용해서 서버랑 클라이언트 사이에서 여러 가지 통신 방법 보여줌.
-- 클라이언트가 서버에 연결되거나 끊길 때 기본 이벤트 처리하는 방법이랑, 메시지 방송하는 방법 다룸.
+- 클라이언트가 서버에 연결되거나 끊길 때 기본 이벤트 처리하는 방법이랑, 메시지 방송하는 방법을 다룸.
 - 실시간 어플리케이션에서 데이터 효과적으로 주고받을 수 있음
 
 ---
@@ -170,3 +172,55 @@ io.on("connection", (socket) => {
 ![rooms](https://socket.io/images/tutorial/room-dark.png)
 
 - Socket.IO의 기본적인 사용 방법을 다루며, 다양한 API 기능을 이해하는 데 도움이 됨
+
+# Socket.IO에서 연결 해제 처리하기
+
+Socket.IO를 사용할 때, 클라이언트의 연결 해제를 효과적으로 관리하는 것이 중요한데 이는 클라이언트가 의도적으로 또는 네트워크 문제로 인해 연결이 끊어질 수 있기 때문.
+
+## 연결 해제 감지하기
+
+클라이언트의 연결 해제를 감지하려면 `disconnect` 이벤트를 사용함.
+
+이 이벤트는 클라이언트 연결이 끊어졌을 때 서버에 의해 자동으로 발생.
+
+```javascript
+// 클라이언트가 소켓 서버에 연결될 때 실행되는 이벤트 핸들러
+io.on("connection", (socket) => {
+  // 클라이언트 연결이 해제될 때 실행되는 이벤트 핸들러
+  socket.on("disconnect", (reason) => {
+    // 연결 해제 이유를 콘솔에 로그
+    console.log(`Client disconnected: ${reason}`);
+  });
+});
+```
+
+위 코드는 클라이언트가 연결을 끊었을 때 그 이유를 콘솔에 출력함.
+
+`reason` 매개변수는 연결 해제의 원인을 제공하며 다음과 같은 값일 수 있음:
+
+- `transport close`: 클라이언트가 연결을 명시적으로 닫았을 때
+- `ping timeout`: 서버로부터의 핑 메시지에 클라이언트가 시간 내에 응답하지 않았을 때
+- `transport error`: 네트워크 오류 또는 서버 오류가 발생했을 때
+
+## 재연결 옵션 구성하기
+
+클라이언트가 자동으로 재연결을 시도할 수 있도록 구성하는 것은 애플리케이션의 안정성을 보장하기 위해 중요함
+
+Socket.IO 클라이언트 라이브러리는 재연결을 위한 여러 옵션을 제공함
+
+```javascript
+// Socket.IO 클라이언트 설정
+const socket = io({
+  reconnection: true, // 재연결을 활성화
+  reconnectionAttempts: 5, // 최대 재연결 시도 횟수
+  reconnectionDelay: 500, // 재연결 시도 간의 지연 시간 (밀리초)
+  reconnectionDelayMax: 1000, // 최대 재연결 지연 시간
+  randomizationFactor: 0.5, // 재연결 지연 시간에 적용되는 무작위 요소
+});
+```
+
+이 설정들은 클라이언트가 연결이 끊어진 후 서버에 재연결을 시도하는 방법을 제어함.
+
+이를 통해 네트워크 문제가 발생하거나 사용자가 의도적으로 연결을 끊었을 때도 어플리케이션의 연결 상태를 유지할 수 있음
+
+![Handling_disconnections](https://socket.io/images/tutorial/disconnected-dark.png)
