@@ -10,9 +10,21 @@ const { Server } = require("socket.io");
 // express 애플리케이션 인스턴스를 생성
 const app = express();
 // express 애플리케이션을 기반으로 HTTP 서버를 생성
+
 const server = createServer(app); // 앱을 http 서버로 초기화
 // 생성된 HTTP 서버를 기반으로 소켓 서버 인스턴스 생성
-const io = new Server(server);
+// const io = new Server(server);
+
+// 연결 상태 복구 (Connection state recovery)
+// 이 기능은 서버에 의해 발송된 이벤트들을 일시적으로 저장하고,
+// 클라이언트가 재연결될 때 그 상태를 복원하려고 시도..
+const io = new Server(server, {
+  // connectionStateRecovery 옵션을 활성화하여
+  // 클라이언트의 방 참여 상태를 복원하고,
+  // 놓친 이벤트들을 클라이언트에게 전송
+  connectionStateRecovery: {}
+});
+
 
 app.get("/", (req, res) => {
   // 웹사이트 홈('/') 경로에 대한 GET 요청 처리기 정의
