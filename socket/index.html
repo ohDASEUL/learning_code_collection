@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script> -->
     <title>Socket.IO chat</title>
     <style>
       body {
@@ -61,14 +62,15 @@
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>전송</button>
     </form>
-    <!-- <script src="/socket.io/socket.io.js"></script>-->
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
     <script>
       // Socket.IO 클라이언트 인스턴스를 초기화
       const socket = io();
 
       const form = document.getElementById("form");
       const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -76,6 +78,14 @@
           socket.emit("chat message", input.value);
           input.value = "";
         }
+      });
+
+      socket.on("chat message", (msg) => {
+        const item = document.createElement("li");
+        item.textContent = msg;
+        messages.appendChild(item);
+        // // 새 메시지가 추가될 때마다 화면을 스크롤하여 가장 최근의 메시지가 보이도록
+        window.scrollTo(0, document.body.scrollHeight);
       });
     </script>
   </body>
