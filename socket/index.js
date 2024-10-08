@@ -1,46 +1,73 @@
-// express 모듈을 불러옵니다.
 const express = require("express");
-// node의 HTTP 모듈에서 createServer 메소드 불러오기
 const { createServer } = require("node:http");
-// node의 path 모듈에서 join 메소드 불러오기
 const { join } = require("node:path");
-// socket.io 모듈에서 Server 클래스 불러오기
 const { Server } = require("socket.io");
+const sqlite3 = require("sqlite3");
+const { open } = require("sqlite");
 
-// express 애플리케이션 인스턴스를 생성
-const app = express();
-// express 애플리케이션을 기반으로 HTTP 서버를 생성
-
-const server = createServer(app); // 앱을 http 서버로 초기화
-// 생성된 HTTP 서버를 기반으로 소켓 서버 인스턴스 생성
-// const io = new Server(server);
-
-// 연결 상태 복구 (Connection state recovery)
-// 이 기능은 서버에 의해 발송된 이벤트들을 일시적으로 저장하고,
-// 클라이언트가 재연결될 때 그 상태를 복원하려고 시도..
-const io = new Server(server, {
-  // connectionStateRecovery 옵션을 활성화하여
-  // 클라이언트의 방 참여 상태를 복원하고,
-  // 놓친 이벤트들을 클라이언트에게 전송
-  connectionStateRecovery: {}
-});
-
-
-app.get("/", (req, res) => {
-  // 웹사이트 홈('/') 경로에 대한 GET 요청 처리기 정의
-  // 서버의 파일 시스템에서 index.html 파일의 경로를 결정하고, 파일을 클라이언트에 전송
-  res.sendFile(join(__dirname, "index.html")); // 클라이언트에 'index.html' 파일을 응답으로 보냄
-});
-
-io.on("connection", (socket) => {
-  // // 클라이언트로부터 'chat message' 이벤트가 수신될 때 실행
-  socket.on("chat message", (msg) => {
-    io.emit("chat message", msg);
+async function main() {
+  // 데이터베이스 파일 열기
+  const db = await open({
+    filename: "chat.db",
+    driver: sqlite3.Database,
   });
-});
 
-// 서버를 포트 3000에서 실행하도록 설정하고, 서버 시작 시 콘솔에 메시지 출력
-server.listen(3000, () => {
-  // HTTP 서버가 포트 3000에서 요청을 수신하도록 설정
-  console.log("server running at http://localhost:3000"); // 서버 시작 시 콘솔에 메시지 출력
-});
+  // 'messages' 테이블 만들기
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_offset TEXT UNIQUE,
+        content TEXT
+    );
+  `);
+
+  // Express 애플리케이션과 HTTP 서버 초기화
+  const app = express();
+  const server = createServer(app);
+
+  // Socket.IO 서버 초기화 및 연결 상태 복구 기능 활성화
+  const io = new Server(server, {
+    connectionStateRecovery: {}, // 클라이언트의 방 참여 상태 및 놓친 이벤트 복원
+  });
+
+  app.get("/", (req, res) => {
+    // 웹사이트 홈('/') 경로에 대한 GET 요청 처리기 정의
+    // 서버의 파일 시스템에서 index.html 파일의 경로를 결정하고, 파일을 클라이언트에 전송
+    res.sendFile(join(__dirname, "index.html"));
+  });
+
+  io.on("connection", async (socket) => {
+    socket.on("채팅 메세지", async (msg) => {
+      let result;
+      try {
+        // 메시지를 데이터베이스에 저장
+        result = await db.run("INSERT INTO messages (content) VALUES (?)", msg);
+      } catch (e) {
+         // TODO가 실패를 처리
+        return;
+      }
+      io.emit("채팅 메세지", msg, result.lastID); // 메시지에 오프셋 포함
+    });
+
+    if (!socket.recovered) {
+      // 연결 상태 복구에 성공하지 못한 경우
+      try {
+        await db.each(
+          "SELECT id, content FROM messages WHERE id > ?",
+          [socket.handshake.auth.serverOffset || 0],
+          (_err, row) => {
+            socket.emit("채팅 메세지", row.content, row.id);
+          }
+        );
+      } catch (e) {
+         // 뭔가 잘못됨
+      }
+    }
+  });
+
+  server.listen(3000, () => {
+    console.log("실행 중인 서버 : http://localhost:3000"); // HTTP 서버가 포트 3000에서 요청을 수신하도록 설정
+  });
+}
+
+main();

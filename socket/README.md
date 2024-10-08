@@ -225,17 +225,124 @@ const socket = io({
 
 ![Handling_disconnections](https://socket.io/images/tutorial/disconnected-dark.png)
 
-
 ### Connection State Recovery 기능 설명
 
-- **기능 개요**: 이 기능은 클라이언트의 연결 상태를 임시로 저장하고, 재연결 시 이 상태를 복원
+- **기능 개요**
+  - 이 기능은 클라이언트의 연결 상태를 임시로 저장하고, 재연결 시 이 상태를 복원
   - 클라이언트가 다시 연결될 때 이전에 참여했던 방을 복원
   - 놓친 이벤트들을 클라이언트에게 전송
-- **제한 사항**:
+- **제한 사항**
   - 서버가 갑자기 충돌하거나 재시작되는 경우, 클라이언트 상태가 저장되지 않을 수 있어 항상 작동하지 않을 수 있음
   - 시스템을 확장하는 과정에서 이 기능을 활성화하는 것이 항상 가능한 건 아님.
-- **장점**:
+- **장점**
   - 사용자가 WiFi에서 4G로 전환하는 등의 일시적인 연결 끊김 후에도 클라이언트 상태를 동기화할 필요가 없고, 이로 인해 사용자 경험을 크게 향상시킬 수 있음
 
 이 기능은 특히 모바일 사용자에게 유용하며, 네트워크 상태의 변화가 잦은 환경에서 더욱 빛을 발휘함.
-  
+
+# 서버 전송(sever delivery)
+
+## 재 연결 시 클라이언트의 상태를 동기화하는 방법
+
+1. 서버가 전체 상태를 전송.
+2. 클라이언트가 마지막으로 처리한 이벤트를 추적하고 서버가 누락된 조각을 전송
+
+예제에서는 2번으로 선택
+
+> npm install sqlite sqlite3
+
+- 각 메시지는 SQL 테이블에 저장 (index.js에 코드 추가..)
+
+```javascript
+const sqlite3 = require("sqlite3");
+const { open } = require("sqlite");
+
+async function main() {
+  // 데이터베이스 파일 열기
+  const db = await open({
+    filename: "chat.db",
+    driver: sqlite3.Database,
+  });
+
+  // 'messages' 테이블 만들기
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_offset TEXT UNIQUE,
+        content TEXT
+    );
+  `);
+
+  io.on("connection", (socket) => {
+    socket.on("채팅 메세지", async (msg) => {
+      let result;
+      try {
+        // 메시지를 데이터베이스에 저장
+        result = await db.run("INSERT INTO messages (content) VALUES (?)", msg);
+      } catch (e) {
+        // TODO가 실패를 처리
+        return;
+      }
+      io.emit("채팅 메세지", msg, result.lastID); // 메시지에 오프셋 포함
+    });
+  });
+}
+```
+
+- 클라이언트는 오프셋을 추적(index.html에 코드 추가..)
+
+```javascript
+<script>
+  const socket = io({
+    auth: {
+      serverOffset: 0
+    }
+  });
+
+  socket.on('chat message', (msg, serverOffset) => {
+    const item = document.createElement('li');
+    item.textContent = msg;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+    socket.auth.serverOffset = serverOffset;
+  });
+</script>
+```
+
+- 서버는 연결 시 누락된 메시지를 전송(index.html에 코드 추가...)
+
+```javascript
+io.on("connection", async (socket) => {
+  socket.on("chat message", async (msg) => {
+    let result;
+    try {
+      // 메시지를 데이터베이스에 저장
+      result = await db.run("INSERT INTO messages (content) VALUES (?)", msg);
+    } catch (e) {
+      // TODO가 실패를 처리
+      return;
+    }
+    io.emit("채팅 메세지", msg, result.lastID); // 메시지에 오프셋 포함
+  });
+
+  if (!socket.recovered) {
+    // 연결 상태 복구에 성공하지 못한 경우
+    try {
+      await db.each(
+        "SELECT id, content FROM messages WHERE id > ?",
+        [socket.handshake.auth.serverOffset || 0],
+        (_err, row) => {
+          socket.emit("채팅 메세지", row.content, row.id);
+        }
+      );
+    } catch (e) {
+      // 뭔가 잘못됨
+    }
+  }
+});
+```
+
+- **결과**
+  - 이렇게 하면 일시적인 연결 끊기와 전체 페이지 새로 고침 또는 서버를 다시 구동해도 이전에 채팅 기록이 남아있음
+
+- **Tip**
+  - "연결 상태 복구" 기능의 차이점은 복구가 성공하면 기본 데이터베이스를 호출할 필요가 없다는 것
