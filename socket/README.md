@@ -473,4 +473,4 @@ io.on("connection", (socket) => {
 ```
 
 # 현재까지 결과화면
-![chat]('./preview/chat.gif')
+![chat](./preview/chat.gif)
