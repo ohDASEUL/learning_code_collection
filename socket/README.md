@@ -342,7 +342,135 @@ io.on("connection", async (socket) => {
 ```
 
 - **결과**
+
   - 이렇게 하면 일시적인 연결 끊기와 전체 페이지 새로 고침 또는 서버를 다시 구동해도 이전에 채팅 기록이 남아있음
 
 - **Tip**
   - "연결 상태 복구" 기능의 차이점은 복구가 성공하면 기본 데이터베이스를 호출할 필요가 없다는 것
+
+# 클라이언트 전송 (client delivery)
+
+## 한 번 이상 (At least Once)
+
+- 수동으로 확인
+
+```javascript
+function emit(socket, event, arg) {
+  socket.timeout(5000).emit(event, arg, (err) => {
+    if (err) {
+      // no ack from the server, let's retry
+      emit(socket, event, arg);
+    }
+  });
+}
+
+emit(socket, "hello", "world");
+```
+
+- 재시도 옵션으로 사용
+
+```javascript
+const socket = io({
+  ackTimeout: 10000,
+  retries: 3,
+});
+
+socket.emit("hello", "world");
+```
+
+- 두 방법 모두 클라이언트는 서버로부터 메세지를 확인하기 전까지 메시지 전송을 시도함
+
+```javascript
+io.on("connection", (socket) => {
+  socket.on("hello", (value, callback) => {
+    // once the event is successfully handled
+    callback();
+  });
+});
+```
+
+- **Tip**
+  - 재시도 옵션을 사용하면 메시지가 하나씩 대기열에 들어 있고 전송되므로 메시지의 순서가 보장되는데, 첫 번째 옵션은 그렇지 않음.
+
+## 정확히 한 번(Exactly Once)
+
+- 재시도 시 발생하는 문제는 서버가 동일한 메시지를 여러 번 수신할 수 있다는 것.
+- 따라서 서버는 각 메시지를 고유하게 식별하고 데이터베이스에 한 번만 저장할 수 있는 방법이 필요함
+
+### 고유 식별자를 사용한 메시지 관리
+
+- **Note**
+
+  - socket.id 속성은 각 연결에 할당된 무작위 20-charact 식별자
+  - getRandomValue()를 사용해 고유한 오프셋을 생성할 수 있음.
+
+- 클라이언트 측에서 각 메시지에 고유한 식별자를 할당하여 "정확히 한 번" 보장 기능을 채팅 애플리케이션에 구현하는 방법(index.html)
+
+```javascript
+<script>
+      let counter = 0;
+      ...
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (input.value) {
+          // 고유한 오프셋을 계산
+          const clientOffset = `${socket.id}-${counter++}`;
+          socket.emit("채팅 메세지", input.value, clientOffset);
+          // socket.emit("채팅 메세지", input.value);
+          input.value = "";
+        }
+      });
+      ...
+</script>
+```
+
+- 오프셋을 서버 측 메세지와 함께 저장(index.js)
+  - 이렇게 하면 클라이언트 오프셋 열의 고유 제약 조건으로 인해 메세지가 중복되는 것을 방지함.
+
+```javascript
+...
+  io.on("connection", async (socket) => {
+    // 주의 : 이벤트 확인 안 하면 클라이언트가 계속 재시도
+    socket.on("채팅 메세지", async (msg, clientOffset, callback) => {
+      let result;
+      try {
+        // 메시지를 데이터베이스에 저장
+        result = await db.run(
+          "INSERT INTO messages (content, client_offset) VALUES (?, ?)",
+          msg,
+          clientOffset
+        );
+      } catch (e) {
+        if (e.errno === 19 /* SQLITE_CONSTRAINT */) {
+          // 메시지가 이미 삽입된 경우, 클라이언트에게 알림
+          callback();
+        } else {
+          // 아무 작업도 하지 않고, 클라이언트가 다시 시도하도록 둠
+        }
+        return;
+      }
+      io.emit("채팅 메세지", msg, result.lastID); // 메시지에 오프셋 포함
+      // 이벤트 확인
+      callback();
+    });
+
+    if (!socket.recovered) {
+      // 연결 상태 복구에 성공하지 못한 경우
+      try {
+        await db.each(
+          "SELECT id, content FROM messages WHERE id > ?",
+          [socket.handshake.auth.serverOffset || 0],
+          (_err, row) => {
+            socket.emit("채팅 메세지", row.content, row.id);
+          }
+        );
+      } catch (e) {
+        // 뭔가 잘못됨
+      }
+    }
+  });
+...
+```
+
+# 현재까지 결과화면
+![chat]('./preview/chat.gif')

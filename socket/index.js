@@ -37,16 +37,28 @@ async function main() {
   });
 
   io.on("connection", async (socket) => {
-    socket.on("채팅 메세지", async (msg) => {
+    // 주의 : 이벤트 확인 안 하면 클라이언트가 계속 재시도
+    socket.on("채팅 메세지", async (msg, clientOffset, callback) => {
       let result;
       try {
         // 메시지를 데이터베이스에 저장
-        result = await db.run("INSERT INTO messages (content) VALUES (?)", msg);
+        result = await db.run(
+          "INSERT INTO messages (content, client_offset) VALUES (?, ?)",
+          msg,
+          clientOffset
+        );
       } catch (e) {
-         // TODO가 실패를 처리
+        if (e.errno === 19 /* SQLITE_CONSTRAINT */) {
+          // 메시지가 이미 삽입된 경우, 클라이언트에게 알림
+          callback();
+        } else {
+          // 아무 작업도 하지 않고, 클라이언트가 다시 시도하도록 둠
+        }
         return;
       }
       io.emit("채팅 메세지", msg, result.lastID); // 메시지에 오프셋 포함
+      // 이벤트 확인
+      callback();
     });
 
     if (!socket.recovered) {
@@ -60,7 +72,7 @@ async function main() {
           }
         );
       } catch (e) {
-         // 뭔가 잘못됨
+        // 뭔가 잘못됨
       }
     }
   });
