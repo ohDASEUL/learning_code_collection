@@ -1,12 +1,18 @@
-# socket.io 기본 채팅 앱
+# socket.io 기본 채팅 앱(https://socket.io/docs/v4/tutorial/introduction)
+
+## 설치 해야할 것
 
 > npm install express@4
 
 > npm install socket.io
 
-> node index.js
+> npm install sqlite sqlite3
 
----
+> npm install @socket.io/cluster-adapter
+
+## 실행
+
+> node index.js
 
 # Socket.IO 이벤트(Event) 및 방송(Broadcast) 기능
 
@@ -244,13 +250,11 @@ const socket = io({
 ## 재 연결 시 클라이언트의 상태를 동기화하는 방법
 
 1. 서버가 전체 상태를 전송.
-2. 클라이언트가 마지막으로 처리한 이벤트를 추적하고 서버가 누락된 조각을 전송
+2. 클라이언트가 마지막으로 처리한 이벤트를 추적하고 서버가 누락된 조각을 전송 (이 방법으로 진행)
 
-예제에서는 2번으로 선택
+- 각 메시지는 SQL 테이블에 저장
 
-> npm install sqlite sqlite3
-
-- 각 메시지는 SQL 테이블에 저장 (index.js에 코드 추가..)
+index.js
 
 ```javascript
 const sqlite3 = require("sqlite3");
@@ -288,7 +292,9 @@ async function main() {
 }
 ```
 
-- 클라이언트는 오프셋을 추적(index.html에 코드 추가..)
+- 클라이언트는 오프셋을 추적
+
+index.html
 
 ```javascript
 <script>
@@ -308,7 +314,9 @@ async function main() {
 </script>
 ```
 
-- 서버는 연결 시 누락된 메시지를 전송(index.html에 코드 추가...)
+- 서버는 연결 시 누락된 메시지를 전송
+
+index.html
 
 ```javascript
 io.on("connection", async (socket) => {
@@ -404,7 +412,9 @@ io.on("connection", (socket) => {
   - socket.id 속성은 각 연결에 할당된 무작위 20-charact 식별자
   - getRandomValue()를 사용해 고유한 오프셋을 생성할 수 있음.
 
-- 클라이언트 측에서 각 메시지에 고유한 식별자를 할당하여 "정확히 한 번" 보장 기능을 채팅 애플리케이션에 구현하는 방법(index.html)
+- 클라이언트 측에서 각 메시지에 고유한 식별자를 할당하여 "정확히 한 번" 보장 기능을 채팅 애플리케이션에 구현하는 방법
+
+index.html
 
 ```javascript
 <script>
@@ -424,8 +434,10 @@ io.on("connection", (socket) => {
 </script>
 ```
 
-- 오프셋을 서버 측 메세지와 함께 저장(index.js)
+- 오프셋을 서버 측 메세지와 함께 저장
   - 이렇게 하면 클라이언트 오프셋 열의 고유 제약 조건으로 인해 메세지가 중복되는 것을 방지함.
+
+index.js
 
 ```javascript
 ...
@@ -472,5 +484,76 @@ io.on("connection", (socket) => {
 ...
 ```
 
+# 수평 확장 (Scaling horizontally 또는 Scaling out)
+
+- 새로운 수요에 대응하기 위해 인프라에 새로운 서버를 추가하는 것을 의미함.
+- 기존 인프라에 더 많은 리소스(처리 능력, 메모리, 스토리지 등)를 추가하는 것을 의미함
+
+### 첫 번째 단계: 호스트의 모든 코어 사용
+
+- 기본적으로 Node.js는 자바스크립트 코드를 단일 스레드에서 실행함.
+- 32코어 CPU를 사용해도 하나의 코어만 사용됨.
+- Node.js의 클러스터 모듈을 사용하면 코어당 하나의 워커 스레드를 생성할 수 있음.
+- Socket.IO 서버 간에 이벤트를 전달하기 위한 'Adapter'가 필요함. 이 어댑터는 서버 간 통신을 처리하는 역할을 함.
+
+![scaling_horizontally](https://socket.io/images/tutorial/adapter-dark.png)
+
+index.js
+
+```javascript
+...
+const { availableParallelism } = require('node:os');
+const cluster = require('node:cluster');
+const { createAdapter, setupPrimary } = require('@socket.io/cluster-adapter');
+...
+
+if (cluster.isPrimary) {
+  const numCPUs = availableParallelism();
+  // 사용 가능한 코어당 하나의 작업자 생성
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork({
+      PORT: 3000 + i
+    });
+  }
+
+  // 기본 스레드에 어댑터 설정
+  return setupPrimary();
+}
+
+async function main() {
+  ...
+
+  // Express 애플리케이션과 HTTP 서버 초기화
+  const app = express();
+  const server = createServer(app);
+
+  // Socket.IO 서버 초기화 및 연결 상태 복구 기능 활성화
+  const io = new Server(server, {
+    connectionStateRecovery: {}, // 클라이언트의 방 참여 상태 및 놓친 이벤트 복원
+    // 각 작업자 스레드에 어댑터 설정
+    adapter: createAdapter()
+  });
+  ...
+  // 각 작업자는 고유한 포트에서 청취
+  const port = process.env.PORT;
+
+  server.listen(port, () => {
+    console.log(`실행 중인 서버 : http://localhost:${port}`); // HTTP 서버가 포트 3000에서 요청을 수신하도록 설정
+  });
+}
+
+main();
+
+```
+
+**해당 코드 삽입 후 node index.js를 실행 시**
+
+![server](preview/sever.png)
+
+- **Note**
+  - Socket.IO 세션의 모든 HTTP 요청이 동일한 서버(일명 "스틱 세션")에 도달하는지 확인해야함
+  - 하지만 각 Socket.IO 서버에는 고유한 포트가 있기 때문에 여기서는 이 요청이 필요하지 않음(참고 https://socket.io/docs/v4/using-multiple-nodes/)
+
 # 현재까지 결과화면
-![chat](./preview/chat.gif)
+
+![chat](preview/chat.png)

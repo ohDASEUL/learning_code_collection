@@ -4,8 +4,25 @@ const { join } = require("node:path");
 const { Server } = require("socket.io");
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
+const { availableParallelism } = require('node:os');
+const cluster = require('node:cluster');
+const { createAdapter, setupPrimary } = require('@socket.io/cluster-adapter');
+
+if (cluster.isPrimary) {
+  const numCPUs = availableParallelism();
+  // 사용 가능한 코어당 하나의 작업자 생성
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork({
+      PORT: 3000 + i
+    });
+  }
+  
+  // 기본 스레드에 어댑터 설정
+  return setupPrimary();
+}
 
 async function main() {
+
   // 데이터베이스 파일 열기
   const db = await open({
     filename: "chat.db",
@@ -28,6 +45,8 @@ async function main() {
   // Socket.IO 서버 초기화 및 연결 상태 복구 기능 활성화
   const io = new Server(server, {
     connectionStateRecovery: {}, // 클라이언트의 방 참여 상태 및 놓친 이벤트 복원
+    // 각 작업자 스레드에 어댑터 설정
+    adapter: createAdapter()
   });
 
   app.get("/", (req, res) => {
@@ -77,8 +96,11 @@ async function main() {
     }
   });
 
-  server.listen(3000, () => {
-    console.log("실행 중인 서버 : http://localhost:3000"); // HTTP 서버가 포트 3000에서 요청을 수신하도록 설정
+  // 각 작업자는 고유한 포트에서 청취
+  const port = process.env.PORT;
+
+  server.listen(port, () => {
+    console.log(`실행 중인 서버 : http://localhost:${port}`); // HTTP 서버가 포트 3000에서 요청을 수신하도록 설정
   });
 }
 
