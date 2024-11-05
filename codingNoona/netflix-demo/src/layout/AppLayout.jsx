@@ -1,25 +1,23 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom"; // Outlet import 추가
 
 const AppLayout = () => {
   return (
     <div>
-      <Navbar expand="lg" className="bg-dark">
+      <Navbar bg="dark" data-bs-theme="dark">
         <Container fluid>
-          <Navbar className="bg-dark">
-            <Container>
-              <Navbar.Brand href="#home">
-                <img
-                  src="img/Netflix_Logo.png"
-                  width="93"
-                  height="25"
-                  className="d-inline-block align-top"
-                  alt="Netflix logo"
-                />
-              </Navbar.Brand>
-            </Container>
-          </Navbar>
+          <Navbar.Brand>
+            <img
+              src="img/Netflix_Logo.png"
+              width="92"
+              height="25"
+              className="d-inline-block align-top"
+              alt="Netflix logo"
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -27,21 +25,19 @@ const AppLayout = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="/" className="text-light">
-                Home
-              </Nav.Link>
-              <Nav.Link href="/movies" className="text-light">
-                Movies
-              </Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/movies">Movies</Nav.Link>
             </Nav>
             <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
-                className="me-2"
+                className="me-2 bg-white text-dark"
                 aria-label="Search"
               />
-              <Button variant="outline-danger">Search</Button>
+              <Button variant="outline-danger">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Button>
             </Form>
           </Navbar.Collapse>
         </Container>
