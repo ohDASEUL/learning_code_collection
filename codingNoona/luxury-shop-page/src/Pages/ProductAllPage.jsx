@@ -2,20 +2,36 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import { Container, Grid } from "@mui/material";
 
-const ProductAllPage = ({searchQuery}) => {
+const ProductAllPage = ({ searchQuery = '' }) => {  // 기본값 설정
   const [productList, setProductList] = useState([]);
+  const [loading, setLoading] = useState(true);  // 로딩 상태 추가
+
   const getProducts = async () => {
-    let url = `https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products?`;
-    let res = await fetch(url);
-    let data = await res.json();
-    setProductList(data);
+    try {
+      let url = `https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products`;
+      let res = await fetch(url);
+      let data = await res.json();
+      setProductList(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setProductList([]); // 에러 시 빈 배열로 설정
+    } finally {
+      setLoading(false);
+    }
   };
+
   useEffect(() => {
     getProducts();
   }, []);
-  const filteredProducts = productList.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredProducts = productList?.filter((product) =>
+    product?.title?.toLowerCase().includes((searchQuery || '').toLowerCase())
+  ) || [];
+
   return (
     <div>
       <Container>
