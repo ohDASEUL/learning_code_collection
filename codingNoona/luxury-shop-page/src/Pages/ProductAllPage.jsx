@@ -6,23 +6,20 @@ const ProductAllPage = ({ searchQuery = '' }) => {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getProducts = async () => {
-    try {
-      // URL 수정
-      const url = 'https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products';
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await res.json();
-      setProductList(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setProductList([]);
-    } finally {
-      setLoading(false);
+const getProducts = async () => {
+  try {
+    const url = 'https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products';
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
     }
-  };
+    const data = await res.json();
+    setProductList(data);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    setProductList([]);
+  }
+};
 
   useEffect(() => {
     getProducts();
