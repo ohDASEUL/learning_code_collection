@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import { Container, Grid } from "@mui/material";
 
-const ProductAllPage = ({ searchQuery = '' }) => {  // 기본값 설정
+const ProductAllPage = ({ searchQuery = '' }) => {
   const [productList, setProductList] = useState([]);
-  const [loading, setLoading] = useState(true);  // 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
 
   const getProducts = async () => {
     try {
-      let url = `https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products`;
-      let res = await fetch(url);
-      let data = await res.json();
+      // URL 수정
+      const url = 'https://my-json-server.typicode.com/ohDASEUL/luxury-shop-page/products';
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
       setProductList(data);
     } catch (error) {
       console.error("Error fetching products:", error);
-      setProductList([]); // 에러 시 빈 배열로 설정
+      setProductList([]);
     } finally {
       setLoading(false);
     }
@@ -28,9 +32,11 @@ const ProductAllPage = ({ searchQuery = '' }) => {  // 기본값 설정
     return <div>Loading...</div>;
   }
 
-  const filteredProducts = productList?.filter((product) =>
-    product?.title?.toLowerCase().includes((searchQuery || '').toLowerCase())
-  ) || [];
+  const filteredProducts = Array.isArray(productList) 
+    ? productList.filter(product => 
+        product?.title?.toLowerCase().includes((searchQuery || '').toLowerCase())
+      )
+    : [];
 
   return (
     <div>
