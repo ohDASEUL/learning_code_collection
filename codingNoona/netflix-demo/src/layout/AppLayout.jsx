@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom"; // Outlet import 추가
 const AppLayout = () => {
   return (
     <div>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" data-bs-theme="dark" className="sticky-top">
         <Container fluid>
           <Navbar.Brand>
             <img
