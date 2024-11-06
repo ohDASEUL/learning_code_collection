@@ -3,16 +3,14 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const api = {
   baseURL: "https://api.themoviedb.org/3",
 
-  fetchData: async (endpoint) => {
-    const options = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    };
+  fetchData: async (endPoint) => {
     try {
-      const res = await fetch(`${api.baseURL}${endpoint}`, options);
+      const res = await fetch(`${api.baseURL}${endPoint}?api_key=${API_KEY}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
