@@ -1,13 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
-import { Outlet } from "react-router-dom"; // Outlet import 추가
+import { Outlet } from "react-router-dom";
+import "./AppLayout.style.css";
 
 const AppLayout = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <div>
-      <Navbar bg="dark" data-bs-theme="dark" className="sticky-top">
+    <>
+      <Navbar
+        fixed="top"
+        className={`${isScrolled ? "scrolled" : ""}`} // className 수정
+      >
         <Container fluid>
           <Navbar.Brand>
             <img
@@ -43,7 +61,7 @@ const AppLayout = () => {
         </Container>
       </Navbar>
       <Outlet />
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,267 @@
+.popular-movies-container {
+  padding: 20px 0;
+  background: #141414;
+  position: relative;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  padding-left: 60px;
+  color: white;
+}
+
+.carousel-wrapper {
+  position: relative;
+  padding: 0;
+}
+
+.netflix-carousel {
+  position: relative;
+  padding: 0 60px;
+  height: 260px;
+}
+
+.movie-slider-item {
+  height: 206.09px;
+  padding: 0;
+  margin-right: 10px;
+}
+
+.slider-card {
+  position: relative;
+  padding-left: 130px;
+  height: 100%;
+}
+
+.rank-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  z-index: 0;
+}
+
+.card-with-number {
+  position: relative;
+  z-index: 1;
+}
+
+.new-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #e50914;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 3;
+}
+
+.svg-icon-rank {
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+/* Navigation Arrows */
+.navigation-arrows {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 40px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.navigation-arrows.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Custom Button Group */
+/* Custom Button Group */
+.custom-button-group {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-arrow.show {
+  opacity: 1;
+}
+
+.custom-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.custom-arrow.left {
+  left: 30px;
+}
+
+.custom-arrow.right {
+  right: 30px;
+}
+
+.custom-arrow svg {
+  width: 35px !important;
+  height: 35px !important;
+  color: white;
+}
+
+/* Carousel Arrows */
+.react-multiple-carousel__arrow {
+  position: absolute;
+  background-color: rgba(20, 20, 20, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+}
+
+.react-multiple-carousel__arrow::before {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+}
+
+.react-multiple-carousel__arrow:hover {
+  background-color: rgba(20, 20, 20, 0.7) !important;
+  transform: scale(1.1);
+}
+
+.react-multiple-carousel__arrow--left {
+  left: 30px !important;
+}
+
+.react-multiple-carousel__arrow--right {
+  right: 30px !important;
+}
+
+/* Movie Hover Area */
+.movie-hover-area {
+  position: absolute;
+  top: 0;
+  right: -30px;
+  bottom: 0;
+  width: 60px;
+  z-index: 99;
+}
+
+/* Netflix Card */
+.netflix-card {
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.netflix-card.hovered {
+  transform: scale(1.5);
+  z-index: 99;
+}
+
+/* Handle Content */
+.handle-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.5);
+  border-radius: 4px;
+  opacity: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.handle:hover .handle-content {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Arrow Icon Styles */
+.arrow-icon {
+  font-size: 24px;
+  color: white;
+}
+
+/* Slider Navigation */
+.slider-nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.handle.left {
+  left: 0;
+}
+
+.handle.right {
+  right: 0;
+}
+
+/* Disable text selection */
+.arrow,
+.arrow-icon {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

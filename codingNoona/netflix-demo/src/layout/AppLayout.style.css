@@ -1,0 +1,19 @@
+.navbar {
+  background-color: transparent !important;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+  padding: 20px 4%;
+}
+
+.navbar.scrolled {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.nav-link {
+  color: #e5e5e5 !important;
+  margin-right: 20px;
+}
+
+.nav-link:hover {
+  color: #b3b3b3 !important;
+}
