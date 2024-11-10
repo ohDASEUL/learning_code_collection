@@ -86,7 +86,6 @@
 }
 
 /* Custom Button Group */
-/* Custom Button Group */
 .custom-button-group {
   position: absolute;
   width: 100%;
@@ -177,7 +176,6 @@
   right: 30px !important;
 }
 
-/* Movie Hover Area */
 .movie-hover-area {
   position: absolute;
   top: 0;
@@ -187,7 +185,6 @@
   z-index: 99;
 }
 
-/* Netflix Card */
 .netflix-card {
   transition: transform 0.3s ease;
   position: relative;
@@ -198,7 +195,6 @@
   z-index: 99;
 }
 
-/* Handle Content */
 .handle-content {
   position: relative;
   width: 100%;
@@ -217,13 +213,11 @@
   transform: scale(1.2);
 }
 
-/* Arrow Icon Styles */
 .arrow-icon {
   font-size: 24px;
   color: white;
 }
 
-/* Slider Navigation */
 .slider-nav {
   position: absolute;
   top: 0;
@@ -257,7 +251,6 @@
   right: 0;
 }
 
-/* Disable text selection */
 .arrow,
 .arrow-icon {
   user-select: none;

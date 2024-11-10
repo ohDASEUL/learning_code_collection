@@ -94,3 +94,66 @@
 .button-icon {
   font-size: 1.5rem;
 }
+
+/* 반응형 */
+/* 태블릿 디바이스 */
+@media screen and (max-width:768px) {
+  .banner-text-area {
+    width: 80%;
+    bottom: 25%
+  }
+
+  .banner-text-area h1{
+    font-size: 2.5rem;
+  }
+
+  .banner-text-area p{
+    font-size: 1.1rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .banner-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .button-icon{
+    font-size: 1.2rem;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width:480px) {
+  .banner{
+    height: 90vh;
+  }
+
+  .banner-text-area{
+    width: 92%;
+    bottom: 20%;
+  }
+
+  .banner-text-area h1{
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .banner-text-area p{
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .banner-buttons {
+    gap: 0.5rem;
+  }
+
+  .banner-button{
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .button-icon{
+    font-size: 1rem;
+  }
+}
