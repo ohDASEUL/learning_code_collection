@@ -67,3 +67,32 @@ function App() {
 
 export default App;
 ```
+
+## style
+
+- 인라인 스타일은 객체 형태로 작성할 것
+- background-color 처럼 - 로 구분된 이름은 backgroundColor 처럼 camelCase 형태로 네이밍 해줘야 함
+
+```js
+import React from "react";
+import Hello from "./Hello";
+
+function App() {
+  const name = "react";
+  const style = {
+    backgroundColor: "black",
+    color: "aqua",
+    fontSize: 24, // 기본 단위 px
+    padding: "1rem", // 다른 단위 사용 시 문자열로 설정
+  };
+
+  return (
+    <>
+      <Hello />
+      <div style={style}>{name}</div>
+    </>
+  );
+}
+
+export default App;
+```
