@@ -29,9 +29,7 @@ function Hello(props) {
 export default Hello;
 ```
 
-## 2. 여러 개의 props, 비구조화 할당
-
-- props 내부의 값을 조회할 때마다 props. 를 입력하고 있는데, 함수의 파라미터에서 비구조화 할당(혹은 구조 분해) 문법을 사용하면 조금 더 코드를 간결하게 작성 가능함.
+## 2. 여러 개의 props
 
 ```js
 import React from "react";
@@ -49,6 +47,18 @@ import React from "react";
 
 function Hello(props) {
   return <div style={{ color: props.color }}>안녕하세요 {props.name}</div>;
+}
+
+export default Hello;
+```
+
+- props 내부의 값을 조회할 때마다 props. 를 입력하고 있는데, 함수의 파라미터에서 비구조화 할당(혹은 구조 분해) 문법을 사용하면 조금 더 코드를 간결하게 작성 가능함.
+
+```js
+import React from "react";
+
+function Hello({ color, name }) {
+  return <div style={{ color }}>안녕하세요 {name}</div>;
 }
 
 export default Hello;
