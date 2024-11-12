@@ -1,10 +1,12 @@
+import React from "react";
 import Hello from "./Hello";
 
 function App() {
   return (
-    <div>
+    <>
       <Hello />
-    </div>
+      <div>안녕히계세요</div>
+    </>
   );
 }
 
