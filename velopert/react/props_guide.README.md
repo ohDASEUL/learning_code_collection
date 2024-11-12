@@ -63,3 +63,37 @@ function Hello({ color, name }) {
 
 export default Hello;
 ```
+
+## 3. defaultProps 로 기본값 설정
+
+- 컴포넌트에 props를 지정하지 않았을 때 기본적으로 사용할 값을 설정하고, 컴포넌트에 defaultProps 라는 값을 설정하면 됨
+
+```js
+import React from "react";
+
+function Hello({ color, name }) {
+  return <div style={{ color }}>안녕하세요 {name}</div>;
+}
+
+Hello.defaultProps = {
+  name: "이름없음",
+};
+
+export default Hello;
+```
+
+```js
+import React from "react";
+import Hello from "./Hello";
+
+function App() {
+  return (
+    <>
+      <Hello name="react" color="red" />
+      <Hello color="pink" />
+    </>
+  );
+}
+
+export default App;
+```
