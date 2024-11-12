@@ -97,3 +97,52 @@ function App() {
 
 export default App;
 ```
+
+## 4. props.children
+
+- 컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐 props.children 을 조회
+
+```js
+import React from "react";
+
+function Wrapper() {
+  const style = {
+    border: "2px solid black",
+    padding: "16px",
+  };
+  return <div style={style}></div>;
+}
+export default Wrapper;
+```
+
+```js
+import React from "react";
+import Hello from "./Hello";
+import Wrapper from "./Wrapper";
+
+function App() {
+  return (
+    <Wrapper>
+      <Hello name="react" color="red" />
+      <Hello color="pink" />
+    </Wrapper>
+  );
+}
+
+export default App;
+```
+
+- 내부의 내용이 보여지게 하기 위해서는 Wrapper에서 props.children 을 렌더링 해야함
+
+```js
+import React from "react";
+
+function Wrapper({ children }) {
+  const style = {
+    border: "2px solid black",
+    padding: "16px",
+  };
+  return <div style={style}>{children}</div>;
+}
+export default Wrapper;
+```
