@@ -1,5 +1,7 @@
 # JSX 기본 규칙
 
+- JSX는 자바스크립트 안에서 XML을 사용하는 문법
+
 ## 꼭 닫혀야 하는 태그
 
 - 태그를 열었으면 꼭, <div></div> 이런 식으로 닫아줘야 함
@@ -90,6 +92,37 @@ function App() {
     <>
       <Hello />
       <div style={style}>{name}</div>
+    </>
+  );
+}
+
+export default App;
+```
+
+## className
+
+- CSS class를 설정할 때는 className= 설정해야 함
+- class= 라고 쓰지 않는 이유는 class 는 자바스크립트 예약어(클래스 정의)으로 사용 되는데 이로 인해 혼란이 올 수 있음.
+
+```js
+import React from "react";
+import Hello from "./Hello";
+import "./App.css";
+
+function App() {
+  const name = "react";
+  const style = {
+    backgroundColor: "black",
+    color: "aqua",
+    fontSize: 24, // 기본 단위 px
+    padding: "1rem", // 다른 단위 사용 시 문자열로 설정
+  };
+
+  return (
+    <>
+      <Hello />
+      <div style={style}>{name}</div>
+      <div className="gray-box"></div>
     </>
   );
 }
