@@ -9,8 +9,6 @@
 
 - 두 개 이상의 태그는 무조건 하나의 태그로 감싸져야 함.
 
-App.js
-
 ```js
 import React from "react";
 import Hello from "./Hello";
@@ -48,3 +46,24 @@ export default App;
 ```
 
 - 태그 작성 시 이름 없이 작성을 하게되면 Fragment 가 생성되는데, 이는 브라우저 상에서 따로 별도의 엘리먼트로 나타나지 않음.
+
+## jsx 안에 자바스크립트 값 사용
+
+- {} 으로 감싸주기
+
+```js
+import React from "react";
+import Hello from "./Hello";
+
+function App() {
+  const name = "react";
+  return (
+    <>
+      <Hello />
+      <div>{name}</div>
+    </>
+  );
+}
+
+export default App;
+```
