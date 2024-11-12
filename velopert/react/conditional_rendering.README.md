@@ -57,3 +57,24 @@ Hello.defaultProps = {
 
 export default Hello;
 ```
+
+## props 값 설정을 생략하면 ={true}
+
+- 컴포넌트의 props 값을 설정하게 될 때 만약 props 이름만 작성하고 값 설정을 생략한다면 이를 true로 설정한 것으로 간주함.
+
+```js
+import React from "react";
+import Hello from "./Hello";
+import Wrapper from "./Wrapper";
+
+function App() {
+  return (
+    <Wrapper>
+      <Hello name="react" color="red" isSpecial />
+      <Hello color="pink" />
+    </Wrapper>
+  );
+}
+
+export default App;
+```
