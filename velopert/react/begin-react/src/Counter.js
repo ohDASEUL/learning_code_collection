@@ -4,11 +4,11 @@ function Counter() {
 
   const onIncrease = () => {
     console.log("+1");
-    setNum(num + 1);
+    setNum((prevNum) => prevNum + 1);
   };
   const onDecrease = () => {
     console.log("-1");
-    setNum(num - 1);
+    setNum((prevNum) => prevNum - 1);
   };
   return (
     <div>

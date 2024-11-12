@@ -113,3 +113,33 @@ const onDecrease = () => {
   > <h1>{num}</h1>
 
 - h1 태그에서는 이제 0 이 아닌 {num} 값을 보여줘야 함
+
+## 함수형 업데이트
+
+```js
+import React, { useState } from "react";
+function Counter() {
+  const [num, setNum] = useState(0);
+
+  const onIncrease = () => {
+    console.log("+1");
+    setNum((prevNum) => prevNum + 1);
+  };
+  const onDecrease = () => {
+    console.log("-1");
+    setNum((prevNum) => prevNum - 1);
+  };
+  return (
+    <div>
+      <h1>{num}</h1>
+      <button onClick={onIncrease}>+1</button>
+      <button onClick={onDecrease}>-1</button>
+    </div>
+  );
+}
+export default Counter;
+```
+
+- onIncrease 와 onDecrease 에서 setNum 사용 시, 그 다음 상태 값을 업데이트하는 함수를 파라미터로 넣어줌.
+
+- 함수형 업데이트는 주로 나중에 컴포넌트를 최적화 시 사용하게 됨.
