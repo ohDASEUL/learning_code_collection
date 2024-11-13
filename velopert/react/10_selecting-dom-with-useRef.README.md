@@ -1,18 +1,41 @@
 # useRef로 특정 DOM 선택하기
 
-- JavaScript를 사용할 때는, 우리가 특정 DOM을 선택해야 하는 상황에 getElementById, querySelector 같은 DOM Selector 함수를 사용해서 DOM을 선택함.
+## 1. DOM 선택의 필요성
 
-- React에서도 가끔씩 DOM을 직접 선택해야 하는 상황이 발생할 때도 있음
+### JS VS React
 
-  - 특정 엘리먼트의 크기를 가져와야 한다던지, 스크롤바 위치를 가져오거나 설정해야된다던지
-  - 포커스를 설정해줘야된다던지
-  - 그래프 관련 라이브러리 등의 외부 라이브러리를 사용해야 할때에도 특정 DOM에다 적용하기에 DOM을 선택해야 하는 상황이 발생할 수 있음
+- JavaScript: getElementById, querySelector 등의 DOM Selector 함수 사용
+- React: `useRef` Hook 사용
 
-- 리액트에서 ref 라는 것을 사용함
+### DOM 선택이 필요한 상황
 
-- 함수형 컴포넌트에서 ref 사용 시 useRef라는 Hook 함수를 사용함.
+- 특정 엘리먼트의 크기 측정
+- 스크롤바 위치 제어
+- 포커스 설정
+- 외부 라이브러리 (그래프, 비디오 플레이어 등) 사용
 
-- 초기화 버튼을 클릭했을 때 이름 input에 포커스가 잡히도록 useRef를 사용해 기능을 구현
+## 2. useRef 사용하기
+
+### 기본 사용법
+
+```js
+import React, { useState, useRef } from "react";
+
+function InputSample() {
+  const nameInput = useRef(); // Ref 객체 생성
+
+  // nameInput.current로 DOM 접근
+  const focusInput = () => {
+    nameInput.current.focus();
+  };
+
+  return (
+    <input ref={nameInput} /> // DOM에 Ref 연결
+  );
+}
+```
+
+### 실제 구현
 
 ```js
 import React, { useState, useRef } from "react";
@@ -39,7 +62,7 @@ function InputSample() {
       name: "",
       nickname: "",
     });
-    nameInput.current.focus();
+    nameInput.current.focus(); // 초기화 후 포커스 설정
   };
 
   return (
@@ -69,5 +92,10 @@ function InputSample() {
 export default InputSample;
 ```
 
-- useRef() 를 사용하여 Ref 객체를 만들고, 이 객체를 우리가 선택하고 싶은 DOM에 ref 값으로 설정해줘야 함.
-- Ref 객체의 .current 값은 우리가 원하는 DOM을 가르키게 됨.
+## 3. 주요 개념
+
+### Ref 객체
+
+- useRef()로 생성
+- .current 속성을 통해 실제 DOM 접근
+- 컴포넌트 전 생애주기 동안 유지되는 값
