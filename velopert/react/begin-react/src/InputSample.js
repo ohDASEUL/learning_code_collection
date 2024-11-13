@@ -1,22 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 
 function InputSample() {
-  const [text, setText] = useState("");
+  const onChange = (e) => {};
 
-  const onChange = (e) => {
-    setText(e.target.value);
-  };
-
-  const onReset = () => {
-    setText("");
-  };
+  const onReset = () => {};
 
   return (
     <div>
-      <input onChange={onChange} value={text} />
+      <input placeholder="이름" />
+      <input placeholder="닉네임" />
       <button onClick={onReset}>초기화</button>
       <div>
-        <b>값: {text}</b>
+        <b>값: </b>
+        이름 (닉네임)
       </div>
     </div>
   );
