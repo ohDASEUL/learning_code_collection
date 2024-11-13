@@ -73,3 +73,35 @@ function InputSample() {
 
 export default InputSample;
 ```
+
+## 3. 주요 개념
+
+### 제어 컴포넌트 (Controlled Component)
+
+- React가 input의 value를 직접 제어
+- input의 value 속성과 onChange 이벤트를 연동
+- 상태값과 input 값이 항상 동기화됨
+
+### DOM 이벤트 객체
+
+- onChange 이벤트의 첫 번째 파라미터로 이벤트 객체(e) 전달
+- e.target: 이벤트가 발생한 DOM 요소 참조
+- e.target.value: input에 입력된 현재 값
+
+## 4. 주의사항
+
+### 상태 업데이트
+
+- input의 value 속성은 반드시 상태값과 연결돼야 함
+- 상태 업데이트는 반드시 setState 함수(setText)를 통해 수행
+- 직접적인 DOM 조작 지양
+
+### 초기화 기능
+
+- 초기화 버튼 클릭 시 빈 문자열('')로 상태 초기화
+- value 속성이 상태와 연결되어 있으므로 화면에서도 즉시 반영
+
+### 이벤트 핸들링
+
+- 이벤트 핸들러는 화살표 함수로 정의해 바인딩 문제 방지
+- 컴포넌트 내부에서 이벤트 핸들러 함수 정의
