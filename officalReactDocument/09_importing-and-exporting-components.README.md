@@ -36,7 +36,7 @@
 
 - React 컴포넌트는 마크업으로 뿌릴 수 있는 JS 함수
 
-```jsx
+```js
 export default function Profile() {
   return <img src="https://i.imgur.com/MK3eW3Am.jpg" alt="Katherine Johnson" />;
 }
@@ -59,13 +59,13 @@ export default function Profile() {
 - <img /> 는 JSX임
 - 반환문은 이 컴포넌트에서처럼 한 줄에 모두 작성 가능함.
 
-```jsx
+```js
 return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
 ```
 
 - 그러나 마크업이 모두 return 키워드와 같은 라인에 있지 않은 경우에는 다음과 같이 괄호로 묶어야 함.
 
-```jsx
+```js
 return (
   <div>
     <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
@@ -120,7 +120,7 @@ return (
 
 - Profile 컴포넌트를 다른 컴포넌트 안에 중첩 가능함.
 
-```jsx
+```js
 function Profile() {
   return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
 }
@@ -216,7 +216,7 @@ export default function Gallery() {
 
 - 컴포넌트는 다른 컴포넌트를 렌더링할 수 있지만, 그 정의를 중첩해서는 안 됨.
 
-```jsx
+```js
 export default function Gallery() {
   // 🔴 절대 컴포넌트 안에 다른 컴포넌트를 정의하면 안 됨
   function Profile() {
@@ -228,7 +228,7 @@ export default function Gallery() {
 
 - 최상위 레벨에서 컴포넌트 정의해야함.
 
-```jsx
+```js
 export default function Gallery() {
   // ...
 }

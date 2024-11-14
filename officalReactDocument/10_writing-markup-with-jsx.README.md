@@ -4,7 +4,7 @@
 
 - Profile 컴포넌트와 Gallery 컴포넌트는 아래와 같이 렌더링 됨
 
-```jsx
+```js
 function Profile() {
   return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
 }
@@ -37,7 +37,7 @@ App.js
 - Default 방식으로 Gallery를 Gallery.js로부터 import
 - Root App 컴포넌트를 default 방식으로 export함.
 
-```jsx
+```js
 import Gallery from "./Gallery.js";
 
 export default function App() {
@@ -50,7 +50,7 @@ Gallery.js
 - Profile 컴포넌트를 정의하고 해당 파일에서만 사용되기에 export 되지 않음
 - Default 방식으로 Gallery 컴포넌트를 export함
 
-```jsx
+```js
 function Profile() {
   return <img src="https://i.imgur.com/QIrZWGIs.jpg" alt="Alan L. Hart" />;
 }
@@ -71,7 +71,7 @@ export default function Gallery() {
 
 - named export 방식을 사용해서 Gallery.js 파일에서 Profile 컴포넌트를 export함.(default 키워드 사용x)
 
-```jsx
+```js
 export function Profile() {
   return <img src="https://i.imgur.com/QIrZWGIs.jpg" alt="Alan L. Hart" />;
 }
@@ -79,16 +79,16 @@ export function Profile() {
 
 - `<Profile/>` 을 App 컴포넌트에서 렌더링
 
-```jsx
+```js
 export default function App() {
   return <Profile />;
 }
 ```
 
 - Gallery.js에는 default Gallery export랑 named Profile export라는 두 가지의 export가 존재함.
-- App.jsx에서는 두 컴포넌트를 import 해서 사용함.
+- App.js에서는 두 컴포넌트를 import 해서 사용함.
 
-```jsx
+```js
 import Gallery from "./Gallery.js";
 import { Profile } from "./Gallery.js";
 
@@ -97,7 +97,7 @@ export default function App() {
 }
 ```
 
-```jsx
+```js
 export function Profile() {
   return <img src="https://i.imgur.com/QIrZWGIs.jpg" alt="Alan L. Hart" />;
 }

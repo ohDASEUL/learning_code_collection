@@ -7,7 +7,7 @@
   - 컴포넌트는 버튼만큼 작을 수도 있고, 전체 페이지만큼 클 수도 있음.
   - React 컴포넌트는 마크업을 반환하는 JS 함수
 
-```jsx
+```js
 function MyButton() {
   return <button>I'm a button</button>;
 }
@@ -15,7 +15,7 @@ function MyButton() {
 
 - `MyButton` 을 선언했으므로 다른 컴포넌트 안에 중첩 가능
 
-```jsx
+```js
 export default function MyApp() {
   return (
     <div>
@@ -28,7 +28,7 @@ export default function MyApp() {
 
 - React 컴포넌트 이름은 항상 대문자(`<MyButton />`)로 시작해야 하고, HTML 태그는 소문자로 시작해야 함
 
-```jsx
+```js
 function MyButton() {
   return <button>I'm a button</button>;
 }
@@ -102,7 +102,7 @@ export default function MyApp() {
 
   - `<div>...</div>` 또는 빈 `<>...</>` 래퍼와 같이 공유되는 부모로 감싸야 함
 
-  ```jsx
+  ```js
   function AboutPage() {
     return (
       <>
@@ -140,14 +140,14 @@ export default function MyApp() {
 - {}를 사용하면 코드에서 일부 변수를 삽입해 사용자에게 표시가 가능하게 JS로 "이스케이프 백(Escape Back)"
 - 예시 : user.name 표시
 
-```jsx
+```js
 return <h1>{user.name}</h1>;
 ```
 
 - JSX 어트리뷰트에서 {}를 사용해 "JS로 이스케이프(Escape Into JavaScript)" 할 수 있음
 - 예 : className="avatar"는 "avatar" 문자열을 CSS로 전달하지만 src={user.imageUrl}는 자바스크립트 user.imageUrl 변수 값을 읽은 다음 해당 값을 src 어트리뷰트로 전달
 
-```jsx
+```js
 return <img className="avatar" src={user.imageUrl} />;
 ```
 
@@ -155,7 +155,7 @@ return <img className="avatar" src={user.imageUrl} />;
   - 아래 예시에서는 style={ } JSX 중괄호 안에 있는 일반 {} 객체임.
   - 스타일이 JS 변수에 의존하는 경우 style 어트리뷰트 사용 가능.
 
-```jsx
+```js
 const user = {
   name: "Hedy Lamarr",
   imageUrl: "https://i.imgur.com/yXOvdOSs.jpg",
@@ -244,7 +244,7 @@ export default function Profile() {
 
 ### if문
 
-```jsx
+```js
 let content;
 if (isLoggedIn) {
   content = <AdminPanel />;
@@ -256,7 +256,7 @@ return <div>{content}</div>;
 
 ### 조건부 삼항 연산자 (JSX 내부에서 동작)
 
-```jsx
+```js
 <div>{isLoggedIn ? <AdminPanel /> : <LoginForm />}</div>
 ```
 
@@ -264,7 +264,7 @@ return <div>{content}</div>;
 
 - 어트리뷰트를 조건부로 지정할 때 동작함.
 
-```jsx
+```js
 <div> {isLoggedIn && <AdminPanel />}</div>
 ```
 
@@ -273,7 +273,7 @@ return <div>{content}</div>;
 - 컴포넌트 리스트를 렌더링하기 위해서는 for문 및 map() 함수와 같은 JS 기능 사용함.
 - 예 : 여러 제품이 있다고 가정
 
-```jsx
+```js
 const products = [
   { title: "Cabbage", id: 1 },
   { title: "Garlic", id: 2 },
@@ -283,7 +283,7 @@ const products = [
 
 - 컴포넌트 내에서 map() 함수를 사용해 제품 배열을 `<li>` 항목 배열로 변환
 
-```jsx
+```js
 const listItems = products.map((product) => (
   <li key={product.id}>{product.title}</li>
 ));
@@ -295,7 +295,7 @@ return <ul>{listItems}</ul>;
 - 목록의 각 항목에 대해, 형제 항목 사이에서 해당 항목을 고유하게 식별하는 문자열 또는 숫자를 전달해야 함.
 - React는 나중에 항목을 삽입, 삭제 또는 재정렬할 때 어떤 일이 일어났는지 알기 위해 key를 사용함.
 
-```jsx
+```js
 const products = [
   { title: "Cabbage", isFruit: false, id: 1 },
   { title: "Garlic", isFruit: false, id: 2 },
@@ -380,7 +380,7 @@ export default function ShoppingList() {
 
 - 컴포넌트 내부에 이벤트 핸들러 함수를 선언해 이벤트에 응답 가능.
 
-```jsx
+```js
 function MyButton() {
   function handleClick() {
     alert("You clicked me!");
@@ -401,7 +401,7 @@ function MyButton() {
    > import { useState } from 'react';
 2. 컴포넌트 내부에 state 변수 선언하기
 
-```jsx
+```js
 function MyButton() {
   const [count, setCount] = useState(0);
   // ...
@@ -412,7 +412,7 @@ function MyButton() {
 - 버튼이 처음 표시 될 때는 useState()에 0을 전달했기에 count가 0이 됨.
 - state를 변경하고 싶다면 setCount()를 실행하고 새 값 전달하기.
 
-```jsx
+```js
 function MyButton() {
   const [count, setCount] = useState(0);
 
@@ -429,7 +429,7 @@ function MyButton() {
   - 같은 컴포넌트를 여러 번 렌더링하면 각각의 컴포넌트는 고유한 state를 얻게 됨.
   - 각 버튼이 고유한 count state를 "기억"하고 다른 버튼에 영향을 주지 않는 방식에 주목할 것.
 
-```jsx
+```js
 import { useState } from "react";
 
 export default function MyApp() {
@@ -545,7 +545,7 @@ function MyButton() {
 
 - 이제 두 버튼 중 하나를 클릭하면 MyApp의 count가 변경되어 MyButton의 카운트가 모두 변경됨.
 
-```jsx
+```js
 export default function MyApp() {
   const [count, setCount] = useState(0);
 
@@ -578,7 +578,7 @@ function MyButton() {
 - 이렇게 전달한 정보는 props 라고 함.
 - 이제 MyApp 컴포넌트는 count state와 handleClick 이벤트 핸들러를 포함하며, 이 두 가지를 각 버튼에 props로 전달
 
-```jsx
+```js
 export default function MyApp() {
   const [count, setCount] = useState(0);
 
@@ -598,7 +598,7 @@ export default function MyApp() {
 
 - 부모 컴포넌트에서 전달한 props를 읽도록 MyButton을 변경함.
 
-```jsx
+```js
 function MyButton({ count, onClick }) {
   return <button onClick={onClick}>Clicked {count} times</button>;
 }
@@ -610,7 +610,7 @@ function MyButton({ count, onClick }) {
 - 새로운 count 값은 각 버튼에 prop로 전달되므로 모든 버튼에는 새로운 값이 표시되는데 이를 "state 끌어올리기" 라고 함.
   - state를 위로 이동함으로써 컴포넌트 간에 state를 공유하게 됨.
 
-```jsx
+```js
 import { useState } from "react";
 
 export default function MyApp() {
