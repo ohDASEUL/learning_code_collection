@@ -49,39 +49,49 @@ export default function MyApp() {
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>React App</title>
-  </head>
+<html>
   <body>
     <div id="root"></div>
-    <!-- React와 ReactDOM 추가 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel 추가 -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-      function MyButton() {
-        return <button>I'm a button</button>;
-      }
-
-      function MyApp() {
-        return (
-          <div>
-            <h1>Welcome to my app</h1>
-            <MyButton />
-          </div>
-        );
-      }
-
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<MyApp />);
-    </script>
   </body>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script
+    async
+    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev"
+      }
+    }
+  </script>
+
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+
+    function MyButton() {
+      return <button>I'm a button</button>;
+    }
+
+    let App = function MyApp() {
+      return (
+        <div>
+          <h1>Welcome to my app</h1>
+          <MyButton />
+        </div>
+      );
+    };
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  </script>
 </html>
 ```
 
@@ -174,53 +184,59 @@ export default function Profile() {
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>React App</title>
-    <style>
-      .avatar {
-        border-radius: 50%;
-      }
-    </style>
-  </head>
+<html>
   <body>
     <div id="root"></div>
-    <!-- React와 ReactDOM 추가 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel 추가 -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-      const user = {
-        name: "Hedy Lamarr",
-        imageSize: 90,
-      };
-
-      function Profile() {
-        return (
-          <div className="profile">
-            <h1>{user.name}</h1>
-            <img
-              className="avatar"
-              src={`https://placehold.co/${user.imageSize}`}
-              alt={"Photo of " + user.name}
-              style={{
-                width: user.imageSize,
-                height: user.imageSize,
-              }}
-            />
-          </div>
-        );
-      }
-
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<Profile />);
-    </script>
   </body>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script
+    async
+    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev"
+      }
+    }
+  </script>
+
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+
+    const user = {
+      name: "Hedy Lamarr",
+      imageUrl: "https://placehold.co/90x90",
+      imageSize: 90,
+    };
+
+    let App = function Profile() {
+      return (
+        <>
+          <h1>{user.name}</h1>
+          <img
+            className="avatar"
+            src={user.imageUrl}
+            alt={"Photo of " + user.name}
+            style={{
+              width: user.imageSize,
+              height: user.imageSize,
+            }}
+          />
+        </>
+      );
+    };
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  </script>
 </html>
 ```
 
@@ -306,52 +322,57 @@ export default function ShoppingList() {
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>React App</title>
-    <style>
-      .avatar {
-        border-radius: 50%;
-      }
-    </style>
-  </head>
+<html>
   <body>
     <div id="root"></div>
-    <!-- React와 ReactDOM 추가 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel 추가 -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-      const products = [
-        { title: "Cabbage", isFruit: false, id: 1 },
-        { title: "Garlic", isFruit: false, id: 2 },
-        { title: "Apple", isFruit: true, id: 3 },
-      ];
-
-      function ShoppingList() {
-        const listItems = products.map((product) => (
-          <li
-            key={product.id}
-            style={{
-              color: product.isFruit ? "magenta" : "darkgreen",
-            }}
-          >
-            {product.title}
-          </li>
-        ));
-
-        return <ul>{listItems}</ul>;
-      }
-
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<ShoppingList />);
-    </script>
   </body>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script
+    async
+    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev"
+      }
+    }
+  </script>
+
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+
+    const products = [
+      { title: "Cabbage", isFruit: false, id: 1 },
+      { title: "Garlic", isFruit: false, id: 2 },
+      { title: "Apple", isFruit: true, id: 3 },
+    ];
+
+    let App = function ShoppingList() {
+      const listItems = products.map((product) => (
+        <li
+          key={product.id}
+          style={{
+            color: product.isFruit ? "magenta" : "darkgreen",
+          }}
+        >
+          {product.title}
+        </li>
+      ));
+
+      return <ul>{listItems}</ul>;
+    };
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  </script>
 </html>
 ```
 
@@ -436,47 +457,57 @@ function MyButton() {
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>React App</title>
-  </head>
+<html>
   <body>
     <div id="root"></div>
-    <!-- React와 ReactDOM 추가 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel 추가 -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-      function MyApp() {
-        return (
-          <div>
-            <h1>Counters that update separately</h1>
-            <MyButton />
-            <MyButton />
-          </div>
-        );
-      }
-
-      function MyButton() {
-        // React.useState를 직접 사용
-        const [count, setCount] = React.useState(0);
-
-        function handleClick() {
-          setCount(count + 1);
-        }
-
-        return <button onClick={handleClick}>Clicked {count} times</button>;
-      }
-
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<MyApp />);
-    </script>
   </body>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script
+    async
+    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev"
+      }
+    }
+  </script>
+
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+    import { useState } from "react";
+
+    let App = function MyApp() {
+      return (
+        <div>
+          <h1>Counters that update separately</h1>
+          <MyButton />
+          <MyButton />
+        </div>
+      );
+    };
+
+    function MyButton() {
+      const [count, setCount] = useState(0);
+
+      function handleClick() {
+        setCount(count + 1);
+      }
+
+      return <button onClick={handleClick}>Clicked {count} times</button>;
+    }
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  </script>
 </html>
 ```
 
@@ -607,45 +638,56 @@ function MyButton({ count, onClick }) {
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>React App</title>
-  </head>
+<html>
   <body>
     <div id="root"></div>
-    <!-- React와 ReactDOM 추가 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel 추가 -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-      function MyApp() {
-        const [count, setCount] = React.useState(0);
-
-        function handleClick() {
-          setCount(count + 1);
-        }
-
-        return (
-          <div>
-            <h1>Counters that update together</h1>
-            <MyButton count={count} onClick={handleClick} />
-            <MyButton count={count} onClick={handleClick} />
-          </div>
-        );
-      }
-
-      function MyButton({ count, onClick }) {
-        return <button onClick={onClick}>Clicked {count} times</button>;
-      }
-
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<MyApp />);
-    </script>
   </body>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script
+    async
+    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev"
+      }
+    }
+  </script>
+
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+    import { useState } from "react";
+
+    let App = function MyApp() {
+      const [count, setCount] = useState(0);
+
+      function handleClick() {
+        setCount(count + 1);
+      }
+
+      return (
+        <div>
+          <h1>Counters that update together</h1>
+          <MyButton count={count} onClick={handleClick} />
+          <MyButton count={count} onClick={handleClick} />
+        </div>
+      );
+    };
+
+    function MyButton({ count, onClick }) {
+      return <button onClick={onClick}>Clicked {count} times</button>;
+    }
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  </script>
 </html>
 ```

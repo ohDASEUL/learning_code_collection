@@ -22,16 +22,18 @@
     import React, { StrictMode } from "react";
     import { createRoot } from "react-dom/client";
 
-    function MyButton() {
-      return <button>I'm a button</button>;
+    function Profile() {
+      return <img src="https://placehold.co/90x90" alt="Katherine Johnson" />;
     }
 
-    let App = function MyApp() {
+    let App = function Gallery() {
       return (
-        <div>
-          <h1>Welcome to my app</h1>
-          <MyButton />
-        </div>
+        <section>
+          <h1>Amazing scientists</h1>
+          <Profile />
+          <Profile />
+          <Profile />
+        </section>
       );
     };
 
