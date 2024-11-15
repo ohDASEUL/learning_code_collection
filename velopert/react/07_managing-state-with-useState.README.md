@@ -1,206 +1,125 @@
-# useState 가이드
+# React useRef 핵심 가이드
 
-- useState는 React 컴포넌트에서 상태를 관리하기 위한 Hook
-- 함수형 컴포넌트 내에서 변경 가능한 상태값을 관리할 때 사용
+## useRef란?
 
-## 1. 기본 개념과 사용법
+- React에서 DOM을 직접 선택할 때 사용하는 Hook
+- vanilla JS의 getElementById, querySelector 등을 대체
+- 컴포넌트의 생애주기 동안 유지되는 값을 저장
 
-### useState 호출하기
+## 1. DOM 선택이 필요한 경우
 
-- useState는 배열을 반환하며, 구조 분해 할당으로 사용
+- 특정 요소 크기나 위치 측정 필요할 때
+- 스크롤 위치 제어할 때
+- 포커스 설정이 필요할 때
+- 외부 라이브러리(차트, 영상) 적용할 때
 
-```js
-import React from "react";
+## 2. 기본 사용법
 
-function Counter() {
-  return (
-    <div>
-      <h1>0</h1>
-      <button>+1</button>
-      <button>-1</button>
-    </div>
-  );
-}
-
-export default Counter;
-```
-
-### useState 구문 이해하기
+### 간단한 예제
 
 ```js
-// 구조 분해 할당 전
-const numberState = useState(0);
-const number = numberState[0]; // 현재 상태값
-const setNumber = numberState[1]; // Setter 함수
+import React, { useRef } from "react";
 
-// 구조 분해 할당 후
-const [number, setNumber] = useState(0);
-```
+function InputExample() {
+  // 1. useRef로 ref 객체 생성
+  const inputRef = useRef();
 
-- useState()는 두 개의 원소를 가진 배열을 반환
-  - 첫 번째: 현재 상태값
-  - 두 번째: 상태를 변경하는 Setter 함수
-- useState(0)에서 0은 상태의 초기값
-- 초기값으로 모든 타입(숫자, 문자열, 불리언, 배열, 객체 등) 사용 가능
-
-## 2. 상태 업데이트
-
-### 기본적인 상태 업데이트
-
-- 이벤트 핸들러 설정
-
-- 이벤트 핸들러는 on이벤트이름={함수} 형태로 설정
-- 주의: onClick={onIncrease()} 처럼 함수를 호출하면 안 됨
-  - 잘못된 방식: 렌더링 시점에 함수가 즉시 실행됨
-  - 올바른 방식: 함수 레퍼런스만 전달하여 클릭 시점에 실행되도록 함
-
-```js
-import React, { useState } from "react";
-
-function Counter() {
-  const [number, setNumber] = useState(0);
-
-  // 잘못된 방식 - 렌더링 시점에 실행됨
-  const handleWrongClick = onClick={onIncrease()}
-
-  // 올바른 방식 - 클릭 시점에 실행됨
-  const handleCorrectClick = onClick={onIncrease}
-
-  const onIncrease = () => {
-    setNumber(number + 1);
+  const focusInput = () => {
+    // 3. .current로 DOM에 접근
+    inputRef.current.focus();
   };
 
   return (
     <div>
-      <h1>{number}</h1>
-      <button onClick={onIncrease}>+1</button>
+      {/* 2. ref 속성으로 DOM에 연결 */}
+      <input ref={inputRef} />
+      <button onClick={focusInput}>포커스</button>
     </div>
   );
 }
 ```
 
-### 상태 업데이트 기초
-
-1. useState 초기화
+### 실전 예제
 
 ```js
-// 기본적인 방식
-const [number, setNumber] = useState(0);
+import React, { useState, useRef } from "react";
 
-// 구조 분해 할당을 사용하지 않은 방식
-const numberState = useState(0);
-const number = numberState[0]; // 현재 상태
-const setNumber = numberState[1]; // 상태 변경 함수
-```
-
-2. 단순 값 업데이트
-
-```js
-function Counter() {
-  const [number, setNumber] = useState(0);
-
-  const onIncrease = () => {
-    setNumber(number + 1); // 현재 값에 1을 더함
-  };
-
-  const onDecrease = () => {
-    setNumber(number - 1); // 현재 값에서 1을 뺌
-  };
-
-  return (
-    <div>
-      <h1>{number}</h1>
-      <button onClick={onIncrease}>+1</button>
-      <button onClick={onDecrease}>-1</button>
-    </div>
-  );
-}
-```
-
-### 함수형 업데이트 방식
-
-- 기본 사용법
-  - 이전 상태값을 기반으로 업데이트할 때 사용
-  - 함수를 전달하여 이전 상태값을 매개변수로 받음
-  - 성능 최적화와 안정적인 상태 업데이트에 유용
-
-```js
-import React, { useState } from "react";
-function Counter() {
-  const [num, setNum] = useState(0);
-
-  const onIncrease = () => {
-    console.log("+1");
-    setNum((prevNum) => prevNum + 1);
-  };
-  const onDecrease = () => {
-    console.log("-1");
-    setNum((prevNum) => prevNum - 1);
-  };
-  return (
-    <div>
-      <h1>{num}</h1>
-      <button onClick={onIncrease}>+1</button>
-      <button onClick={onDecrease}>-1</button>
-    </div>
-  );
-}
-export default Counter;
-```
-
-## 3. 주의사항
-
-### 상태 업데이트 시점
-
-```js
-function Counter() {
-  const [number, setNumber] = useState(0);
-
-  const onIncrease = () => {
-    // 이렇게 연속으로 호출하면 의도한 대로 동작하지 않을 수 있음
-    setNumber(number + 1); // 비동기적으로 작동
-    setNumber(number + 1);
-
-    // 대신 함수형 업데이트를 사용하면 안전하게 이전 상태를 기반으로 업데이트 가능
-    setNumber(prev => prev + 1);
-    setNumber(prev => prev + 1);
-  };
-
-  return (/*...*/)
-}
-```
-
-### 상태 업데이트 후 즉시 사용
-
-```js
-const [count, setCount] = useState(0);
-
-// 잘못된 방법
-const handleClick = () => {
-  setCount(count + 1);
-  console.log(count); // 이전 값이 출력됨
-};
-
-// 올바른 방법
-const handleClick = () => {
-  setCount((prev) => {
-    const newCount = prev + 1;
-    console.log(newCount); // 업데이트된 값을 즉시 사용
-    return newCount;
+function InputSample() {
+  // 여러 입력값을 객체로 관리
+  const [inputs, setInputs] = useState({
+    name: "",
+    nickname: "",
   });
-};
+
+  // DOM 선택을 위한 ref 생성
+  const nameInput = useRef();
+
+  // 비구조화 할당으로 값 추출
+  const { name, nickname } = inputs;
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+
+    // 불변성을 지키면서 객체 업데이트
+    setInputs({
+      ...inputs, // 기존 객체 복사
+      [name]: value, // 특정 값만 업데이트
+    });
+  };
+
+  const onReset = () => {
+    // 입력값 초기화
+    setInputs({
+      name: "",
+      nickname: "",
+    });
+    // DOM 직접 제어 - 초기화 후 포커스
+    nameInput.current.focus();
+  };
+
+  return (
+    <div>
+      <input
+        name="name"
+        placeholder="이름"
+        onChange={onChange}
+        value={name}
+        ref={nameInput} // ref 연결
+      />
+      <input
+        name="nickname"
+        placeholder="닉네임"
+        onChange={onChange}
+        value={nickname}
+      />
+      <button onClick={onReset}>초기화</button>
+      <div>
+        {name} ({nickname})
+      </div>
+    </div>
+  );
+}
 ```
 
-### 객체 상태 다루기
+## 3. 핵심 포인트
 
-- 객체를 상태로 사용할 때는 반드시 새로운 객체를 생성하여 업데이트
-- 직접 객체를 수정하면 React가 상태 변화를 감지하지 못함
+1. useRef 생성
 
-```javascript
-// 잘못된 방법
-const [user, setUser] = useState({ name: "Kim", age: 25 });
-user.age = 26; // 직접 수정 X
+   - `const ref = useRef()` 로 ref 객체 생성
+   - 한번 생성된 ref는 컴포넌트가 없어질 때까지 유지
 
-// 올바른 방법
-setUser((prevUser) => ({ ...prevUser, age: 26 }));
-```
+2. DOM 연결
+
+   - JSX 요소에 `ref={ref이름}` 으로 연결
+   - 연결된 DOM은 `ref이름.current`로 접근
+
+3. 주요 특징
+
+   - ref 값이 변해도 컴포넌트가 리렌더링되지 않음
+   - 실제 DOM 조작이 필요한 경우에만 사용
+   - useState와 달리 .current 값 변경이 자유로움
+
+4. 사용 시 주의사항
+   - DOM 조작은 꼭 필요한 경우에만 사용
+   - 렌더링에 영향을 주지 않는 값 저장용으로도 활용 가능
+   - 컴포넌트가 마운트된 후에만 DOM 접근 가능

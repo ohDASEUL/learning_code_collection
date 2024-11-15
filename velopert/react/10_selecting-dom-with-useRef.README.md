@@ -1,68 +1,80 @@
-# useRef로 특정 DOM 선택하기
+# React useRef 핵심 가이드
 
-## 1. DOM 선택의 필요성
+## useRef란?
 
-### JS VS React
+- React에서 DOM을 직접 선택할 때 사용하는 Hook
+- vanilla JS의 getElementById, querySelector 등을 대체
+- 컴포넌트의 생애주기 동안 유지되는 값을 저장
 
-- JavaScript: getElementById, querySelector 등의 DOM Selector 함수 사용
-- React: `useRef` Hook 사용
+## 1. DOM 선택이 필요한 경우
 
-### DOM 선택이 필요한 상황
+- 특정 요소 크기나 위치 측정 필요할 때
+- 스크롤 위치 제어할 때
+- 포커스 설정이 필요할 때
+- 외부 라이브러리(차트, 영상) 적용할 때
 
-- 특정 엘리먼트의 크기 측정
-- 스크롤바 위치 제어
-- 포커스 설정
-- 외부 라이브러리 (그래프, 비디오 플레이어 등) 사용
+## 2. 기본 사용법
 
-## 2. useRef 사용하기
-
-### 기본 사용법
+### 간단한 예제
 
 ```js
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
-function InputSample() {
-  const nameInput = useRef(); // Ref 객체 생성
+function InputExample() {
+  // 1. useRef로 ref 객체 생성
+  const inputRef = useRef();
 
-  // nameInput.current로 DOM 접근
   const focusInput = () => {
-    nameInput.current.focus();
+    // 3. .current로 DOM에 접근
+    inputRef.current.focus();
   };
 
   return (
-    <input ref={nameInput} /> // DOM에 Ref 연결
+    <div>
+      {/* 2. ref 속성으로 DOM에 연결 */}
+      <input ref={inputRef} />
+      <button onClick={focusInput}>포커스</button>
+    </div>
   );
 }
 ```
 
-### 실제 구현
+### 실전 예제
 
 ```js
 import React, { useState, useRef } from "react";
 
 function InputSample() {
+  // 여러 입력값을 객체로 관리
   const [inputs, setInputs] = useState({
     name: "",
     nickname: "",
   });
+
+  // DOM 선택을 위한 ref 생성
   const nameInput = useRef();
 
-  const { name, nickname } = inputs; // 비구조화 할당을 통해 값 추출
+  // 비구조화 할당으로 값 추출
+  const { name, nickname } = inputs;
 
   const onChange = (e) => {
-    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+    const { value, name } = e.target;
+
+    // 불변성을 지키면서 객체 업데이트
     setInputs({
-      ...inputs, // 기존의 input 객체를 복사
-      [name]: value, // name 키를 가진 값을 value 로 설정
+      ...inputs, // 기존 객체 복사
+      [name]: value, // 특정 값만 업데이트
     });
   };
 
   const onReset = () => {
+    // 입력값 초기화
     setInputs({
       name: "",
       nickname: "",
     });
-    nameInput.current.focus(); // 초기화 후 포커스 설정
+    // DOM 직접 제어 - 초기화 후 포커스
+    nameInput.current.focus();
   };
 
   return (
@@ -72,7 +84,7 @@ function InputSample() {
         placeholder="이름"
         onChange={onChange}
         value={name}
-        ref={nameInput}
+        ref={nameInput} // ref 연결
       />
       <input
         name="nickname"
@@ -82,20 +94,32 @@ function InputSample() {
       />
       <button onClick={onReset}>초기화</button>
       <div>
-        <b>값: </b>
         {name} ({nickname})
       </div>
     </div>
   );
 }
-
-export default InputSample;
 ```
 
-## 3. 주요 개념
+## 3. 핵심 포인트
 
-### Ref 객체
+1. useRef 생성
 
-- useRef()로 생성
-- .current 속성을 통해 실제 DOM 접근
-- 컴포넌트 전 생애주기 동안 유지되는 값
+   - `const ref = useRef()` 로 ref 객체 생성
+   - 한번 생성된 ref는 컴포넌트가 없어질 때까지 유지
+
+2. DOM 연결
+
+   - JSX 요소에 `ref={ref이름}` 으로 연결
+   - 연결된 DOM은 `ref이름.current`로 접근
+
+3. 주요 특징
+
+   - ref 값이 변해도 컴포넌트가 리렌더링되지 않음
+   - 실제 DOM 조작이 필요한 경우에만 사용
+   - useState와 달리 .current 값 변경이 자유로움
+
+4. 사용 시 주의사항
+   - DOM 조작은 꼭 필요한 경우에만 사용
+   - 렌더링에 영향을 주지 않는 값 저장용으로도 활용 가능
+   - 컴포넌트가 마운트된 후에만 DOM 접근 가능
