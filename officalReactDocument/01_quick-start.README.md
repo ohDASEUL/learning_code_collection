@@ -2,31 +2,19 @@
 
 ## 1. 컴포넌트 생성 및 중첩하기
 
-- React 앱은 컴포넌트로 구성됨.
-  - 컴포넌트 : 고유한 로직, 모양을 가진 UI의 일부
-  - 컴포넌트는 버튼만큼 작을 수도 있고, 전체 페이지만큼 클 수도 있음.
-  - React 컴포넌트는 마크업을 반환하는 JS 함수
+### 컴포넌트?
 
-```js
-function MyButton() {
-  return <button>I'm a button</button>;
-}
-```
+- React 앱의 기본 구성 단위
+- 독립적인 UI 조각으로, 자체 로직과 외관을 가짐
+- 버튼부터 전체 페이지까지 다양한 크기로 구성 가능
 
-- `MyButton` 을 선언했으므로 다른 컴포넌트 안에 중첩 가능
+### 컴포넌트 작성 규칙
 
-```js
-export default function MyApp() {
-  return (
-    <div>
-      <h1>Welcome to my app</h1>
-      <MyButton />
-    </div>
-  );
-}
-```
+- React 컴포넌트는 마크업을 반환하는 JavaScript 함수
+- 컴포넌트 이름은 반드시 대문자로 시작 (MyButton)
+- HTML 태그는 소문자로 시작
 
-- React 컴포넌트 이름은 항상 대문자(`<MyButton />`)로 시작해야 하고, HTML 태그는 소문자로 시작해야 함
+### 기본 문법
 
 ```js
 function MyButton() {
@@ -43,7 +31,10 @@ export default function MyApp() {
 }
 ```
 
-- export default : 파일의 기본 컴포넌트를 저장함.
+### 주요 특징
+
+- 컴포넌트는 다른 컴포넌트 안에 중첩 가능
+- export default를 사용하여 파일의 주요 컴포넌트 지정
 
 ## 2. JSX로 마크업 작성하기
 
