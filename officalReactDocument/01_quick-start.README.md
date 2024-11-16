@@ -323,55 +323,16 @@ function MyButton() {
 
 ## 9. Hook 사용하기
 
-- Hook : use로 시작하는 함수
-- 컴포넌트(또는 다른 Hook)의 상단에서만 Hook을 호출할 수 있음.
+### Hook 기본 규칙
 
-### 컴포넌트 간에 데이터 공유하기
+- use로 시작하는 특별한 함수
+- 반드시 컴포넌트나 다른 Hook의 최상위에서만 호출 가능
 
-- 이전 예시에서는 각각의 MyButton에 독립적인 count가 있었고, 각 버튼을 클릭하면 클릭하면 버튼의 count만 변경되었음.
+### State 공유 방식
 
-![이전MyButton-1](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fsharing_data_child.dark.png&w=640&q=75)
+1. 독립적인 State
 
-처음에 각 MyButton의 count State는 0
-
-![이전MyButton-2](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fsharing_data_child_clicked.dark.png&w=640&q=75)
-
-첫 번째 MyButton이 count를 1로 업데이트 함.
-
----
-
-- but. 데이터를 공유하고 항상 함께 업데이트하기 위한 컴포넌트가 필요한 경우가 많음.
-- 두 MyButton 컴포넌트가 동일한 count를 표시하고 함께 업데이트하려면, state를 개별 버튼에서 모든 버튼이 포함된 가장 가까운 컴포넌트로 “위쪽”으로 이동해야 함.
-
-![MyApp-1](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fsharing_data_parent.dark.png&w=640&q=75)
-
-처음에 MyApp의 count state는 0이며 두 자식에게 모두 전달 됨.
-
-![MyApp-2](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fsharing_data_parent_clicked.dark.png&w=640&q=75)
-
-클릭 시 MyApp은 count state를 1로 업데이트하고 두 자식에게 전달함.
-
----
-
-- 이제 두 버튼 중 하나를 클릭하면 MyApp의 count가 변경되어 MyButton의 카운트가 모두 변경됨.
-
-```js
-export default function MyApp() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return (
-    <div>
-      <h1>Counters that update separately</h1>
-      <MyButton />
-      <MyButton />
-    </div>
-  );
-}
-
+```jsx
 function MyButton() {
   const [count, setCount] = useState(0);
 
@@ -383,46 +344,12 @@ function MyButton() {
 }
 ```
 
-- 그 다음 공유된 클릭 핸들러와 함께 MyApp에서 각 MyButton으로 state를 전달함.
-- JSX {} 를 사용해 MyButton에 정보를 전달할 수 있음
-- 이렇게 전달한 정보는 props 라고 함.
-- 이제 MyApp 컴포넌트는 count state와 handleClick 이벤트 핸들러를 포함하며, 이 두 가지를 각 버튼에 props로 전달
+- 각 버튼이 독립적인 state를 가짐
+- 개별적으로 업데이트됨
 
-```js
-export default function MyApp() {
-  const [count, setCount] = useState(0);
+2. State 끌어올리기
 
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return (
-    <div>
-      <h1>Counters that update together</h1>
-      <MyButton count={count} onClick={handleClick} />
-      <MyButton count={count} onClick={handleClick} />
-    </div>
-  );
-}
-```
-
-- 부모 컴포넌트에서 전달한 props를 읽도록 MyButton을 변경함.
-
-```js
-function MyButton({ count, onClick }) {
-  return <button onClick={onClick}>Clicked {count} times</button>;
-}
-```
-
-- 버튼을 클릭하면 onClick 핸들러가 실행
-- 각 버튼의 onClick prop는 MyApp 내부의 handleClick 함수로 설정되었으므로 그 안에 있는 코드가 실행됨
-- setCount(count + 1)를 실행하여 count state 변수를 증가시킴
-- 새로운 count 값은 각 버튼에 prop로 전달되므로 모든 버튼에는 새로운 값이 표시되는데 이를 "state 끌어올리기" 라고 함.
-  - state를 위로 이동함으로써 컴포넌트 간에 state를 공유하게 됨.
-
-```js
-import { useState } from "react";
-
+```jsx
 export default function MyApp() {
   const [count, setCount] = useState(0);
 
@@ -443,3 +370,14 @@ function MyButton({ count, onClick }) {
   return <button onClick={onClick}>Clicked {count} times</button>;
 }
 ```
+
+### State 공유 과정
+
+1. state를 공통 부모 컴포넌트로 이동
+2. props를 통해 state와 이벤트 핸들러 전달
+3. 자식 컴포넌트에서 props로 전달받은 값과 함수 사용
+
+### 주요 개념
+
+- Props: 부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달하는 방법
+- State 끌어올리기: 여러 컴포넌트 간 state 공유를 위해 공통 부모로 state를 이동하는 패턴
