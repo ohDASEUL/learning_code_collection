@@ -251,23 +251,31 @@ function MyButton() {
 
 ## 8. 화면 업데이트하기
 
-- 컴포넌트가 특정 정보를 "기억" 하면서 표시하기를 원하는 경우가 종종 있음
-  - 예 : 버튼이 클릭된 횟수를 세고 싶을 때는 컴포넌트에 state를 추가하면 됨
+### State 개념
+
+- 컴포넌트가 데이터를 "기억"하고 변경할 수 있게 해주는 기능
+- useState Hook을 통해 구현
+- 각 컴포넌트는 독립적인 state를 가짐
+
+### state 사용하기
 
 1. React에서 useState 가져오기
-   > import { useState } from 'react';
-2. 컴포넌트 내부에 state 변수 선언하기
 
-```js
-function MyButton() {
-  const [count, setCount] = useState(0);
-  // ...
-}
+```jsx
+import { useState } from "react";
 ```
 
-- useState로 현재 state(count)와 이를 업데이트할 수 있는 함수(setCount)를 얻을 수 있음
-- 버튼이 처음 표시 될 때는 useState()에 0을 전달했기에 count가 0이 됨.
-- state를 변경하고 싶다면 setCount()를 실행하고 새 값 전달하기.
+2. State 변수 선언하기
+
+```js
+const [count, setCount] = useState(0);
+```
+
+- count: 현재 state 값
+- setCount: state 업데이트 함수
+- useState(0): 초기값 설정
+
+### 예시: 클릭 카운터
 
 ```js
 function MyButton() {
@@ -281,10 +289,7 @@ function MyButton() {
 }
 ```
 
-- React가 컴포넌트 함수를 다시 호출함.
-- 다음은 count가 1이 되고, 그 다음에는 2 .. 이런 방식
-  - 같은 컴포넌트를 여러 번 렌더링하면 각각의 컴포넌트는 고유한 state를 얻게 됨.
-  - 각 버튼이 고유한 count state를 "기억"하고 다른 버튼에 영향을 주지 않는 방식에 주목할 것.
+### 독립적인 State 예시
 
 ```js
 import { useState } from "react";
@@ -309,6 +314,12 @@ function MyButton() {
   return <button onClick={handleClick}>Clicked {count} times</button>;
 }
 ```
+
+### 주요 특징
+
+- State가 변경되면 React는 컴포넌트를 자동으로 다시 렌더링
+- 같은 컴포넌트의 여러 인스턴스는 각각 독립적인 state를 가짐
+- State 업데이트는 해당 컴포넌트에만 영향을 미침
 
 ## 9. Hook 사용하기
 
