@@ -149,6 +149,8 @@ export default function Profile() {
 
 ### if문
 
+- 컴포넌트 내에서 일반적인 if 문으로 조건부 렌더링 가능
+
 ```js
 let content;
 if (isLoggedIn) {
@@ -159,7 +161,10 @@ if (isLoggedIn) {
 return <div>{content}</div>;
 ```
 
-### 조건부 삼항 연산자 (JSX 내부에서 동작)
+### 조건부 삼항 연산자
+
+- JSX 내부에서 직접 조건부 렌더링 가능
+- 더 간결한 문법 제공
 
 ```js
 <div>{isLoggedIn ? <AdminPanel /> : <LoginForm />}</div>
@@ -167,11 +172,18 @@ return <div>{content}</div>;
 
 ### && 연산자
 
-- 어트리뷰트를 조건부로 지정할 때 동작함.
+- 조건이 참일 때만 요소를 렌더링
+- 주로 조건부 속성이나 단일 조건 렌더링에 사용
 
 ```js
 <div> {isLoggedIn && <AdminPanel />}</div>
 ```
+
+### 사용 시점
+
+- if 문: 복잡한 조건 로직이 필요할 때
+- 삼항 연산자: 간단한 조건부 렌더링에 적합
+- && 연산자: 단일 조건으로 요소를 보여주거나 숨길 때
 
 ## 6. 리스트 렌더링
 
