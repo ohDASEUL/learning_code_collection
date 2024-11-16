@@ -94,24 +94,31 @@ function AboutPage() {
 
 ## 4. 데이터 표시하기
 
-- JSX를 사용하면 JS에 마크업을 넣을 수 있음
-- {}를 사용하면 코드에서 일부 변수를 삽입해 사용자에게 표시가 가능하게 JS로 "이스케이프 백(Escape Back)"
-- 예시 : user.name 표시
+### JSX에서 JavaScript 사용하기
+
+- 중괄호 {}를 사용하여 JavaScript 표현식 삽입 가능
+- 변수, 객체 속성, 함수 등 JavaScript 표현식 사용 가능
+
+### 데이터 표시 방법
+
+1. 텍스트로 표시
 
 ```js
 return <h1>{user.name}</h1>;
 ```
 
-- JSX 어트리뷰트에서 {}를 사용해 "JS로 이스케이프(Escape Into JavaScript)" 할 수 있음
-- 예 : className="avatar"는 "avatar" 문자열을 CSS로 전달하지만 src={user.imageUrl}는 자바스크립트 user.imageUrl 변수 값을 읽은 다음 해당 값을 src 어트리뷰트로 전달
+2. 속성(어트리뷰트)으로 전달
 
 ```js
 return <img className="avatar" src={user.imageUrl} />;
 ```
 
-- JSX 중괄호 안에 문자열 연결과 같이 더 복잡한 표현식을 넣을 수도 있음
-  - 아래 예시에서는 style={ } JSX 중괄호 안에 있는 일반 {} 객체임.
-  - 스타일이 JS 변수에 의존하는 경우 style 어트리뷰트 사용 가능.
+3. 인라인 스타일 적용
+
+- style 속성은 JavaScript 객체를 받음
+- 객체 속성은 camelCase로 작성
+
+### 종합 에시
 
 ```js
 const user = {
