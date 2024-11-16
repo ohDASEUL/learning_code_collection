@@ -38,27 +38,37 @@ export default function MyApp() {
 
 ## 2. JSX로 마크업 작성하기
 
-- `<br/>` 같이 태그를 닫아야 함
-- 컴포넌트 여러 개의 JSX 태그를 반환할 수 없음.
+### 기본 규칙
 
-  - `<div>...</div>` 또는 빈 `<>...</>` 래퍼와 같이 공유되는 부모로 감싸야 함
+- 모든 태그는 명시적으로 닫아야 함 (예: <br />)
+- 컴포넌트는 반드시 단일 JSX 태그를 반환해야 함
 
-  ```js
-  function AboutPage() {
-    return (
-      <>
-        <h1>About</h1>
-        <p>
-          Hello there.
-          <br />
-          How do you do?
-        </p>
-      </>
-    );
-  }
-  ```
+### 여러 요소 반환하기
 
-- JSX로 변환할 HTML이 많은 경우 ![온라인 변환기](https://transform.tools/html-to-jsx) 사용하면 편리함.
+- 다수의 JSX 태그는 반드시 부모 요소로 감싸야 함
+  부모 요소 옵션:
+
+- `<div>...</div>`
+- Fragment: `<>...</>`
+
+- 예시 코드
+
+```js
+function AboutPage() {
+  return (
+    <>
+      <h1>About</h1>
+      <p>
+        Hello there.
+        <br />
+        How do you do?
+      </p>
+    </>
+  );
+}
+```
+
+- HTML을 JSX로 변환할 때는 ![온라인 변환기](https://transform.tools/html-to-jsx) 사용하면 편리함.
 
 ## 3. 스타일 추가하기
 
