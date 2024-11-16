@@ -187,8 +187,18 @@ return <div>{content}</div>;
 
 ## 6. 리스트 렌더링
 
-- 컴포넌트 리스트를 렌더링하기 위해서는 for문 및 map() 함수와 같은 JS 기능 사용함.
-- 예 : 여러 제품이 있다고 가정
+### 기본 개념
+
+- JavaScript의 배열 메서드(map(), for 등)를 사용하여 리스트 렌더링
+- 각 리스트 아이템은 고유한 key 속성을 가져야 함
+
+### key 속성
+
+- 목적: React가 각 항목을 식별하고 DOM 업데이트를 최적화하는 데 사용
+- 형제 요소 간에 고유한 값이어야 함
+- 문자열 또는 숫자 사용
+
+### 기본 예시
 
 ```js
 const products = [
@@ -198,19 +208,7 @@ const products = [
 ];
 ```
 
-- 컴포넌트 내에서 map() 함수를 사용해 제품 배열을 `<li>` 항목 배열로 변환
-
-```js
-const listItems = products.map((product) => (
-  <li key={product.id}>{product.title}</li>
-));
-
-return <ul>{listItems}</ul>;
-```
-
-- `<li>` 에 key 어트리뷰트가 있는 것을 주목할 것
-- 목록의 각 항목에 대해, 형제 항목 사이에서 해당 항목을 고유하게 식별하는 문자열 또는 숫자를 전달해야 함.
-- React는 나중에 항목을 삽입, 삭제 또는 재정렬할 때 어떤 일이 일어났는지 알기 위해 key를 사용함.
+### 조건부 스타일링을 포함한 고급 예시
 
 ```js
 const products = [
