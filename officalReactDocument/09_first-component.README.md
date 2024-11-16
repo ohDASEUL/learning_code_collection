@@ -73,47 +73,6 @@ return (
 );
 ```
 
-- (참고사항) 위 파일을 브라우저에서 직접 실행하려면 html 에 다음과 같이 작성
-
-```html
-<!DOCTYPE html>
-<html>
-  <body>
-    <div id="root"></div>
-  </body>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script
-    async
-    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
-  ></script>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react?dev",
-        "react-dom/client": "https://esm.sh/react-dom/client?dev"
-      }
-    }
-  </script>
-
-  <script type="text/babel" data-type="module">
-    import React, { StrictMode } from "react";
-    import { createRoot } from "react-dom/client";
-
-    let App = function Profile() {
-      return <img src="https://placehold.co/200x200" alt="Katherine Johnson" />;
-    };
-
-    const root = createRoot(document.getElementById("root"));
-    root.render(
-      <StrictMode>
-        <App />
-      </StrictMode>
-    );
-  </script>
-</html>
-```
-
 (주의사항) ()가 없으면 return 뒷 라인에 있는 모든 코드가 무시됨.
 
 ## 3. 컴포넌트 사용하기
@@ -135,58 +94,6 @@ export default function Gallery() {
     </section>
   );
 }
-```
-
-- (참고사항) 위 파일을 브라우저에서 직접 실행하려면 html 에 다음과 같이 작성
-
-```html
-<!DOCTYPE html>
-<html>
-  <body>
-    <div id="root"></div>
-  </body>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script
-    async
-    src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"
-  ></script>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react?dev",
-        "react-dom/client": "https://esm.sh/react-dom/client?dev"
-      }
-    }
-  </script>
-
-  <script type="text/babel" data-type="module">
-    import React, { StrictMode } from "react";
-    import { createRoot } from "react-dom/client";
-
-    function Profile() {
-      return <img src="https://placehold.co/90x90" alt="Katherine Johnson" />;
-    }
-
-    let App = function Gallery() {
-      return (
-        <section>
-          <h1>Amazing scientists</h1>
-          <Profile />
-          <Profile />
-          <Profile />
-        </section>
-      );
-    };
-
-    const root = createRoot(document.getElementById("root"));
-    root.render(
-      <StrictMode>
-        <App />
-      </StrictMode>
-    );
-  </script>
-</html>
 ```
 
 ### 브라우저에 표시되는 내용
