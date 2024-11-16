@@ -72,8 +72,12 @@ function AboutPage() {
 
 ## 3. 스타일 추가하기
 
-- className 으로 CSS 클래스를 지정함.
-- HTML의 class 어트리뷰트와 동일 방식으로 동작.
+### CSS 클래스 적용하기
+
+- React에서는 className 속성을 사용
+- HTML의 class 속성과 동일한 기능
+
+### 예시 코드
 
 `<img className="avatar" />`
 
@@ -83,7 +87,10 @@ function AboutPage() {
 }
 ```
 
-- React는 CSS 파일을 추가하는 방법을 규정하진 않지만 보통 HTML에 `<link>` 태그를 추가함
+### CSS 파일 추가
+
+- React는 특정 CSS 파일 추가 방식을 강제하지 않음
+- 일반적으로 HTML의 <link> 태그를 통해 추가
 
 ## 4. 데이터 표시하기
 
