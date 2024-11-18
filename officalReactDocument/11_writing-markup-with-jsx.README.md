@@ -88,81 +88,30 @@ export default function TodoList() {
 
 ## 3. JSX 규칙
 
-### 1. 하나의 루트 엘리먼트로 반환하기
+### 단일 루트 엘리먼트
 
-- 한 컴포넌트에서 여러 엘리먼트를 반환하려면, 하나의 부모 태그로 감싸주기
+- 컴포넌트는 반드시 하나의 부모 태그로 감싸진 엘리먼트를 반환해야 함
+- 부모 태그로는 `<div>` 또는 `Fragment(<>)`를 사용
+- Fragment를 사용하면 불필요한 DOM 노드 추가를 방지할 수 있음
 
-```jsx
-<div>
-  <h1>Hedy Lamarr's Todos</h1>
-  <img
-    src="https://i.imgur.com/yXOvdOSs.jpg"
-    alt="Hedy Lamarr"
-    class="photo"
-  >
-  <ul>
-    ...
-  </ul>
-</div>
-```
+### 태그 닫기 규칙
 
-- 마크업에 `<div>`를 추가하고 싶지 않다면 `<>` 와 `</>`로 대체할 수 있음
+- 모든 JSX 태그는 명시적으로 닫아야 함
+- 자체 닫는 태그도 반드시 `/>`로 닫아야 함(예: `<img/>`, `<br/>`)
 
-- 이 빈 태그를 Fragment라고 함
+### 명명 규칙
 
-```jsx
-<>
-  <h1>Hedy Lamarr's Todos</h1>
-  <img
-    src="https://i.imgur.com/yXOvdOSs.jpg"
-    alt="Hedy Lamarr"
-    class="photo"
-  >
-  <ul>
-    ...
-  </ul>
-</>
-```
+- JSX 어트리뷰트는 camelCase로 작성
+- HTML과 다른 주요 속성들 :
+  - class → className
+  - stroke-width → strokeWidth
+  - font-size → fontSize
+- 예외: `aria-*`와 `data-*` 어트리뷰트는 하이픈 사용
 
-### 2. 모든 태그는 닫아주기
-
-- JSX에서는 태그를 명시적으로 닫아야 함
+### 예시 코드
 
 ```jsx
-<>
-  <img src="https://i.imgur.com/yXOvdOSs.jpg" alt="Hedy Lamarr" class="photo" />
-  <ul>
-    <li>Invent new traffic lights</li>
-    <li>Rehearse a movie scene</li>
-    <li>Improve the spectrum technology</li>
-  </ul>
-</>
-```
-
-### 3. 대부분 camelCase로
-
-- JSX는 JS로 바뀌고 JSX에서 작성된 어트리뷰트는 JS 객체의 key가 됨.
-- 컴포넌트에서는 종종 어트리뷰트를 변수로 읽고 싶은 경우가 있음.
-- 그러나 JS는 변수명에 제한이 있음
-  - 예: 변수명에 대시를 포함하거나 class처럼 예약어 사용불가
-    - React에서 HTML과 SVG의 어트리뷰트 대부분이 캐멀 케잇로 작성되는 이유
-    - 예: stroke-width 대신 strokeWidth로 사용
-    - class는 예약어이기 때문에, React에서는 DOM의 프로퍼티의 이름을 따서 className으로 대신 작성
-
-```jsx
-<img
-  src="https://i.imgur.com/yXOvdOSs.jpg"
-  alt="Hedy Lamarr"
-  className="photo"
-/>
-```
-
-(주의사항) `aria-*` , `data-*` 의 어트리뷰트는 HTML에서와 동일하게 대시를 사용하여 작성함.
-
-## 4. 최종 코드
-
-```jsx
-export default function TodoList() {
+function TodoList() {
   return (
     <>
       <h1>Hedy Lamarr's Todos</h1>
@@ -176,6 +125,32 @@ export default function TodoList() {
         <li>Rehearse a movie scene</li>
         <li>Improve the spectrum technology</li>
       </ul>
+    </>
+  );
+}
+
+export default TodoList;
+```
+
+### Fragment 사용 예시
+
+```jsx
+// div 사용
+function Profile() {
+  return (
+    <div>
+      <Avatar />
+      <Biography />
+    </div>
+  );
+}
+
+// Fragment 사용
+function Profile() {
+  return (
+    <>
+      <Avatar />
+      <Biography />
     </>
   );
 }
