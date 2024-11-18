@@ -4,27 +4,53 @@
 
 ## 1. JSX: JS에 마크업 넣기
 
-- JSX는 React에서 사용하는 JS 확장 문법으로, HTML과 유사한 마크업을 JS안에 작성할 수 있게 해줌
+### 개요
 
-### 기존 웹 개발
+- JSX는 React의 JavaScript 확장 문법
+- HTML과 유사한 마크업을 JavaScript 코드 안에 직접 작성 가능
 
-- HTML: 내용
-- CSS: 디자인
-- JavaScript: 로직을 분리해서 관리
+### 기존 웹 개발 방식
 
-![HTML](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fwriting_jsx_html.dark.png&w=384&q=75)
+- HTML: 콘텐츠 마크업 담당
+- CSS: 디자인과 스타일링 처리
+- JavaScript: 로직 처리
+- 세 가지 요소가 별도의 파일로 분리되어 관리됨
 
-![JS](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fwriting_jsx_js.dark.png&w=384&q=75)
+### React의 컴포넌트 기반 접근
 
-### React 접근 방식
+- 렌더링 로직과 마크업을 단일 컴포넌트 내에서 통합 관리
+- 연관된 코드를 하나의 파일에서 관리하여 유지보수성 향상
+- 동적 콘텐츠 처리가 더욱 효율적
 
-- 컴포넌트 내에서 렌더링 로직과 마크업을 함께 관리
-- 관련 있는 코드끼리 묶어 유지보수가 쉬어짐
-- 동적 콘텐츠 처리가 용이함.
+### 예시 코드
 
-![Sidebar.js](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fwriting_jsx_sidebar.dark.png&w=384&q=75)
+```jsx
+// Sidebar.js
+function Sidebar() {
+  return (
+    <div className="sidebar">
+      <h2>Dashboard</h2>
+      <nav>
+        <ul>
+          <li>Home</li>
+          <li>Profile</li>
+          <li>Settings</li>
+        </ul>
+      </nav>
+    </div>
+  );
+}
 
-![Form.js](https://ko.react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fwriting_jsx_form.dark.png&w=384&q=75)
+// Form.js
+function Form() {
+  return (
+    <form>
+      <input type="text" placeholder="Name" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
 
 ## 2. HTML을 JSX로 변환하기
 
