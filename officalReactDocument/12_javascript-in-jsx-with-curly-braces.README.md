@@ -87,12 +87,19 @@ export default function TodoList() {
 
 ## 3. ”이중 중괄호” 사용하기: JSX의 CSS와 다른 객체
 
-- JSX에는 문자열, 숫자 및 기타 JavaScript 표현식뿐만 아니라 객체 전달 가능
-- 또한 객체는 { name: "Hedy Lamarr", inventions: 5 }처럼 중괄호로 표시됨
-- 따라서 JSX에서 객체를 전달하려면 person={{ name: "Hedy Lamarr", inventions: 5 }}와 같이 다른 중괄호 쌍으로 객체를 감싸야 함.
+### 객체 전달의 기본 개념
 
-- JSX의 인라인 CSS 스타일에서도 볼 수 있음.
-- React에서 인라인 스타일을 사용할 필요가 없지만(CSS class는 대부분 잘 작동합니다) 인라인 스타일이 필요할 때 style 어트리뷰트에 객체를 전달해야함.
+- JSX는 JavaScript 객체를 전달할 수 있음
+- 객체는 기본적으로 중괄호로 표시됨
+- JSX에서 객체를 전달할 때는 이중 중괄호`({{}})` 필요
+
+### 인라인 스타일 사용
+
+- style 속성에는 객체 형태로 스타일을 전달
+- CSS 속성은 camelCase로 작성
+- 값은 문자열 또는 숫자로 전달
+
+### 예시 코드
 
 ```jsx
 export default function TodoList() {
@@ -111,10 +118,22 @@ export default function TodoList() {
 }
 ```
 
-- JSX에서 {{ 와 }} 를 본다면 JSX {} 안의 객체에 불과하다는 것을 알아야 함
+### 주요 규칙
 
-(주의사항) 인라인 style 프로퍼티는 캐멀 케이스로 작성됨.
-예: HTML에서의 `<ul style="background-color: black">`은 컴포넌트에서 `<ul style={{ backgroundColor: 'black' }}>`로 작성
+- HTML 스타일 속성과 React 스타일 속성 비교:
+
+  - HTML: `background-color: black`
+  - React: `backgroundColor: "black"`
+
+- 객체 전달 예시:
+  - 일반 객체: `{ name: "Hedy Lamarr", inventions: 5 }`
+  - JSX에서 사용: `person={{ name: "Hedy Lamarr", inventions: 5 }}`
+
+### 주의 사항
+
+- 이중 중괄호({{}})는 특별한 구문이 아님
+- JSX의 중괄호 안에 있는 일반 JavaScript 객체를 의미
+- 가능하면 인라인 스타일보다 CSS 클래스 사용을 권장
 
 ## 4. JavaScript 객체와 중괄호에 대해서 더 알아보기
 
