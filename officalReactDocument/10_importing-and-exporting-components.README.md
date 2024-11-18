@@ -26,29 +26,27 @@ export default function Gallery() {
 
 ## 2. 컴포넌트를 import 하거나 export 하는 방법
 
-1. 컴포넌트를 추가할 JS 파일 생성
-2. 새로 만든 파일에서 함수 컴포넌트를 export함.
-   (default 또는 named export 방식을 사용)
-3. 컴포넌트를 사용할 파일에서 import 함.
-   (적절한 방식을 선택해서 default 또는 named로 import 함)
+### 기본 절차
 
-App.js
+1. 컴포넌트용 새 JavaScript 파일 생성
+2. 파일에서 컴포넌트 export(default 또는 named)
+3. 필요한 곳에서 컴포넌트 import
 
-- Default 방식으로 Gallery를 Gallery.js로부터 import
-- Root App 컴포넌트를 default 방식으로 export함.
+### 예시 코드
+
+- App.jsx(메인 파일)
 
 ```js
-import Gallery from "./Gallery.js";
+import Gallery from "@components/Gallery";
 
-export default function App() {
+function App() {
   return <Gallery />;
 }
+
+export default App;
 ```
 
-Gallery.js
-
-- Profile 컴포넌트를 정의하고 해당 파일에서만 사용되기에 export 되지 않음
-- Default 방식으로 Gallery 컴포넌트를 export함
+- Gallery.js(컴포넌트 파일)
 
 ```js
 function Profile() {
@@ -66,6 +64,38 @@ export default function Gallery() {
   );
 }
 ```
+
+### Export/Import 방식
+
+1. Default Export/Import
+
+- 파일당 하나의 기본 export만 가능
+
+```jsx
+// Export
+export default function Button() {}
+
+// Import
+import Button from "./Button.js";
+```
+
+2. Named Export/Import
+
+- 한 파일에서 여러 개의 export 가능
+
+```jsx
+// Export
+export function Button() {}
+
+// Import
+import { Button } from "./Button.js";
+```
+
+### 주의사항
+
+- 내부에서만 사용되는 컴포넌트는 export 하지않아도 됨
+- 파일 확장자(.js)는 import 시 생략 가능
+- import 경로는 ./로 시작(같은 폴더 내 파일 참조)
 
 ## 한 파일에서 여러 컴포넌트를 import 하거나 export 하는 방법
 
