@@ -47,7 +47,7 @@
 
 ## 2. 컴포넌트 정의하기
 
-- React 컴포넌트는 마크업으로 뿌릴 수 있는 JS 함수
+### 기본 컴포넌트 구조
 
 ```js
 export default function Profile() {
@@ -55,28 +55,30 @@ export default function Profile() {
 }
 ```
 
-### 1단계 : 컴포넌트 내보내기
+### 컴포넌트 정의 3단계
 
-- `export default` 접두사는 표준 JS 구문(React에만 해당되지 않음)
-  - 다른 파일에서 가져올 수 있도록 파일에 주요 기능 표시 가능.
+1. 컴포넌트 내보내기
 
-### 2단계 : 함수 정의하기
+- export default 사용
+- JavaScript 표준 문법
+- 다른 파일에서 import 가능하게 함
 
-- `function Profile() { }` 을 사용하면 Profile이라는 이름의 JS 함수 정의 가능
+2. 함수 정의
 
-(주의사항) React 컴포넌트는 일반 JS 함수지만, 이름은 대문자로 시작해야함.
+- JavaScript 함수로 정의
+- 컴포넌트 이름은 반드시 대문자로 시작
+  - 예: function Profile() { }
 
-### 3단계 : 마크업 추가하기
+3. 마크업 추가
 
-- 이 컴포넌트는 src 및 alt 속성을 가진 `<img/>` 태그를 반환
-- <img /> 는 JSX임
-- 반환문은 이 컴포넌트에서처럼 한 줄에 모두 작성 가능함.
+- JSX 반환
+- 한 줄 작성:
 
 ```js
 return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
 ```
 
-- 그러나 마크업이 모두 return 키워드와 같은 라인에 있지 않은 경우에는 다음과 같이 괄호로 묶어야 함.
+- 여러 줄 작성(괄호 필수)
 
 ```js
 return (
@@ -86,7 +88,11 @@ return (
 );
 ```
 
-(주의사항) ()가 없으면 return 뒷 라인에 있는 모든 코드가 무시됨.
+### 주의사항
+
+- 컴포넌트 이름은 항상 대문자로 시작
+- 여러 줄의 JSX를 반환할 때는 반드시 괄호로 감싸기
+- 괄호 없이 새 줄에 JSX를 작성하면 무시됨
 
 ## 3. 컴포넌트 사용하기
 
