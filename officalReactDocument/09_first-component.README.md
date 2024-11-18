@@ -96,7 +96,7 @@ return (
 
 ## 3. 컴포넌트 사용하기
 
-- Profile 컴포넌트를 다른 컴포넌트 안에 중첩 가능함.
+### 기본 사용 예시
 
 ```js
 function Profile() {
@@ -115,12 +115,7 @@ export default function Gallery() {
 }
 ```
 
-### 브라우저에 표시되는 내용
-
-- 대소문자 차이에 주목.
-- `<section>`은 소문자이므로 React는 HTML태그를 가리킨다고 이해
-- `<Profile />`은 대문자 p로 시작하므로 React는 Profile이라는 컴포넌트를 사용하고자 한다고 이해
-- Profile은 더 많은 `<img/>`가 포함되어 브라우저에 표시되는 내용은 다음과 같음
+### 컴포넌트 렌더링 결과
 
 ```html
 <section>
@@ -131,16 +126,16 @@ export default function Gallery() {
 </section>
 ```
 
-### 컴포넌트 중첩 및 구성
+### 주요 규칙
 
-- 컴포넌트는 일반 JS 함수이므로 같은 파일에 여러 컴포넌트를 포함할 수 있음
-- 컴포넌트가 상대적으로 작거나 서로 밀접하게 관련돼 있을 때 편리함.
-- Profile 컴포넌트는 Gallery 안에서 렌더링되기에(여러 번) Gallery는 각 Profile을 "자식"으로 렌더링하는 부모 컴포넌트라고 말할 수 있음.
-- 컴포넌트를 한 번 정의한 다음 원하는 곳에서 원하는 만큼 여러 번 사용가능한 점이 React의 마법.
+1. 대소문자 구분
 
-(주의사항)
+- 소문자: HTML 태그(`<section>`)
+- 대문자: React 컴포넌트(`<Profile/>`)
 
-- 컴포넌트는 다른 컴포넌트를 렌더링할 수 있지만, 그 정의를 중첩해서는 안 됨.
+2. 컴포넌트 정의 위치
+
+- ❌ 잘못된 예시 (중첩된 정의)
 
 ```js
 export default function Gallery() {
@@ -152,7 +147,7 @@ export default function Gallery() {
 }
 ```
 
-- 최상위 레벨에서 컴포넌트 정의해야함.
+- ✅ 올바른 예시 (최상위 레벨 정의)
 
 ```js
 export default function Gallery() {
@@ -165,4 +160,9 @@ function Profile() {
 }
 ```
 
-- 자식 컴포넌트에 부모 컴포넌트의 일부 데이터가 필요한 경우, props로 전달
+### 특징
+
+- 컴포넌트는 여러 번 재사용 가능
+- 부모-자식 관계로 구성 가능
+- 한 파일에 여러 컴포넌트 정의 가능
+- Props를 통해 부모에서 자식으로 데이터 전달 가능
