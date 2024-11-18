@@ -64,7 +64,7 @@ function Form() {
 </ul>
 ```
 
-- 위 코드를 컴포넌트로 만들기
+- 위 코드를 컴포넌트로 만들기(작동 안 함)
 
 ```js
 export default function TodoList() {
