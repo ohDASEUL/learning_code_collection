@@ -6,10 +6,11 @@
 
 ## 1. 따옴표로 문자열 전달하기
 
-- 문자열 어트리뷰트를 JSX에 전달하려면 작은따옴표('') 나 큰따옴표("")로 묶어야 함
+- JSX에서 문자열 속성은 작은따옴표('') 또는 큰따옴표("")로 감싸서 전달
+- 동적 값은 중괄호({})를 사용하여 JavaScript 표현식으로 전달
 
 ```js
-export default function Avatar() {
+function Profile() {
   return (
     <img
       className="avatar"
@@ -20,18 +21,22 @@ export default function Avatar() {
 }
 ```
 
-- src 또는 alt를 동적으로 지정하려면 다음과 같이 작성 가능
+- 동적 값 사용
 
 ```jsx
-export default function Avatar() {
+function Profile() {
   const avatar = "https://i.imgur.com/7vQD0fPs.jpg";
   const description = "Gregorio Y. Zara";
+
   return <img className="avatar" src={avatar} alt={description} />;
 }
 ```
 
-- 이미지를 동글게 만드는 "avatar" CSS 클래스 이름을 지정하는 className="avatar"와 avatar라는 JavaScript 변수의 값을 읽는 src={avatar}의 차이점에 주목
-- {}를 사용하면 마크업에서 바로 JavaScript를 사용할 수 있기 때문
+### 중요 포인트
+
+- 문자열 속성: `className="avatar"`처럼 따옴표 사용
+- JavaScript 변수/표현식: `src={avatar}`처럼 중괄호 사용
+- 중괄호({})를 사용하면 JSX 내에서 JavaScript 코드를 직접 실행 가능
 
 ## 2. 중괄호 사용하기: JavaScript 세계로 연결하는 창
 
