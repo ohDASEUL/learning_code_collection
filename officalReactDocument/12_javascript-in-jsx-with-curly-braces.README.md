@@ -6,11 +6,21 @@
 
 ## 1. 따옴표로 문자열 전달하기
 
-- JSX에서 문자열 속성은 작은따옴표('') 또는 큰따옴표("")로 감싸서 전달
-- 동적 값은 중괄호({})를 사용하여 JavaScript 표현식으로 전달
+### 문자열 전달 기본 규칙
+
+- JSX에서 문자열 어트리뷰트는 작은따옴표('') 또는 큰따옴표("")로 묶어서 전달
+- 동적 값은 중괄호({})를 사용하여 전달
+
+### 정적 값과 동적 값의 차이
+
+- 정적 값: 따옴표로 직접 전달 (예: `className="avatar"`)
+- 동적 값: 중괄호로 JavaScript 표현식 전달 (예: `src={avatar}`)
+- 중괄호({})를 사용하면 JSX 내에서 JavaScript 로직 사용 가능
+
+### 예시 코드
 
 ```js
-function Profile() {
+export default function Avatar() {
   return (
     <img
       className="avatar"
@@ -24,32 +34,37 @@ function Profile() {
 - 동적 값 사용
 
 ```jsx
-function Profile() {
+export default function Avatar() {
   const avatar = "https://i.imgur.com/7vQD0fPs.jpg";
   const description = "Gregorio Y. Zara";
-
   return <img className="avatar" src={avatar} alt={description} />;
 }
 ```
 
-### 중요 포인트
-
-- 문자열 속성: `className="avatar"`처럼 따옴표 사용
-- JavaScript 변수/표현식: `src={avatar}`처럼 중괄호 사용
-- 중괄호({})를 사용하면 JSX 내에서 JavaScript 코드를 직접 실행 가능
-
 ## 2. 중괄호 사용하기: JavaScript 세계로 연결하는 창
 
-- {} 사이에서 JS 사용 가능.
+### 중괄호({}) 기본 개념
+
+- JSX에서 중괄호({})는 JavaScript 표현식을 삽입하는 특별한 구문
+- JavaScript 코드를 마크업 내에서 직접 실행 가능
+- 모든 유효한 JavaScript 표현식 사용 가능 (변수, 함수 호출 등)
+
+### 중괄호 사용 위치
+
+- JSX 태그 내부의 텍스트로 사용
+- 어트리뷰트 값으로 사용
+- 주의: 태그 이름으로는 사용 불가
+
+### 기본 예시 코드
 
 ```jsx
-export default function TodoList() {
+function TodoList() {
   const name = "Gregorio Y. Zara";
   return <h1>{name}'s To Do List</h1>;
 }
 ```
 
-- formatDate()와 같은 함수 호출을 포함해 모든 JS 표현식은 {} 사이에서 작동함
+### 함수 호출 예시
 
 ```jsx
 const today = new Date();
@@ -63,10 +78,12 @@ export default function TodoList() {
 }
 ```
 
-### 중괄호를 사용하는 곳
+### 주의사항
 
-1. JSX 태그 안의 문자: `<h1>{name}'s To Do List</h1>`는 작동하지만, `<{tag}>Gregorio Y. Zara's To Do List</{tag}>`는 작동하지 안 함
-2. = 바로 뒤에 오는 어트리뷰트: `src={avatar}`는 avatar 변수를 읽지만 `src="{avatar}"`는 `"{avatar}"` 문자열을 전달함
+- 태그 내부: `<h1>{name}</h1>` (올바른 사용)
+- 어트리뷰트: `src={avatar}` (올바른 사용)
+- 잘못된 사용: `<{tag}>Content</{tag}>` (태그 이름으로 사용 불가)
+- 문자열 전달 시 주의: `src="{avatar}"` (문자열 그대로 전달됨)
 
 ## 3. ”이중 중괄호” 사용하기: JSX의 CSS와 다른 객체
 
