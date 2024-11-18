@@ -97,41 +97,17 @@ import { Button } from "./Button.js";
 - 파일 확장자(.js)는 import 시 생략 가능
 - import 경로는 ./로 시작(같은 폴더 내 파일 참조)
 
-## 한 파일에서 여러 컴포넌트를 import 하거나 export 하는 방법
+## 3. 한 파일에서 여러 컴포넌트를 import 하거나 export 하는 방법
 
-- named export 방식을 사용해서 Gallery.js 파일에서 Profile 컴포넌트를 export함.(default 키워드 사용x)
+- Gallery.js (다중 export 파일)
 
-```js
-export function Profile() {
-  return <img src="https://i.imgur.com/QIrZWGIs.jpg" alt="Alan L. Hart" />;
-}
-```
-
-- `<Profile/>` 을 App 컴포넌트에서 렌더링
-
-```js
-export default function App() {
-  return <Profile />;
-}
-```
-
-- Gallery.js에는 default Gallery export랑 named Profile export라는 두 가지의 export가 존재함.
-- App.js에서는 두 컴포넌트를 import 해서 사용함.
-
-```js
-import Gallery from "./Gallery.js";
-import { Profile } from "./Gallery.js";
-
-export default function App() {
-  return <Profile />;
-}
-```
-
-```js
+```jsx
+// Named export
 export function Profile() {
   return <img src="https://i.imgur.com/QIrZWGIs.jpg" alt="Alan L. Hart" />;
 }
 
+// Default export
 export default function Gallery() {
   return (
     <section>
@@ -143,3 +119,43 @@ export default function Gallery() {
   );
 }
 ```
+
+- App.jsx(import 파일)
+
+```jsx
+// Named import
+import { Profile } from "@components/Gallery";
+
+function App() {
+  return <Profile />;
+}
+
+export default App;
+```
+
+### Export 방식 혼합 사용
+
+1. Default Export
+
+- 파일당 하나만 가능
+  > export default function Gallery() { }
+
+2. Named Export
+
+- 여러 개 가능
+  > export function Profile() { }
+
+### Import 방식
+
+1. Default
+   > import Gallery from './Gallery'
+2. Named
+   > import { Profile } from './Gallery'
+3. 복합
+   > import Gallery, { Profile } from './Gallery'
+
+### 주의사항
+
+- 한 파일에서 default export는 하나만 가능
+- Named export는 여러 개 가능
+- Default와 Named export를 같은 파일에서 함께 사용 가능
