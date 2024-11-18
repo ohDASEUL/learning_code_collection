@@ -137,7 +137,13 @@ export default function TodoList() {
 
 ## 4. JavaScript 객체와 중괄호에 대해서 더 알아보기
 
-- 여러 표현식을 하나의 객체로 옮기고 {}안의 JSX에서 참조할 수 있음.
+### JavaScript 객체 활용
+
+- JSX에서 여러 값을 하나의 객체로 그룹화하여 사용 가능
+- 객체의 속성을 JSX 내에서 점(.) 표기법으로 접근
+- 데이터와 스타일을 구조화하여 관리 가능
+
+### 객체 구조화 예시
 
 ```jsx
 const person = {
@@ -167,7 +173,7 @@ export default function TodoList() {
 }
 ```
 
-- person 객체는 name 문자열과 theme 객체를 포함함.
+### 객체 구조
 
 ```jsx
 const person = {
@@ -179,7 +185,7 @@ const person = {
 };
 ```
 
-- 컴포넌트는 person 값을 아래와 같이 사용 가능
+### 객체 속성 사용
 
 ```html
 <div style="{person.theme}">
@@ -187,4 +193,9 @@ const person = {
 </div>
 ```
 
-- JSX는 JS를 사용해 데이터와 논리를 구성할 수 있는 매우 작은 템플릿 언어.
+### 주요 특징
+
+- JSX는 JavaScript 템플릿 언어의 특성을 가짐
+- 데이터와 로직을 JavaScript 객체로 구조화 가능
+- 객체의 중첩된 속성도 자유롭게 접근 가능
+- 코드의 재사용성과 유지보수성 향상
