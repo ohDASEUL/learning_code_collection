@@ -1,8 +1,6 @@
 import getImageUrl from "./utils/utils";
 
 function Avatar({ person, size }) {
-  // person과 size는 이 곳에서 사용 가능.
-
   return (
     <img
       className="avatar"
@@ -11,6 +9,14 @@ function Avatar({ person, size }) {
       width={size}
       height={size}
     />
+  );
+}
+
+function Profile(props) {
+  return (
+    <div className="card">
+      <Avatar {...props} />
+    </div>
   );
 }
 
