@@ -81,7 +81,9 @@ function Avatar({ person, size }) {
 
 ## 3. prop의 기본값 지정하기
 
-- 값이 지정되지 않았을 때, prop에 기본값을 주길 원한다면, 변수 바로 뒤에 = 과 함께 기본값을 넣어 구조 분해 할당을 해줄 수 있음
+### props의 기본값을 설정하는 핵심 내용
+
+- 구조 분해 할당 시 = 을 사용해 기본값 지정 가능
 
 ```jsx
 function Avatar({ person, size = 100 }) {
@@ -89,9 +91,11 @@ function Avatar({ person, size = 100 }) {
 }
 ```
 
-- `<Avatar person={...}/>` 가 size prop이 없이 렌더링된다면 size는 100으로 설정됨
-- 기본값은 size prop이 없거나 size={undefined}로 전달될 때 사용
-- size= = {null} 또는 size = {0} 으로 전달된다면, 기본값은 사용되지 않음
+### 주요 특징
+
+- prop이 전달되지 않거나 undefined일 때만 기본값 적용
+- null이나 0 같은 명시적 값이 전달되면 기본값 무시됨
+- 컴포넌트를 더 유연하게 사용할 수 있게 해줌
 
 ## 4. JSX spread 문법으로 props 전달하기
 
