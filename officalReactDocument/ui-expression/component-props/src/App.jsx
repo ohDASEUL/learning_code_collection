@@ -1,28 +1,12 @@
-import getImageUrl from "./utils/utils";
+import Avatar from "@components/Avatar";
 
-function Avatar({ person, size }) {
-  return (
-    <img
-      className="avatar"
-      src={getImageUrl(person)}
-      alt={person.name}
-      width={size}
-      height={size}
-    />
-  );
-}
-
-function Profile(props) {
-  return (
-    <div className="card">
-      <Avatar {...props} />
-    </div>
-  );
+function Card({ children }) {
+  return <div className="card">{children}</div>;
 }
 
 function App() {
   return (
-    <div>
+    <Card>
       <Avatar
         size={100}
         person={{
@@ -30,21 +14,7 @@ function App() {
           imageId: "YfeOqp2",
         }}
       />
-      <Avatar
-        size={80}
-        person={{
-          name: "Aklilu Lemma",
-          imageId: "OKS67lh",
-        }}
-      />
-      <Avatar
-        size={50}
-        person={{
-          name: "Lin Lanying",
-          imageId: "1bX5QH6",
-        }}
-      />
-    </div>
+    </Card>
   );
 }
 
