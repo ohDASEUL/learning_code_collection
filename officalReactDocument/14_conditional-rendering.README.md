@@ -1,50 +1,19 @@
 # 조건부 렌더링
 
-- 컴포넌트는 조건에 따라 다른 항목을 표시해야하는 경우가 많음
-- React는 if문, && 밒 ?: 연산자와 같은 자바스크립트 문법을 사용해 조건부로 JSX를 렌더링할 수 있음
-
 ## 1. 조건부로 JSX 변환하기
 
-- 짐을 챙겼는지 안 챙겼는지 표시 가능한 여러 개의 Item을 렌더링하는 PackingList 컴포넌트가 있다고 가정
-
-```jsx
-function Item({ name, isPacked }) {
-  return <li className="item">{name}</li>;
-}
-
-export default function PackingList() {
-  return (
-    <section>
-      <h1>Sally Ride's Packing List</h1>
-      <ul>
-        <Item isPacked={true} name="Space suit" />
-        <Item isPacked={true} name="Helmet with a golden leaf" />
-        <Item isPacked={false} name="Photo of Tam" />
-      </ul>
-    </section>
-  );
-}
-```
-
-- isPacked={true}인 경우 짐을 챙긴 항목에 체크 표시 추가
-
-```jsx
-if (isPacked) {
-  return <li className="item">{name} ✅</li>;
-}
-return <li className="item">{name}</li>;
-```
-
-- 아래 코드는 다른 JSX 트리를 반환해 일부 항목은 끝에 체크 표시가 있음
+- 조건에 따라 다른 JSX를 반환히는 예시
 
 ```jsx
 function Item({ name, isPacked }) {
   if (isPacked) {
+    // true일 경우 체크 표시(✅) 추가
     return <li className="item">{name} ✅</li>;
   }
   return <li className="item">{name}</li>;
 }
 
+// isPacked prop의 값에 따라 다른 JSX 반환
 export default function PackingList() {
   return (
     <section>
@@ -58,6 +27,11 @@ export default function PackingList() {
   );
 }
 ```
+
+### 주요 특징
+
+- React에서는 JavaScript의 조건문(if)을 사용해 조건부 렌더링 가능
+- 조건에 따라 완전히 다른 JSX 트리 반환 가능
 
 ## 2. 조건부로 null을 사용해 아무것도 반환하지 않기
 
