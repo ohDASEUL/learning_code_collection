@@ -135,28 +135,18 @@ function Profile(props) {
 
 ## 5. 자식을 JSX로 전달하기
 
-- 내장된 브라우저 태그는 중첩하는 것이 일반적
-
 ```jsx
+// 브라우저 태그 중첩
 <div>
   <img />
 </div>
-```
 
-- 같은 방식으로 자체 컴포넌트를 중첩하고 싶을 때
-
-```jsx
+// 커스텀 컴포넌트 중첩
 <Card>
   <Avatar />
 </Card>
-```
 
-- JSX 태그 내에 콘텐츠를 중첩하면, 부모 컴포넌트는 해당 콘텐츠를 children이라는 prop으로 받음
-- 아래의 Card 컴포넌트는 `<Avatar />`로 설정된 children prop을 받아 이를 래퍼 div에 렌더링 할 것
-
-```jsx
-import Avatar from "./Avatar.js";
-
+// children prop 사용 예시
 function Card({ children }) {
   return <div className="card">{children}</div>;
 }
@@ -176,30 +166,12 @@ export default function Profile() {
 }
 ```
 
-```jsx
-import { getImageUrl } from "./utils.js";
+### 주요 특징
 
-export default function Avatar({ person, size }) {
-  return (
-    <img
-      className="avatar"
-      src={getImageUrl(person)}
-      alt={person.name}
-      width={size}
-      height={size}
-    />
-  );
-}
-```
-
-```jsx
-export function getImageUrl(person, size = "s") {
-  return "https://i.imgur.com/" + person.imageId + size + ".jpg";
-}
-```
-
-- children prop을 가지고 있는 컴포넌트는 부모 컴포넌트가 임의의 JSX로 “채울” 수 있는 “구멍”이 있는 것으로 생각할 수 있음
-- 패널, 그리드 등의 시각적 래퍼에 종종 children prop를 사용
+- 중첩된 JSX 콘텐츠는 children이라는 특별한 prop으로 전달됨
+- children prop을 사용하면 컴포넌트에 "구멍"을 만들어 부모가 원하는 내용을 채울 수 있음
+- 주로 패널, 그리드 같은 레이아웃 컴포넌트에서 사용됨
+- 컴포넌트의 재사용성과 유연성을 높이는 방법
 
 ## 6. 시간에 따라 props가 변하는 방식
 
