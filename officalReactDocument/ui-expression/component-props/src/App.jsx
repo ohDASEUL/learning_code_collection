@@ -1,18 +1,43 @@
-function Avatar() {
+import getImageUrl from "./utils/utils";
+
+function Avatar({ person, size }) {
+  // person과 size는 이 곳에서 사용 가능.
   return (
     <img
       className="avatar"
-      src="https://i.imgur.com/1bX5QH6.jpg"
-      alt="Lin Lanying"
-      width={100}
-      height={100}
+      src={getImageUrl(person)}
+      alt={person.name}
+      width={size}
+      height={size}
     />
   );
 }
 
 function App() {
   return (
-    <Avatar person={{ name: "Lin Lanying", imageId: "1bX5QH6" }} size={100} />
+    <div>
+      <Avatar
+        size={100}
+        person={{
+          name: "Katsuko Saruhashi",
+          imageId: "YfeOqp2",
+        }}
+      />
+      <Avatar
+        size={80}
+        person={{
+          name: "Aklilu Lemma",
+          imageId: "OKS67lh",
+        }}
+      />
+      <Avatar
+        size={50}
+        person={{
+          name: "Lin Lanying",
+          imageId: "1bX5QH6",
+        }}
+      />
+    </div>
   );
 }
 
