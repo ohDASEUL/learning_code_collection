@@ -102,6 +102,7 @@ function Avatar({ person, size = 100 }) {
 - 가끔 props로 전달되는 값들이 비슷하거나 똑같아서 중복될 때가 있음
 
 ```jsx
+// 일반적인 방식 - props를 각각 전달
 function Profile({ person, size, isSepia, thickBorder }) {
   return (
     <div className="card">
@@ -114,13 +115,8 @@ function Profile({ person, size, isSepia, thickBorder }) {
     </div>
   );
 }
-```
 
-- Profile이 Avatar에서 하는 것처럼, 일부 컴포넌트는 그들의 모든 props를 자식 컴포넌트에 전달함
-
-- props를 직접 사용하지 않기에 간결한 'spread' 문법을 사용하는 것이 합리적일 수 있음
-
-```jsx
+// spread 문법 사용 - 모든 props를 한번에 전달
 function Profile(props) {
   return (
     <div className="card">
@@ -130,10 +126,12 @@ function Profile(props) {
 }
 ```
 
-- 이렇게하면 Profile의 모든 props를 각각의 이름을 나열하지 않고 Avatar로 전달함
-- 단, spread 문법을 제한적으로 사용할 것.
-- 다른 모든 컴포넌트에 이 구문을 사용한다면 문제가 있음
-- 이는 종종 컴포넌트들을 분할해 자식을 JSX로 전달해야 함을 나타냄
+### 주요 특징
+
+- spread 문법(...props)을 사용하면 모든 props를 한번에 전달 가능
+- 부모 컴포넌트가 props를 직접 사용하지 않고 자식에게 전달만 할 때 유용
+- 하지만 과도한 사용은 피해야 함
+- 많은 컴포넌트에서 spread 문법 사용이 필요하다면, 컴포넌트 구조를 재검토해볼 필요가 있음
 
 ## 5. 자식을 JSX로 전달하기
 
