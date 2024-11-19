@@ -35,21 +35,9 @@ export default function PackingList() {
 
 ## 2. 조건부로 null을 사용해 아무것도 반환하지 않기
 
-- 컴포넌트에서 아무것도 표시할 필요가 없을 경우, null을 반환하여 렌더링을 생략할 수 있음
-
-  - 예 : 짐을 챙긴 항목을 전혀 보여주지 않는다고 가정
-
-  ```jsx
-  if (isPacked) {
-    return null;
-  }
-  return <li className="item">{name}</li>;
-  ```
-
-- isPacked={true}라면 컴포넌트는 아무것도 반환 안 하지만, isPacked={false}라면 JSX가 반환 됨.
-
 ```jsx
 function Item({ name, isPacked }) {
+  // isPacked가 true인 항목은 화면에 표시되지 않음
   if (isPacked) {
     return null;
   }
@@ -69,6 +57,10 @@ export default function PackingList() {
   );
 }
 ```
+
+### 주요 특징
+
+- 컴포넌트가 아무것도 렌더링하지 않아야 할 때 null 반환 가능
 
 ## 3. 조건부로 JSX 포함시키기
 
