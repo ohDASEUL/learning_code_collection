@@ -44,19 +44,7 @@ export default function Profile() {
 
 ## 2. 컴포넌트에 props 전달하기
 
-- 아래 코드에서 Profile 컴포넌트는 자식 컴포넌트인 Avatar에 어떠한 props도 전달하지 않음
-
-```jsx
-export default function Profile() {
-  return <Avatar />;
-}
-```
-
-- 두 단계에 걸쳐 Avatar에 props를 전달할 수 있음
-
 ### 1단계 : 자식 컴포넌트에 props 전달하기
-
-- Avatar에 몇몇 props 전달하기
 
 ```jsx
 export default function Profile() {
@@ -66,25 +54,11 @@ export default function Profile() {
 }
 ```
 
-- 이제 Avatar 컴포넌트 내 props를 읽을 수 있음
-
 ### 2단계 : 자식 컴포넌트 내부에서 props 읽기
 
-- function Avatar 바로 뒤에 있는 {{ 와 }} 안에 그들의 이름인 person, size 등을 ,로 구분함으로써 읽을 수 있음
-- 이렇게하면 Avatar 코드 내에서 변수를 사용하는 것처럼 사용할 수 있음
+- 구조 분해 할당을 통해 전달받은 props를 컴포넌트 내에서 사용
 
 ```jsx
-function Avatar({ person, size }) {
-  // person과 size는 이곳에서 사용가능
-}
-```
-
-- Avatar에 렌더링을 위해 person과 size props를 사용하는 로직을 추가하면 완료됨.
-- 이제 Avatar를 다른 props를 이용해 다양한 방식으로 렌더링하도록 구성할 수 있음
-
-```jsx
-import { getImageUrl } from "./utils.js";
-
 function Avatar({ person, size }) {
   return (
     <img
@@ -96,80 +70,14 @@ function Avatar({ person, size }) {
     />
   );
 }
-
-export default function Profile() {
-  return (
-    <div>
-      <Avatar
-        size={100}
-        person={{
-          name: "Katsuko Saruhashi",
-          imageId: "YfeOqp2",
-        }}
-      />
-      <Avatar
-        size={80}
-        person={{
-          name: "Aklilu Lemma",
-          imageId: "OKS67lh",
-        }}
-      />
-      <Avatar
-        size={50}
-        person={{
-          name: "Lin Lanying",
-          imageId: "1bX5QH6",
-        }}
-      />
-    </div>
-  );
-}
 ```
 
-```jsx
-export function getImageUrl(person, size = "s") {
-  return "https://i.imgur.com/" + person.imageId + size + ".jpg";
-}
-```
+### 주요 특징
 
-- props를 사용하면 부모 컴포넌트와 자식 컴포넌트를 독립적으로 생각할 수 있음.
-- 예 : Avatar가 props를 어떻게 사용하는지 생각하는지 생각할 필요 없이 Profile의 person 또는 size props를 수정할 수 있음
-- 마찬가지로 Profile을 보지 않고도 Avatar가 props를 사용하는 방식을 바꿀 수 있음
-
-- props는 조절 가능한 손잡이
-- props는 함수의 인수와 동일한 역할 수행
-- props는 컴포넌트에 대한 유일한 인자
-- React 컴포넌트 함수는 하나의 인자, 즉 props 객체를 받음
-
-```jsx
-function Avatar(props) {
-  let person = props.person;
-  let size = props.size;
-  // ...
-}
-```
-
-- 보통은 전체 props 자체를 필요로 하지는 않기에, 개별 props로 구조 분해 할당함.
-
-(주의사항)
-
-- props를 선언할 때 ( 및 ) 안에 { 및 } 쌍을 놓치지 말기(구조 분해 할당)
-
-```jsx
-function Avatar({ person, size }) {
-  // ...
-}
-```
-
-- 구조 분해 할당이라고 부르며 함수 매개변수의 속성과 동등함
-
-```jsx
-function Avatar(props) {
-  let person = props.person;
-  let size = props.size;
-  // ...
-}
-```
+- props를 통해 부모-자식 컴포넌트를 독립적으로 관리 가능
+- props는 컴포넌트의 유일한 매개변수
+- 일반적으로 구조 분해 할당으로 props를 개별적으로 받아서 사용
+- 구조 분해 할당 시 중괄호 { } 사용을 잊지 말 것
 
 ## 3. prop의 기본값 지정하기
 

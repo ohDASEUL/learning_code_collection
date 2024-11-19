@@ -2,6 +2,7 @@ import getImageUrl from "./utils/utils";
 
 function Avatar({ person, size }) {
   // person과 size는 이 곳에서 사용 가능.
+
   return (
     <img
       className="avatar"
