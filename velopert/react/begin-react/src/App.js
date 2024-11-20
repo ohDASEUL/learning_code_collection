@@ -37,8 +37,12 @@ function App() {
 
   const nextId = useRef(4);
   const onCreate = () => {
-    // 나중에 구현 할 배열에 항목 추가하는 로직
-    // ...
+    const user = {
+      id: nextId.current,
+      username,
+      email,
+    };
+    setUsers([...users, user]);
     setInputs({
       username: "",
       email: "",
