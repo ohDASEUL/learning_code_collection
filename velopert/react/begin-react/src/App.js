@@ -17,7 +17,7 @@ function App() {
       [name]: value,
     });
   };
-  const [user, setUsers] = useState([
+  const [users, setUsers] = useState([
     {
       id: 1,
       username: "velopert",
