@@ -26,8 +26,8 @@ function UserList() {
   ];
   return (
     <div>
-      {users.map((user) => (
-        <User user={user} key={user.id} />
+      {users.map((user, index) => (
+        <User user={user} key={index} />
       ))}
     </div>
   );
