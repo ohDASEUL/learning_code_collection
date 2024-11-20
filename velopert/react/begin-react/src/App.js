@@ -17,7 +17,7 @@ function App() {
       [name]: value,
     });
   };
-  const users = [
+  const [user, setUsers] = useState([
     {
       id: 1,
       username: "velopert",
@@ -33,7 +33,7 @@ function App() {
       username: "liz",
       email: "liz@example.com",
     },
-  ];
+  ]);
 
   const nextId = useRef(4);
   const onCreate = () => {
