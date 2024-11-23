@@ -8,12 +8,18 @@ import { sculptureList } from "./data";
 // 충돌을 수정한 후, 이전 조각상을 표시하는 “Previous” 버튼을 추가
 // 첫 번째 조각상에서는 충돌이 발생하지 않아야 함
 
-function App() {
+// 작성한 코드
+
+export default function Gallery() {
   const [index, setIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);
 
   function handleNextClick() {
     setIndex(index + 1);
+  }
+
+  function handlePrevClick() {
+    setIndex(index - 1);
   }
 
   function handleMoreClick() {
@@ -23,7 +29,12 @@ function App() {
   let sculpture = sculptureList[index];
   return (
     <>
-      <button onClick={handleNextClick}>Next</button>
+      <button onClick={handleNextClick} disabled={index === 11}>
+        Next
+      </button>
+      <button onClick={handlePrevClick} disabled={index === 0}>
+        Previous
+      </button>
       <h2>
         <i>{sculpture.name} </i>
         by {sculpture.artist}
@@ -39,4 +50,3 @@ function App() {
     </>
   );
 }
-export default App;
