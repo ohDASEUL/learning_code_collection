@@ -5,13 +5,14 @@
 // 사용자가 피드백을 남길 수 있는 간단한 폼이 있는데, 피드백을 제출하면 감사 메시지가 표시되어야 함
 // 그러나 “예상보다 적은 훅을 렌더링했습니다”라는 오류 메시지와 함께 충돌이 발생
 
-// 작성한 코드
+// 해설 코드(작성한 코드랑 같음)
 
 import { useState } from "react";
 
 export default function FeedbackForm() {
   const [isSent, setIsSent] = useState(false);
   const [message, setMessage] = useState("");
+
   if (isSent) {
     return <h1>Thank you!</h1>;
   } else {
