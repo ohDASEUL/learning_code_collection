@@ -7,13 +7,11 @@
 
 // 이 코드를 수정하려면 불필요한 state 변수를 제거
 
-import { useState } from "react";
+// 작성한 코드
 
 export default function FeedbackForm() {
-  const [name, setName] = useState("");
-
   function handleClick() {
-    setName(prompt("What is your name?"));
+    const name = prompt("What is your name?");
     alert(`Hello, ${name}!`);
   }
 
