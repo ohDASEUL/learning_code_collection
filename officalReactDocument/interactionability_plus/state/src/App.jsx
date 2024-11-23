@@ -1,37 +1,21 @@
-// 챌린지 3 of 4
+// 챌린지 4 of 4
 
-// 충돌 고치기
+// 불필요한 state 제거하기
 
-// 사용자가 피드백을 남길 수 있는 간단한 폼이 있는데, 피드백을 제출하면 감사 메시지가 표시되어야 함
-// 그러나 “예상보다 적은 훅을 렌더링했습니다”라는 오류 메시지와 함께 충돌이 발생
+// 버튼이 클릭 되면 사용자의 이름을 요청하고 그런 다음 환영 메시지를 표시해야 함
+// 이름을 유지하기 위해 state를 사용하려고 했지만, 어떤 이유로 항상 “Hello, !”라고 표시 됨
 
-// 해설 코드(작성한 코드랑 같음)
+// 이 코드를 수정하려면 불필요한 state 변수를 제거
 
 import { useState } from "react";
 
 export default function FeedbackForm() {
-  const [isSent, setIsSent] = useState(false);
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
 
-  if (isSent) {
-    return <h1>Thank you!</h1>;
+  function handleClick() {
+    setName(prompt("What is your name?"));
+    alert(`Hello, ${name}!`);
   }
 
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        alert(`Sending: "${message}"`);
-        setIsSent(true);
-      }}
-    >
-      <textarea
-        placeholder="Message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <br />
-      <button type="submit">Send</button>
-    </form>
-  );
+  return <button onClick={handleClick}>Greet</button>;
 }
