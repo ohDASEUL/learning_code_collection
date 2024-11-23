@@ -8,18 +8,25 @@ import { sculptureList } from "./data";
 // 충돌을 수정한 후, 이전 조각상을 표시하는 “Previous” 버튼을 추가
 // 첫 번째 조각상에서는 충돌이 발생하지 않아야 함
 
-// 작성한 코드
+// 해설 코드
 
 export default function Gallery() {
   const [index, setIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);
 
-  function handleNextClick() {
-    setIndex(index + 1);
-  }
+  let hasPrev = index > 0;
+  let hasNext = index < sculptureList.length - 1;
 
   function handlePrevClick() {
-    setIndex(index - 1);
+    if (hasPrev) {
+      setIndex(index - 1);
+    }
+  }
+
+  function handleNextClick() {
+    if (hasNext) {
+      setIndex(index + 1);
+    }
   }
 
   function handleMoreClick() {
@@ -29,11 +36,11 @@ export default function Gallery() {
   let sculpture = sculptureList[index];
   return (
     <>
-      <button onClick={handleNextClick} disabled={index === 11}>
-        Next
-      </button>
-      <button onClick={handlePrevClick} disabled={index === 0}>
+      <button onClick={handlePrevClick} disabled={!hasPrev}>
         Previous
+      </button>
+      <button onClick={handleNextClick} disabled={!hasNext}>
+        Next
       </button>
       <h2>
         <i>{sculpture.name} </i>
