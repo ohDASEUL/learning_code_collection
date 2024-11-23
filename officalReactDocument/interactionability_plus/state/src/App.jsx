@@ -8,13 +8,11 @@
 // 그러나 변수들은 다시 렌더링 되는 동안 값을 “기억”하지 않는 것처럼 보임
 // state 변수를 사용하여 이 문제를 해결
 
-// 작성한 코드
-
+// 해설 코드(작성한 코드랑 같음)
 import { useState } from "react";
 
 export default function App() {
   const [firstName, setFirstName] = useState("");
-
   const [lastName, setLastName] = useState("");
 
   function handleFirstNameChange(e) {
@@ -27,7 +25,6 @@ export default function App() {
 
   function handleReset() {
     setFirstName("");
-
     setLastName("");
   }
 
@@ -38,17 +35,14 @@ export default function App() {
         value={firstName}
         onChange={handleFirstNameChange}
       />
-
       <input
         placeholder="Last name"
         value={lastName}
         onChange={handleLastNameChange}
       />
-
       <h1>
         Hi, {firstName} {lastName}
       </h1>
-
       <button onClick={handleReset}>Reset</button>
     </form>
   );
