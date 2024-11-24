@@ -32,6 +32,17 @@ export default function Gallery() {
 }
 ```
 
+### 일반 변수가 작동하지 않는 두 가지 주요 이유
+
+1. 지역 변수는 렌더링 간에 유지되지 않음 - React는 컴포넌트를 다시 렌더링할 때 처음부터 시작
+
+2. 지역 변수 변경은 리렌더링을 트리거하지 않음 - React는 새 데이터로 업데이트해야 한다는 것을 인지하지 못함
+
+### 해결책 : useState Hook 사용
+
+- state 변수로 렌더링 간 데이터 유지
+- state setter 함수로 컴포넌트 리렌더링 트리거
+
 ```jsx
 export const sculptureList = [
   {
@@ -133,44 +144,7 @@ export const sculptureList = [
 ];
 ```
 
-- handleClick 이벤트 핸들러는 지역 변수 index를 업데이트하고 있지만 이러한 변화를 보이지 않게 하는 두 가지 이유
-
-  1. 지역 변수는 렌더링 간에 유지되지 않음.
-     React는 이 컴포넌트를 두 번째로 렌더링 시 지역 변수에 대한 변경 사항은 고려하지 않고 처음부터 렌더링 시도.
-  2. 지역 변수를 변경해도 렌더링을 일으키지 않음
-     React는 새로운 데이터로 컴포넌트를 다시 렌더링 한다는 것을 인식 못함
-
-- 컴포넌트를 새로운 데이터로 업데이트하기 위해 필요한 두 가지
-
-  1. 렌더링 사이에 데이터 유지
-  2. React가 새로운 데이터로 컴포넌트를 렌더링하도록 유발
-
-  - useState 훅은 이 두 가지를 제공함
-
-  1. 렌더링 간에 데이터를 유지하기 위한 state 변수
-  2. 변수를 업데이트하고 React가 컴포넌트를 다시 렌더링하도록 유발하는 state setter 함수
-
 ## 2. state 변수 추가하기
-
-- state 변수를 추가하려면 파일 상단의 React에서 useState를 가져옴
-
-  > import { useState } from 'react';
-
-- 그런 다음 다음과 같이 바꿈
-
-  > let index = 0; -> const [index, setIndex] = useState(0);
-
-- index는 state 변수이고 setIndex는 setter 함수
-
-- handleClick에서 함께 작동하는 방식
-
-```jsx
-function handleClick() {
-  setIndex(index + 1);
-}
-```
-
-- "Next" 버튼 클릭 시 현재 조각상 전환
 
 ```jsx
 import { useState } from "react";
@@ -201,6 +175,19 @@ export default function Gallery() {
 }
 ```
 
+### state 변수 사용법
+
+1. React에서 useState import
+2. let index = 0 → const [index, setIndex] = useState(0) 로 변경
+3. state 변수(index)와 setter 함수(setIndex) 페어로 생성
+
+### useState 특징
+
+- 컴포넌트가 "기억"해야 할 데이터를 선언할 때 사용
+- 초깃값을 인자로 받음
+- [state변수, setter함수] 배열을 반환
+- 컴포넌트 최상위 레벨에서만 사용 가능 (조건문/반복문 내부 X)
+
 ```jsx
 export const sculptureList = [
   {
@@ -302,63 +289,7 @@ export const sculptureList = [
 ];
 ```
 
-### 훅
-
-- React에서 useState와 같이 "use"로 시작하는 다른 모든 함수
-- React가 오직 렌더링 중일때만 사용할 수 있는 특별한 함수
-
-### useState 해부하기
-
-- useState 호출 : React에 이 컴포넌가 무언가를 기억하기 원한다고 말하는 것
-
-  > const [index, setIndex] = useState(0);
-
-- useState의 유일한 인수는 state 변수의 초깃값.
-- 컴포넌트 렌더링 시, useState는 두 개의 값을 포함하는 배열 제공
-
-  1. 지정한 값을 가진 state 변수 (index)
-  2. state 변수를 업데이트하고 React에 컴포넌트를 다시 렌더링하도록 유발하는 state setter 함수(setIndex).
-
-- 실제 작동 방식
-
-  > const [index, setIndex] = useState(0);
-
-  1. 컴포넌트가 처음 렌더링 됨.
-
-  - index의 초깃값으로 useState를 사용해 0을 전달했으므로 [0, setIndex]를 반환
-  - React는 0을 최신 state 값으로 기억
-
-  2. state를 업데이트 함
-
-  - 사용자가 버튼 클릭 시 setIndex(index + 1 )를 호출함.
-  - index는 0 이므로 setIndex(1)
-    - React에 index는 1 임을 기억하게 하고 또 따른 렌더링 유발
-
-  3. 컴포넌트가 두 번째로 렌더링 됨
-
-  - React는 여전히 useState(0)를 보지만, index를 1로 설정한 것을 기억하기에, 이번에는 [1, setIndex]를 반환
-
-  4. 반복
-
-### 주의사항
-
-- 훅은 컴포넌트 최상위 수준 또는 커스텀 훅에서만 호출 가능.
-- 조건문, 반복문 또는 기타 중첩 함수 내부에서 호출 불가능
-
-### 중요
-
-- const [something, setSomething]과 같이 지정하는 것이 규칙
-
-### 참고
-
-- 배열 구조 분해
-  - [ 와 ] 문법으로 배열로부터 값을 읽을 수 있게 해줌
-  - useState가 반환하는 배열에는 항상 두 개의 항목이 있음
-
 ## 3. 컴포넌트에 여러 state 변수 지정하기
-
-- 하나의 컴포넌트에 원하는 만큼 많은 타입의 state 변수를 가질 수 있음.
-- 이 컴포넌트는 숫자 타입 index와 "Show details" 클릭 시 토글 되는 불리언 타입인 showMore라는 두 개의 state 변수르 가짐
 
 ```jsx
 import { useState } from "react";
@@ -397,6 +328,18 @@ export default function Gallery() {
 }
 ```
 
+### 핵심 내용
+
+1. 하나의 컴포넌트에 여러 개의 state 변수 사용 가능
+
+- 예시: 숫자형 index와 불리언형 showMore
+
+2. state 변수 설계 팁:
+
+- 연관성 없는 데이터는 여러 state로 분리
+- 자주 함께 변경되는 데이터는 하나의 state로 통합
+- 예: 폼 필드가 많은 경우 객체로 통합하는 것이 좋음
+
 ```jsx
 export const sculptureList = [
   {
@@ -498,19 +441,14 @@ export const sculptureList = [
 ];
 ```
 
-- 예시에서 index와 showMore 처럼 서로 연관이 없는 경우 여러 개의 state 변수를 가지는 것이 좋지만, 두 state 변수를 자주 함께 변경하는 경우 두 변수를 하나로 합치는 것이 더 좋음
-- 예 : 필드가 많은 폼의 경우 필드별로 state 변수를 사용하는 것보다 하나의 객체 state 변수를 사용하는 것이 더 편리.
-
 ### 참고사항
 
-- React는 어떤 state를 반환하는지 어떻게 알고 있는지?
+React가 state를 관리하는 방법:
 
-- useState 호출이 어떤 state 변수를 참조하는지에 대한 정보를 받지 못함
-- 훅은 동일한 컴포넌트의 모든 렌더링에서 안정적인 호출 순서에 의존
-- 내부적으로 React는 모든 컴포넌트에 대해 한 쌍의 state 배열을 가짐
-- 또한 렌더링 전에 0으로 설정된 현재 인덱스 쌍을 유지.
-- useState 호출 시, React는 다음 state 쌍을 제공하고 인덱스를 증가시킴
-- 아래 예시는 _React를 사용하지 않지만_ 내부적으로 useState가 어떻게 작동되는지에 대한 아이디어 제공
+- 컴포넌트마다 state 배열을 가짐
+- Hook은 호출 순서에 의존하여 작동
+- 렌더링마다 인덱스를 0부터 시작해서 순차적으로 증가
+- 각 useState 호출마다 다음 state 쌍을 제공
 
 ```jsx
 let componentHooks = [];
@@ -743,12 +681,6 @@ updateDOM();
 
 ## 4. State는 격리되고 비공개로 유지
 
-- state는 화면에서 컴포넌트 인스턴스에 지역적
-- 동일한 컴포넌트를 두 번 렌더링한다면 각 복사본은 완전히 격리된 state를 가짐.
-- 그 중 하나를 변경해도 다른 하나에는 영향을 안 미침
-
-- 이 예시에서 이전에 나왔던 Gallery 컴포넌트가 로직 변경 없이 두 번 렌더링 되었음
-
 ```jsx
 import Gallery from "./Gallery.js";
 
@@ -762,42 +694,21 @@ export default function Page() {
 }
 ```
 
-```jsx
-import { useState } from "react";
-import { sculptureList } from "./data.js";
+### 핵심 특징
 
-export default function Gallery() {
-  const [index, setIndex] = useState(0);
-  const [showMore, setShowMore] = useState(false);
+1. state는 컴포넌트 인스턴스에 지역적
 
-  function handleNextClick() {
-    setIndex(index + 1);
-  }
+- 같은 컴포넌트를 여러 번 사용해도 각각의 state는 완전히 독립적
+- 한 컴포넌트의 state 변경이 다른 컴포넌트에 영향 X
 
-  function handleMoreClick() {
-    setShowMore(!showMore);
-  }
+2. state는 비공개
 
-  let sculpture = sculptureList[index];
-  return (
-    <section>
-      <button onClick={handleNextClick}>Next</button>
-      <h2>
-        <i>{sculpture.name} </i>
-        by {sculpture.artist}
-      </h2>
-      <h3>
-        ({index + 1} of {sculptureList.length})
-      </h3>
-      <button onClick={handleMoreClick}>
-        {showMore ? "Hide" : "Show"} details
-      </button>
-      {showMore && <p>{sculpture.description}</p>}
-      <img src={sculpture.url} alt={sculpture.alt} />
-    </section>
-  );
-}
-```
+- 부모 컴포넌트가 자식의 state를 수정할 수 없음
+- state를 선언한 컴포넌트만 접근/수정 가능
+
+3. state 공유가 필요한 경우
+
+- 자식의 state를 제거하고 가장 가까운 공통 부모로 state를 끌어올림
 
 ```jsx
 export const sculptureList = [
@@ -899,15 +810,3 @@ export const sculptureList = [
   },
 ];
 ```
-
-- 이것이 state를 일반적인 모듈 상단에 선언할 수 있는 보통의 변수와 구별하는 요소
-- State는 화면의 특정 위치에 “지역적”
-- <Gallery /> 컴포넌트를 두 번 렌더링했으므로 그들의 state는 별도로 저장
-
-- 또한 Page 컴포넌트가 Gallery의 state에 대해 아무것도 “알지” 않는다는 점과 심지어 그것이 있는지도 모른다는 것에 주목.
-
-- state는 선언한 컴포넌트에 완전히 비공개
-- 부모 컴포넌트는 이를 변경할 수 없음
-- 이로써 다른 컴포넌트에 영향을 미치지 않고 어떤 컴포넌트에든 state를 추가하거나 제거할 수 있게 됨
-
-- 만약 두 개의 갤러리가 state를 동기화하길 원한다면, React에서 올바른 방법은 자식 컴포넌트에서 state를 제거하고 가장 가까운 공통 부모 컴포넌트에 추가하는 것
