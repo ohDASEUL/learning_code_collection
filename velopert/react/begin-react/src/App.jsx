@@ -13,16 +13,13 @@ function App() {
     email: "",
   });
   const { username, email } = inputs;
-  const onChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setInputs({
-        ...inputs,
-        [name]: value,
-      });
-    },
-    [inputs]
-  );
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({
+      ...inputs,
+      [name]: value,
+    }));
+  }, []);
   const [users, setUsers] = useState([
     {
       id: 1,
