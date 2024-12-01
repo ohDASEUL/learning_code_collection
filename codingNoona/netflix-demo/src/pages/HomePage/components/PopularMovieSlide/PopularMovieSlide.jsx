@@ -16,6 +16,7 @@ const responsive = {
     breakpoint: { max: 3000, min: 1024 },
     items: 6, // 한 슬라이드에 표시할 영화 개수
     slidesToSlide: 6, // 화살표 클릭 시 이동할 슬라이드 개수
+    partialVisibilityGutter: 40, // 카드 간 간격 추가
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -185,7 +186,7 @@ const RankNumbers = {
 };
 
 const PopularMovieSlide = () => {
-  const { data, isLoading, isError, error } = usePopularMoviesQuery();
+  const { data, isLoading, error } = usePopularMoviesQuery();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showControls, setShowControls] = useState(false);
   const carouselRef = useRef(null);
@@ -221,7 +222,7 @@ const PopularMovieSlide = () => {
   };
 
   const CustomButtonGroup = () => (
-    <div className="custom-button-group">
+    <div>
       <button
         onClick={handlePrevious}
         className={`custom-arrow left ${showControls ? "show" : ""}`}

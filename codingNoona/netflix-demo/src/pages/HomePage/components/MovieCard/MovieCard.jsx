@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -18,36 +18,61 @@ const MovieCard = ({ movie }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className={`netflix-card ${isHovered ? "hovered" : ""}`}>
-        <img
-          src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${movie.poster_path}`}
+      <Card className={`base-card ${isHovered ? "hovered" : ""}`}>
+        <Card.Img
+          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
           alt={movie.title}
           className="movie-poster"
         />
-        {isHovered && (
-          <div className="hover-info">
-            <div className="preview-buttons">
-              <Button variant="light" className="play-circle">
+      </Card>
+
+      {isHovered && (
+        <Card className="hover-card">
+          <div className="position-relative">
+            <Card.Img
+              src={`https://image.tmdb.org/t/p/w500${
+                movie.backdrop_path || movie.poster_path
+              }`}
+              className="hover-image"
+            />
+            <div className="gradient-overlay" />
+          </div>
+
+          <Card.Body className="hover-content">
+            <div className="button-group">
+              <Button className="action-button play-button">
                 <FontAwesomeIcon icon={faPlay} />
               </Button>
-              <Button variant="outline-light" className="round-button">
+              <Button className="action-button">
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
-              <Button variant="outline-light" className="round-button">
+              <Button className="action-button">
                 <FontAwesomeIcon icon={faThumbsUp} />
               </Button>
-              <Button variant="outline-light" className="round-button ms-auto">
+              <Button className="action-button ms-auto">
                 <FontAwesomeIcon icon={faChevronDown} />
               </Button>
             </div>
-            <div className="preview-details">
-              <div className="age-rating">15</div>
-              <div className="duration">1시간 34분</div>
-              <div className="quality">HD</div>
+
+            <Card.Title className="movie-title">{movie.title}</Card.Title>
+
+            <div className="movie-meta">
+              <span className="meta-item match">
+                {Math.round(movie.vote_average * 10)}% 일치
+              </span>
+              {movie.release_date && (
+                <span className="meta-item">
+                  {movie.release_date.slice(0, 4)}
+                </span>
+              )}
+              <span className="meta-item">{movie.adult ? "청불" : "15+"}</span>
+              <span className="meta-item">HD</span>
             </div>
-          </div>
-        )}
-      </div>
+
+            <Card.Text className="movie-overview">{movie.overview}</Card.Text>
+          </Card.Body>
+        </Card>
+      )}
     </div>
   );
 };

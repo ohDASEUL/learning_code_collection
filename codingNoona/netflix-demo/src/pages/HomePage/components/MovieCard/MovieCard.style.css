@@ -1,82 +1,181 @@
 .netflix-card-container {
   position: relative;
-  width: 144.27px;
-  height: 206.09px;
-  overflow: visible;
+  width: 144px;
+  height: 206px;
+  margin: 0.2rem;
+  transition: transform 0.3s ease;
 }
 
-.netflix-card {
-  position: relative;
+.base-card {
+  position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 4px;
-  overflow: hidden;
-  transition: all 0.2s ease;
+  transition: transform 0.3s ease;
+  background: transparent;
+  border: none;
+}
+
+.base-card.hovered {
+  transform: scale(0);
+  opacity: 0;
 }
 
 .movie-poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0;
 }
 
-/* hover 효과 */
-.netflix-card.hovered {
-  transform: scale(1.5);
-  z-index: 99;
-}
-
-.hover-info {
+.hover-card {
   position: absolute;
+  width: 320px;
+  z-index: 2000;
+  background: #181818;
+  top: -80px;
+  left: -88px;
+  border-radius: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  height: auto;
+}
+
+.hover-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 40%;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 16px;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
-  z-index: 2;
+  background: linear-gradient(180deg, transparent 0%, rgba(18, 18, 18, 1) 100%);
 }
 
-.preview-buttons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-/* 버튼 스타일링 */
-.play-circle {
-  width: 32px !important;
-  height: 32px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 1rem !important;
-}
-
-.round-button {
-  width: 32px !important;
-  height: 32px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 1rem !important;
-}
-
-.preview-details {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.hover-content {
+  position: relative;
+  padding: 1rem;
   color: white;
-  font-size: 14px;
+  background: #181818;
 }
 
-.age-rating,
-.quality {
-  padding: 1px 4px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
+.button-group {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.action-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  background: #2a2a2a;
+  border: none;
+}
+
+.action-button.play-button {
+  background: white;
+  color: black;
+}
+
+.action-button.play-button:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.action-button:not(.play-button) {
+  border: 2px solid #636363;
+}
+
+.action-button:not(.play-button):hover {
+  border-color: #ffffff;
+}
+
+.movie-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.movie-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.movie-meta .meta-item {
+  color: white;
+}
+
+.movie-meta .meta-item.match {
+  color: #46d369;
+  font-weight: bold;
+}
+
+.genres {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.genre-item {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.genre-item:not(:last-child)::after {
+  content: "•";
+  margin-left: 0.5rem;
+  color: #646464;
+}
+
+.movie-overview {
+  font-size: 0.9rem;
+  color: #d2d2d2;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* TOP10 숫자 관련 스타일 */
+.rank-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  z-index: 0;
+}
+
+.slider-card:hover .rank-number {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 슬라이더 끝부분 처리 */
+.slider-card:first-child .hover-card {
+  left: -20px;
+}
+
+.slider-card:last-child .hover-card {
+  right: -20px;
+  left: auto;
 }
