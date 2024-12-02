@@ -1,43 +1,31 @@
-// 챌린지 1 of 3 : CSS 클래스를 추가하고 제거하기
+// 챌린지 2 of 3 : 프로필 편집기
 
-// 사진을 클릭하면 바깥에 있는 <div>의 background--active CSS 클래스를 제거하고 <img>에 picture--active 클래스를 추가
-// 배경을 다시 클릭하면 원래 CSS 클래스로 돌아오기
+// 하나는 편집 모드이고 이때 인풋들을 볼 수 있습니다. 또 다른 하나는 보기 모드이고 이때는 오직 결과만 볼 수 있음
+// 버튼의 라벨은 속한 모드에 따라 “Edit”과 “Save”로 변경
+// 또한 인풋들의 내용을 변경할 때 환영 메시지를 실시간으로 확인 가능.
 
-// 해설 코드
-
-import { useState } from "react";
-import "./App.css";
-
-function Picture() {
-  const [isActive, setIsActive] = useState(false);
-
-  let backgroundClassName = "background";
-  let pictureClassName = "picture";
-  if (isActive) {
-    pictureClassName += " picture--active";
-  } else {
-    backgroundClassName += " background--active";
-  }
-
+function EditProfile() {
   return (
-    <div className={backgroundClassName} onClick={() => setIsActive(false)}>
-      <img
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsActive(true);
-        }}
-        className={pictureClassName}
-        alt="Rainbow houses in Kampung Pelangi, Indonesia"
-        src="https://i.imgur.com/5qwVYb1.jpeg"
-      />
-    </div>
+    <form>
+      <label>
+        First name: <b>Jane</b>
+        <input />
+      </label>
+      <label>
+        Last name: <b>Jacobs</b>
+        <input />
+      </label>
+      <button type="submit">Edit Profile</button>
+      <p>
+        <i>Hello, Jane Jacobs!</i>
+      </p>
+    </form>
   );
 }
-
 function App() {
   return (
     <>
-      <Picture></Picture>
+      <EditProfile></EditProfile>
     </>
   );
 }
