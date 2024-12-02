@@ -11,20 +11,25 @@ import "./App.css";
 function Picture() {
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
+  const handleBackgroundClick = () => {
+    setIsClicked(false); // 배경 클릭 시 항상 false
+  };
+
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // 이벤트 버블링 방지
+    setIsClicked(true); // 이미지 클릭 시 항상 true
   };
 
   return (
     <div
       className={`background ${isClicked ? "" : "background--active"}`}
-      onClick={handleClick}
+      onClick={handleBackgroundClick}
     >
       <img
         className={`picture ${isClicked ? "picture--active" : ""}`}
         alt="Rainbow houses in Kampung Pelangi, Indonesia"
         src="https://i.imgur.com/5qwVYb1.jpeg"
-        onClick={handleClick}
+        onClick={handleImageClick}
       />
     </div>
   );
