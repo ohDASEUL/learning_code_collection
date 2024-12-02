@@ -1,62 +1,24 @@
-import { useState } from "react";
+// 챌린지 1 of 3 : CSS 클래스를 추가하고 제거하기
 
-function submitForm(answer) {
-  // 네트워크에 접속한다고 가정
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      let shouldError = answer.toLowerCase() !== "lima";
-      if (shouldError) {
-        reject(new Error("Good guess but a wrong answer. Try again!"));
-      } else {
-        resolve();
-      }
-    }, 1500);
-  });
+// 사진을 클릭하면 바깥에 있는 <div>의 background--active CSS 클래스를 제거하고 <img>에 picture--active 클래스를 추가
+// 배경을 다시 클릭하면 원래 CSS 클래스로 돌아오기
+
+function Picture() {
+  return (
+    <div className="background background--active">
+      <img
+        className="picture"
+        alt="Rainbow houses in Kampung Pelangi, Indonesia"
+        src="https://i.imgur.com/5qwVYb1.jpeg"
+      />
+    </div>
+  );
 }
 
 function App() {
-  const [answer, setAnswer] = useState("");
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState("typing");
-
-  if (status === "success") {
-    return <h1>That`s right!</h1>;
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setStatus("submitting");
-    try {
-      await submitForm(answer);
-      setStatus("success");
-    } catch (err) {
-      setStatus("typing");
-      setError(err);
-    }
-  }
-
-  function handleTextareaChange(e) {
-    setAnswer(e.target.value);
-  }
-
   return (
     <>
-      <h2>City quiz</h2>
-      <p>
-        In which city is there a billboard that turns air into drinkable water?
-      </p>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={answer}
-          onChange={handleTextareaChange}
-          disabled={status === "submitting"}
-        />
-        <br />
-        <button disabled={answer.length === 0 || status === "submitting"}>
-          Submit
-        </button>
-        {error !== null && <p className="Error">{error.message}</p>}
-      </form>
+      <Picture></Picture>
     </>
   );
 }
