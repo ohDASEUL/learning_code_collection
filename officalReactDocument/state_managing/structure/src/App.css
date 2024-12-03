@@ -17,7 +17,10 @@ code {
   font-size: 1.2em;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+ul {
+  padding-inline-start: 20px;
+}
+
+button {
+  margin-top: 10px;
 }
