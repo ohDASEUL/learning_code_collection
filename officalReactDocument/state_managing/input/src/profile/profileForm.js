@@ -89,7 +89,7 @@ function setIsEditing(value) {
   updateDOM();
 }
 
-// 작성한 코드
+// 해설 코드
 function updateDOM() {
   if (isEditing) {
     button.textContent = "Save Profile";
@@ -107,11 +107,9 @@ function updateDOM() {
     show(lastNameText);
   }
   // TODO: 텍스트 라벨을 업데이트합니다.
-  firstNameInput.value = firstName;
   firstNameText.textContent = firstName;
-  lastNameInput.value = lastName;
   lastNameText.textContent = lastName;
-  helloText.textContent = `Hello ${firstName} ${lastName}!`;
+  helloText.textContent = "Hello " + firstName + " " + lastName + "!";
 }
 
 function hide(el) {
