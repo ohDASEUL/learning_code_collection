@@ -6,50 +6,50 @@ import "./App.css";
 // 버튼의 라벨은 속한 모드에 따라 “Edit”과 “Save”로 변경
 // 또한 인풋들의 내용을 변경할 때 환영 메시지를 실시간으로 확인 가능.
 
-// 작성한 코드
+// 해설 코드
 
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState("Jane");
   const [lastName, setLastName] = useState("Jacobs");
 
-  function handleFirstNameChange(event) {
-    setFirstName(event.target.value);
-  }
-
-  function handleLastNameChange(event) {
-    setLastName(event.target.value);
-  }
-
-  function handleFormSubmit(event) {
-    event.preventDefault();
-    // 현재 값이 true면 false로 현재 값이 false면 true로
-    setIsEditing(!isEditing);
-  }
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setIsEditing(!isEditing);
+      }}
+    >
       <label>
-        First name:
+        First name:{" "}
         {isEditing ? (
-          <input value={firstName} onChange={handleFirstNameChange} />
+          <input
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
         ) : (
-          firstName
+          <b>{firstName}</b>
         )}
       </label>
       <label>
-        Last name:
+        Last name:{" "}
         {isEditing ? (
-          <input value={lastName} onChange={handleLastNameChange} />
+          <input
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
         ) : (
-          lastName
+          <b>{lastName}</b>
         )}
       </label>
-      <button type="submit">
-        {isEditing ? "Save Profile" : "Edit Profile"}
-      </button>
+      <button type="submit">{isEditing ? "Save" : "Edit"} Profile</button>
       <p>
         <i>
-          Hello, {firstName} {lastName}
+          Hello, {firstName} {lastName}!
         </i>
       </p>
     </form>
