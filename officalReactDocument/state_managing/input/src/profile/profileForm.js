@@ -89,15 +89,29 @@ function setIsEditing(value) {
   updateDOM();
 }
 
+// 작성한 코드
 function updateDOM() {
   if (isEditing) {
     button.textContent = "Save Profile";
     // TODO: 인풋을 보여주고 텍스트는 숨깁니다.
+    hide(firstNameText);
+    hide(lastNameText);
+    show(firstNameInput);
+    show(lastNameInput);
   } else {
     button.textContent = "Edit Profile";
     // TODO: 인풋을 숨기고 텍스트를 보여줍니다.
+    hide(firstNameInput);
+    hide(lastNameInput);
+    show(firstNameText);
+    show(lastNameText);
   }
   // TODO: 텍스트 라벨을 업데이트합니다.
+  firstNameInput.value = firstName;
+  firstNameText.textContent = firstName;
+  lastNameInput.value = lastName;
+  lastNameText.textContent = lastName;
+  helloText.textContent = `Hello ${firstName} ${lastName}!`;
 }
 
 function hide(el) {
@@ -110,10 +124,11 @@ function show(el) {
 
 let form = document.getElementById("form");
 let profile = document.getElementById("profile");
-let editButton = document.getElementById("editButton");
+let button = document.getElementById("button");
 let firstNameInput = document.getElementById("firstNameInput");
 let firstNameText = document.getElementById("firstNameText");
 let lastNameInput = document.getElementById("lastNameInput");
+let lastNameText = document.getElementById("lastNameText");
 let helloText = document.getElementById("helloText");
 form.onsubmit = handleFormSubmit;
 firstNameInput.oninput = handleFirstNameChange;
