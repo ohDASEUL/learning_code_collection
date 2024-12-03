@@ -1,7 +1,6 @@
 function handleFormSubmit(e) {
   e.preventDefault();
   if (button.textContent === "Edit Profile") {
-    // editButton -> button으로 변경
     button.textContent = "Save Profile";
     hide(firstNameText);
     hide(lastNameText);
@@ -38,11 +37,11 @@ function show(el) {
 
 let form = document.getElementById("form");
 let profile = document.getElementById("profile");
-let button = document.getElementById("button"); // editButton -> button으로 변경
+let button = document.getElementById("button");
 let firstNameInput = document.getElementById("firstNameInput");
 let firstNameText = document.getElementById("firstNameText");
 let lastNameInput = document.getElementById("lastNameInput");
-let lastNameText = document.getElementById("lastNameText"); // 추가
+let lastNameText = document.getElementById("lastNameText");
 let helloText = document.getElementById("helloText");
 
 form.onsubmit = handleFormSubmit;
