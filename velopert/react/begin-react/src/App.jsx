@@ -83,12 +83,7 @@ function App() {
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (
     <UserDispatch.Provider value={dispatch}>
-      <CreateUser
-        username={username}
-        email={email}
-        onChange={onChange}
-        onCreate={onCreate}
-      />
+      <CreateUser />
       <UserList users={users} />
       <div>활성사용자 수 : {count}</div>
     </UserDispatch.Provider>
