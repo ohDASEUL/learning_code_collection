@@ -1,46 +1,51 @@
-// useInputs 커스텀 Hook 을 useReducer 를 사용해서 구현하기
-// 작성한 코드
+import { useReducer, useCallback } from "react";
 
-// 1. reducer 함수는 훅 외부에 위치
-import { useCallback, useReducer } from "react";
-
+// reducer 함수: 상태 업데이트 로직을 담당
 function reducer(state, action) {
   switch (action.type) {
-    case "CHANGE_VALUE":
-      // action.form을 받아서 새로운 상태로 반환
-      return action.form;
-    case "RESET_VALUE":
-      // initialForm으로 상태를 리셋
-      return action.initialForm;
+    case "CHANGE":
+      // 입력 값이 변경될 때 실행
+      // 기존 state를 복사하고 변경된 필드만 업데이트
+      return {
+        ...state,
+        [action.name]: action.value,
+      };
+
+    case "RESET":
+      // 모든 입력 필드를 초기화
+      // Object.keys로 모든 필드를 추출하고 reduce로 빈 문자열로 초기화
+      return Object.keys(state).reduce((acc, current) => {
+        acc[current] = "";
+        return acc;
+      }, {});
+
     default:
       return state;
   }
 }
 
-export default function useInputs(initialForm) {
-  // 2. useReducer 사용
-  const [state, dispatch] = useReducer(reducer, initialForm);
+function useInputs(initialForm) {
+  // form: 현재 입력 필드들의 상태
+  // dispatch: 상태 업데이트를 위한 함수
+  const [form, dispatch] = useReducer(reducer, initialForm);
 
-  // 3. onChange와 reset 함수 정의
-  const onChange = useCallback(
-    (e) => {
-      // e.target에서 name과 value를 추출
-      const { name, value } = e.target;
-      // dispatch 사용
-      dispatch({
-        type: "CHANGE_VALUE",
-        form: { ...state, [name]: value },
-      });
-    },
-    [state]
-  );
-
-  const reset = useCallback(() => {
-    // dispatch 사용
+  // input 변경 핸들러
+  // useCallback으로 메모이제이션하여 불필요한 리렌더링 방지
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
     dispatch({
-      type: "RESET_VALUE",
-      initialForm, // initialForm을 액션에 전달
+      type: "CHANGE",
+      name,
+      value,
     });
-  }, [initialForm]);
-  return [state, onChange, reset];
+  }, []); // 의존성 배열이 비어있음 - 컴포넌트 생성시 한 번만 생성
+
+  // 입력 필드 초기화 함수
+  // useCallback으로 메모이제이션
+  const reset = useCallback(() => dispatch({ type: "RESET" }), []); // 의존성 배열이 비어있음 - 컴포넌트 생성시 한 번만 생성
+
+  // form(현재 상태), onChange(변경 핸들러), reset(초기화 함수) 반환
+  return [form, onChange, reset];
 }
+
+export default useInputs;
