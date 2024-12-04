@@ -1,7 +1,7 @@
-import React, { useRef, useMemo, useCallback, useReducer } from "react";
+import React, { useRef, useReducer, useMemo, useCallback } from "react";
 import UserList from "./UserList";
 import CreateUser from "./CreateUser";
-import useInputs from "@hooks/useInputs";
+import useInputs from "./hooks/useInputs";
 
 function countActiveUsers(users) {
   console.log("활성 사용자 수를 세는중...");
@@ -33,7 +33,7 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "CHANGE_INPUT":
+    case "CREATE_USER":
       return {
         users: state.users.concat(action.user),
       };
@@ -62,7 +62,6 @@ function App() {
     username: "",
     email: "",
   });
-
   const [state, dispatch] = useReducer(reducer, initialState);
   const nextId = useRef(4);
 
@@ -82,7 +81,6 @@ function App() {
   }, [username, email, onReset]);
 
   const count = useMemo(() => countActiveUsers(users), [users]);
-
   return (
     <UserDispatch.Provider value={dispatch}>
       <CreateUser
@@ -92,7 +90,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} />
-      <div>활성사용자 수 : {count} </div>
+      <div>활성사용자 수 : {count}</div>
     </UserDispatch.Provider>
   );
 }
