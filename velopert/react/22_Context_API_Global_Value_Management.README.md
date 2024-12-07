@@ -122,3 +122,8 @@ export default React.memo(CreateUser);
 - 컴포넌트 간 props 전달을 줄일 수 있음
 - 전역적으로 상태나 함수를 관리할 수 있음
 - 컴포넌트 구조가 깔끔해짐
+
+## 핵심 정리
+
+- useState와 useReducer의 주요 차이점 중 하나는 useReducer의 dispatch를 Context API와 함께 사용하면 전역적으로 상태 관리가 가능하다는 점
+- 여러 컴포넌트를 거쳐 깊은 곳에 있는 컴포넌트에 함수를 전달해야 할 때는 Context API와 useReducer를 함께 사용하면 코드 구조가 깔끔해짐
