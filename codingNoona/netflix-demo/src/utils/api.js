@@ -46,6 +46,20 @@ const api = {
         ...params,
       });
     },
+    getTopRated: (params = {}) => {
+      return api.fetchData("/movie/top_rated", {
+        language: "ko-KR",
+        page: 1,
+        ...params,
+      });
+    },
+    getUpcoming: (params = {}) => {
+      return api.fetchData("/movie/upcoming", {
+        language: "ko-KR",
+        page: 1,
+        ...params,
+      });
+    },
   },
 };
 

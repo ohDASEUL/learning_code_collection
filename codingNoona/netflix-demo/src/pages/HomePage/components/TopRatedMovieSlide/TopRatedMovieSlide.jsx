@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import Swal from "sweetalert2";
 import "react-multi-carousel/lib/styles.css";
 import MovieSlider from "../../../../common/MovieSlider/MovieSlider";
 import { responsive } from "../../../../constants/responsive";
+import { useTopRatedMovies } from "../../../../hooks/useTopRatedMovies";
 
 // 순위 SVG 컴포넌트들
 const RankNumbers = {
@@ -160,8 +160,8 @@ const RankNumbers = {
   ),
 };
 
-const PopularMovieSlide = () => {
-  const { data, isLoading, error } = usePopularMoviesQuery();
+const TopRatedMovieSlide = () => {
+  const { data, isLoading, error } = useTopRatedMovies();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showControls, setShowControls] = useState(false);
   const carouselRef = useRef(null);
@@ -200,10 +200,10 @@ const PopularMovieSlide = () => {
       onSlideChange={handleSlideChange}
       onPrevious={handlePrevious}
       onNext={handleNext}
-      title="🔥 지금 뜨는 영화"
+      title="⭐ 명작 컬렉션"
       responsive={responsive}
     />
   );
 };
 
-export default PopularMovieSlide;
+export default TopRatedMovieSlide;

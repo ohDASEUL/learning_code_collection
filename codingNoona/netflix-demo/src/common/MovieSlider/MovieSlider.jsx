@@ -27,9 +27,20 @@ const MovieSlider = ({
   const visibleMovies = useMemo(() => {
     if (!movies) return [];
     const totalMovies = movies.slice(0, 10);
-    return currentSlide === 0
-      ? totalMovies.slice(0, 6)
-      : totalMovies.slice(4, 10);
+
+    if (currentSlide === 0) {
+      return totalMovies.slice(0, 6); // 첫 슬라이드: 1,2,3,4,5,6
+    } else {
+      // 두번째 슬라이드를 위한 새로운 배열 생성
+      return [
+        totalMovies[5], // 6
+        totalMovies[6], // 7
+        totalMovies[7], // 8
+        totalMovies[8], // 9
+        totalMovies[9], // 10
+        totalMovies[0], // 1 (처음으로 돌아감)
+      ];
+    }
   }, [currentSlide, movies]);
 
   const CustomButtonGroup = () => (
@@ -76,12 +87,17 @@ const MovieSlider = ({
           beforeChange={onSlideChange}
         >
           {visibleMovies.map((movie, index) => {
-            const actualIndex = currentSlide === 0 ? index : index + 4;
             return (
               <div key={movie.id} className="slider-card">
-                <div className="rank-number">
-                  {RankNumbers[actualIndex + 1]}
-                </div>
+                {RankNumbers && (
+                  <div className="rank-number">
+                    {
+                      currentSlide === 0
+                        ? RankNumbers[index + 1] // 첫 슬라이드는 그대로 1,2,3,4,5,6
+                        : RankNumbers[index === 5 ? 1 : index + 6] // 두번째 슬라이드는 6,7,8,9,10,1
+                    }
+                  </div>
+                )}
                 <div className="card-with-number">
                   <MovieCard movie={movie} />
                   {movie.release_date &&
