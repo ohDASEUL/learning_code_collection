@@ -1,58 +1,51 @@
-// const API_KEY = process.env.REACT_APP_API_KEY;
-
-// const api = {
-//   baseURL: "https://api.themoviedb.org/3",
-
-//   fetchData: async (endPoint) => {
-//     try {
-//       const res = await fetch(`${api.baseURL}${endPoint}?api_key=${API_KEY}`, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       });
-//       if (!res.ok) {
-//         throw new Error(`HTTP error! status: ${res.status}`);
-//       }
-//       const data = await res.json();
-//       return data;
-//     } catch (error) {
-//       return Promise.reject(error);
-//     }
-//   },
-// };
-// export default api;
-
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 const api = {
   baseURL: "https://api.themoviedb.org/3",
 
   fetchData: async (endPoint, queryParams = {}) => {
+    if (!API_KEY) {
+      throw new Error(
+        "TMDB API Key가 설정되지 않았습니다. 환경 변수를 확인해주세요."
+      );
+    }
+
     try {
       const params = new URLSearchParams({
-        api_key: API_KEY,
         ...queryParams,
+        api_key: API_KEY,
       });
-
       const url = `${api.baseURL}${endPoint}?${params.toString()}`;
 
-      const res = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+          accept: "application/json",
         },
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.status_message || `HTTP error! status: ${response.status}`
+        );
       }
 
-      const data = await res.json();
-      return data;
+      return response.json();
     } catch (error) {
-      return Promise.reject(error);
+      console.error("API 호출 중 오류 발생:", error);
+      throw error;
     }
+  },
+
+  movies: {
+    getPopular: (params = {}) => {
+      return api.fetchData("/movie/popular", {
+        language: "ko-KR",
+        page: 1,
+        ...params,
+      });
+    },
   },
 };
 

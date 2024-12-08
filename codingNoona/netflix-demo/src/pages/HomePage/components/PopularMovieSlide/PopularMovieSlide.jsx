@@ -1,34 +1,9 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import Swal from "sweetalert2";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import MovieCard from "../MovieCard/MovieCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import "./PopularMovieSlide.style.css";
-
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 6, // 한 슬라이드에 표시할 영화 개수
-    slidesToSlide: 6, // 화살표 클릭 시 이동할 슬라이드 개수
-    partialVisibilityGutter: 40, // 카드 간 간격 추가
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 4,
-    slidesToSlide: 4,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 3,
-    slidesToSlide: 3,
-  },
-};
+import MovieSlider from "../../../../common/MovieSlider/MovieSlider";
+import { responsive } from "../../../../constants/responsive";
 
 // 순위 SVG 컴포넌트들
 const RankNumbers = {
@@ -191,16 +166,6 @@ const PopularMovieSlide = () => {
   const [showControls, setShowControls] = useState(false);
   const carouselRef = useRef(null);
 
-  const visibleMovies = useMemo(() => {
-    if (!data) return [];
-    const totalMovies = data.results.slice(0, 10);
-
-    // 슬라이드 인덱스에 따른 영화 표시 조정
-    return currentSlide === 0
-      ? totalMovies.slice(0, 6)
-      : totalMovies.slice(4, 10);
-  }, [currentSlide, data]);
-
   if (isLoading) return <div>Loading...</div>;
   if (error) {
     Swal.fire({
@@ -211,82 +176,33 @@ const PopularMovieSlide = () => {
     return null;
   }
 
-  // 슬라이드를 이전으로 이동하는 함수
   const handlePrevious = () => {
     setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
   };
 
-  // 슬라이드를 다음으로 이동하는 함수
   const handleNext = () => {
     setCurrentSlide((prev) => (prev === 1 ? 0 : 1));
   };
 
-  const CustomButtonGroup = () => (
-    <div>
-      <button
-        onClick={handlePrevious}
-        className={`custom-arrow left ${showControls ? "show" : ""}`}
-        aria-label="Previous"
-      >
-        <FontAwesomeIcon icon={faChevronLeft} size="2x" />
-      </button>
-      <button
-        onClick={handleNext}
-        className={`custom-arrow right ${showControls ? "show" : ""}`}
-        aria-label="Next"
-      >
-        <FontAwesomeIcon icon={faChevronRight} size="2x" />
-      </button>
-    </div>
-  );
+  const handleSlideChange = (previousSlide, nextSlide) => {
+    setCurrentSlide(nextSlide === 0 ? 0 : 1);
+  };
 
   return (
-    <div
-      className="popular-movies-container"
+    <MovieSlider
+      movies={data?.results}
+      currentSlide={currentSlide}
+      showControls={showControls}
+      RankNumbers={RankNumbers}
+      carouselRef={carouselRef}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
-    >
-      <h3 className="section-title">오늘의 TOP 10 영화</h3>
-      <div className="carousel-wrapper">
-        <Carousel
-          ref={carouselRef}
-          infinite={false}
-          centerMode={false}
-          itemClass="movie-slider-item"
-          containerClass="netflix-carousel"
-          responsive={responsive}
-          arrows={false}
-          customButtonGroup={<CustomButtonGroup />}
-          renderButtonGroupOutside={true}
-          draggable={false}
-          swipeable={false}
-          partialVisible={false}
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          beforeChange={(previousSlide, nextSlide) => {
-            setCurrentSlide(nextSlide === 0 ? 0 : 1);
-          }}
-        >
-          {visibleMovies.map((movie, index) => {
-            const actualIndex = currentSlide === 0 ? index : index + 4;
-            return (
-              <div key={movie.id} className="slider-card">
-                <div className="rank-number">
-                  {RankNumbers[actualIndex + 1]}
-                </div>
-                <div className="card-with-number">
-                  <MovieCard movie={movie} />
-                  {movie.release_date &&
-                    new Date(movie.release_date) >
-                      new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) && (
-                      <span className="new-badge">최신 등록</span>
-                    )}
-                </div>
-              </div>
-            );
-          })}
-        </Carousel>
-      </div>
-    </div>
+      onSlideChange={handleSlideChange}
+      onPrevious={handlePrevious}
+      onNext={handleNext}
+      title="오늘의 TOP 10 영화"
+      responsive={responsive}
+    />
   );
 };
 
