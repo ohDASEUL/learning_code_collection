@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import NewNote from "@/components/new-note";
 import NoteViewer from "@/components/note-viewer";
 import Sidebar from "@/components/sidebar";
+import { useState } from "react";
 
 const notes = [
   {
@@ -20,14 +21,25 @@ const notes = [
 ];
 
 export default function UI() {
+  const [activeNoteId, setActiveNoteId] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
   return (
     <main className="w-full h-screen flex flex-col">
       <Header />
       <div className="grow relative">
-        <Sidebar notes={notes} />
-        <NewNote />
-        <EmptyNote />
-        <NoteViewer />
+        <Sidebar
+          notes={notes}
+          setIsCreating={setIsCreating}
+          activeNoteId={activeNoteId}
+          setActiveNoteId={setActiveNoteId}
+        />
+        {isCreating ? (
+          <NewNote setIsCreating={setIsCreating} />
+        ) : activeNoteId ? (
+          <NoteViewer note={notes.find((note) => note.id === activeNoteId)} />
+        ) : (
+          <EmptyNote />
+        )}
       </div>
     </main>
   );
